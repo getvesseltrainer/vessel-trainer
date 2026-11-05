@@ -19,6 +19,14 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.7.2',
+    date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
+    title: { en: 'A new home', fr: 'Une nouvelle adresse' },
+    changes: [
+      { type: 'changed', en: 'The website moved to vesseltrainer.org, and the online library now uses it.', fr: 'Le site a déménagé sur vesseltrainer.org, et la bibliothèque en ligne utilise cette adresse.' },
+    ],
+  },
+  {
     version: '2.7.1',
     date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
     title: { en: 'Fun, everywhere', fr: 'Du fun partout' },
