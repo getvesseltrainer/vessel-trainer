@@ -19,6 +19,22 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.7.1',
+    date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
+    title: { en: 'Fun, everywhere', fr: 'Du fun partout' },
+    changes: [
+      { type: 'added', en: 'Fun, your character: trails, funny footsteps, disco walk, disguises, ghost mode and dancing.', fr: 'Fun, ton personnage : traînées, pas sonores, marche disco, déguisements, mode fantôme et danse.' },
+      { type: 'added', en: 'Fun, creatures: hats, parades, choirs, pig towers, funny names, rainbow sheep and battle chickens.', fr: 'Fun, les créatures : chapeaux, parades, chorales, tours de cochons, noms rigolos, moutons arc-en-ciel et poulets de combat.' },
+      { type: 'added', en: 'Fun, world: firework shows, mirror mode, screen filters, a tilted world, a huge moon and bouncy blocks.', fr: "Fun, le monde : spectacles de feux d'artifice, mode miroir, filtres d'écran, monde penché, lune énorme et blocs rebondissants." },
+      { type: 'added', en: 'Fun, sounds: swapped sounds, a squeaky voice, club music and a fart button.', fr: 'Fun, les sons : sons échangés, voix aiguë, musique de boîte de nuit et bouton pet.' },
+      { type: 'added', en: 'Five mini-games: the floor is lava, treasure hunt, chicken shooting, instant parkour and survive the wave.', fr: 'Cinq mini-jeux : sol de lave, chasse au trésor, tir aux poulets, parcours instantané et survis à la vague.' },
+      { type: 'added', en: 'Fun, items: confetti gun, magic fishing rod, plastic sword and portable trampoline.', fr: 'Fun, les objets : pistolet à confettis, canne à pêche magique, épée en plastique et trampoline portable.' },
+      { type: 'fixed', en: 'Holding R a little too long placed both portals in the same spot.', fr: 'Maintenir R un peu trop longtemps posait les deux portails au même endroit.' },
+      { type: 'fixed', en: 'A portal lost its frame after you walked far away and came back.', fr: 'Un portail perdait son cadre quand tu partais loin puis que tu revenais.' },
+      { type: 'changed', en: 'The mod is now under an All Rights Reserved license.', fr: 'Le mod est maintenant sous licence tous droits réservés.' },
+    ],
+  },
+  {
     version: '2.7.0',
     date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
     title: { en: 'Five new powers', fr: 'Cinq nouveaux pouvoirs' },
@@ -145,12 +161,6 @@ const CHANGELOG = [
 const ROADMAP = {
   next: [
     { en: 'Older Minecraft versions', fr: 'Anciennes versions de Minecraft', note: { en: 'Versions for players who stay on an older game.', fr: 'Des versions pour ceux qui restent sur un ancien jeu.' } },
-    { en: 'Fun: your character', fr: 'Fun : ton personnage', note: { en: 'Trails, funny footsteps, disco walk, disguises, ghost mode and dancing.', fr: 'Traînées, pas sonores, marche disco, déguisements, mode fantôme et danse.' } },
-    { en: 'Fun: creatures', fr: 'Fun : les créatures', note: { en: 'Hats, parades, choirs, pig towers, funny names, rainbow sheep and battle chickens.', fr: 'Chapeaux, parades, chorales, tours de cochons, noms rigolos, moutons arc-en-ciel et poulets de combat.' } },
-    { en: 'Fun: world and visuals', fr: 'Fun : monde et visuels', note: { en: 'Firework shows, mirror mode, screen filters, a tilted world, a huge moon and bouncy blocks.', fr: "Spectacles de feux d'artifice, mode miroir, filtres d'écran, monde penché, lune énorme et blocs rebondissants." } },
-    { en: 'Fun: sounds', fr: 'Fun : les sons', note: { en: 'Swapped sounds, squeaky voices, club music and a fart button.', fr: 'Sons échangés, voix aiguë, musique de boîte de nuit et bouton pet.' } },
-    { en: 'Fun: mini-games', fr: 'Fun : mini-jeux', note: { en: 'The floor is lava, treasure hunt, chicken shooting, instant parkour and survive the wave.', fr: 'Sol de lave, chasse au trésor, tir aux poulets, parcours instantané et survis à la vague.' } },
-    { en: 'Fun: items', fr: 'Fun : objets', note: { en: 'Confetti gun, magic fishing rod, plastic sword and portable trampoline.', fr: 'Pistolet à confettis, canne à pêche magique, épée en plastique et trampoline portable.' } },
   ],
   planned: [
     { en: 'Minecraft 26.4 support', fr: 'Compatibilité Minecraft 26.4', note: { en: 'Once the version is released.', fr: 'Dès la sortie de cette version.' } },
