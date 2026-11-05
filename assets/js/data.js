@@ -19,6 +19,17 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.7.2 Forge 1.20.1',
+    date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
+    title: { en: 'Forge 1.20.1 is here', fr: 'Forge 1.20.1 est là' },
+    changes: [
+      { type: 'added', en: 'The trainer now runs on Forge for Minecraft 1.20.1, with its menus, powers, disasters, Fun tab, structures and online library.', fr: 'Le trainer tourne maintenant sur Forge pour Minecraft 1.20.1, avec ses menus, pouvoirs, catastrophes, onglet Fun, structures et bibliothèque en ligne.' },
+      { type: 'added', en: 'Structures made on Minecraft 26.3 can be placed on 1.20.1. Blocks that do not exist in 1.20.1 are left out.', fr: 'Les structures faites sur Minecraft 26.3 se posent en 1.20.1. Les blocs qui n\'existent pas en 1.20.1 sont ignorés.' },
+      { type: 'missing', en: 'Player size, creature size and the Minuscule surprise: Minecraft only added the setting that resizes players and creatures in 1.20.5, so 1.20.1 does not have it.', fr: 'Taille du joueur, taille des créatures et surprise Minuscule : Minecraft n\'a ajouté le réglage qui change la taille des joueurs et des créatures qu\'en 1.20.5, donc la 1.20.1 ne l\'a pas.' },
+      { type: 'missing', en: 'Time speed and time stop: Minecraft only added control over the game speed in 1.20.3, so 1.20.1 does not have it.', fr: 'Vitesse du temps et arrêt du temps : Minecraft n\'a ajouté le contrôle de la vitesse du jeu qu\'en 1.20.3, donc la 1.20.1 ne l\'a pas.' },
+    ],
+  },
+  {
     version: '2.7.2',
     date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
     title: { en: 'A new home', fr: 'Une nouvelle adresse' },
@@ -201,13 +212,20 @@ const ROADMAP = {
   Builds that do not exist yet: they show as Planned, without a download.
   Finished builds are not listed here: they appear by themselves from the site/releases folder.
 */
+/* Shown under a build on the Versions page, by loader and game version. */
+const BUILD_NOTES = {
+  'forge-1.20.1': {
+    en: 'Needs Forge 47 for Minecraft 1.20.1. No Fabric API needed. Not in this build: player size, creature size, time speed and time stop.',
+    fr: 'Demande Forge 47 pour Minecraft 1.20.1, sans Fabric API. Absents de cette version : taille du joueur, taille des créatures, vitesse du temps et arrêt du temps.',
+  },
+};
+
 const PLANNED_BUILDS = [
   ...['fabric', 'neoforge', 'forge'].map(loader => ({ loader, mc: '26.4', note: { en: 'Once Minecraft 26.4 is released.', fr: 'Dès la sortie de Minecraft 26.4.' } })),
   { loader: 'neoforge', mc: '26.3' },
   { loader: 'forge', mc: '26.3' },
   ...['26.2', '26.1.2', '1.21.11'].flatMap(mc => ['fabric', 'neoforge', 'forge'].map(loader => ({ loader, mc }))),
   { loader: 'fabric', mc: '1.20.1' },
-  { loader: 'forge', mc: '1.20.1' },
   { loader: 'fabric', mc: '1.19.2' },
   { loader: 'forge', mc: '1.19.2' },
 ];

@@ -3,6 +3,7 @@ const typeLabel = {
   added: () => tr('Added', 'Ajouté'),
   changed: () => tr('Changed', 'Modifié'),
   fixed: () => tr('Fixed', 'Corrigé'),
+  missing: () => tr('Missing', 'Absent'),
 };
 const columnLabel = {
   next: () => [tr('Next', 'Prochainement'), tr('What comes first.', 'Ce qui arrive en premier.')],
@@ -86,13 +87,19 @@ const buildsBox = $('#builds');
 if (buildsBox) {
   const LOADERS = { fabric: 'Fabric', neoforge: 'NeoForge', forge: 'Forge' };
   const builds = [
-    ...RELEASES.map((release, index) => ({ ...release, available: true, latest: index === 0 })),
+    ...RELEASES.map((release, index) => ({ ...release, available: true, latest: RELEASES.findIndex(other => other.loader === release.loader && other.mc === release.mc) === index })),
     ...PLANNED_BUILDS.map(build => ({ ...build, available: false })),
   ];
   const filters = { loader: 'all', status: 'all', mc: 'all' };
   const mcBox = $('#mcFilter');
   const newest = (a, b) => b.localeCompare(a, 'en', { numeric: true });
   const games = [...new Set(builds.map(build => build.mc))].sort(newest);
+
+  /* A build for another game has its own changelog entry, such as "2.7.2 Forge 1.20.1". */
+  const changesOf = build => {
+    const own = `${build.version} ${LOADERS[build.loader]} ${build.mc}`;
+    return CHANGELOG.some(entry => entry.version === own) ? own : build.version;
+  };
 
   const row = build => {
     const loader = LOADERS[build.loader];
@@ -105,14 +112,16 @@ if (buildsBox) {
         <span class="build-status">${tr('Planned', 'Prévue')}</span>
       </article>`;
     }
-    const release = CHANGELOG.find(entry => entry.version === build.version);
+    const release = CHANGELOG.find(entry => entry.version === changesOf(build));
+    const note = BUILD_NOTES[`${build.loader}-${build.mc}`];
     return `<article class="build">
       <div class="build-main">
         <h2>${build.name} ${build.version}${build.latest ? ` <span class="latest">${tr('Latest', 'Dernière version')}</span>` : ''}</h2>
         <p>${loader} · Minecraft ${build.mc} · ${release ? `${release.date[lang]} · ` : ''}${build.kb} ${tr('KB', 'Ko')}</p>
+        ${note ? `<p>${note[lang]}</p>` : ''}
       </div>
       <div class="build-actions">
-        <button class="pill quiet build-what" type="button" data-version="${build.version}" aria-describedby="buildTip">${tr('What changed', 'Nouveautés')}</button>
+        <button class="pill quiet build-what" type="button" data-version="${changesOf(build)}" aria-describedby="buildTip">${tr('What changed', 'Nouveautés')}</button>
         <a class="pill" href="downloads/${build.file}" download>${tr('Download', 'Télécharger')}</a>
       </div>
     </article>`;
