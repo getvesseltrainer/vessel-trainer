@@ -6,7 +6,7 @@
 */
 /* Donation pages. Paste your own address in url; a link stays hidden on the page until it has one. */
 const SUPPORT_LINKS = [
-  { name: 'Ko-fi', url: '', text: { en: 'A one-off donation, or a monthly one.', fr: 'Un don ponctuel ou mensuel.' } },
+  { name: 'Ko-fi', url: 'https://ko-fi.com/vesseltrainer', text: { en: 'Donate by card on Ko-fi.', fr: 'Fais un don par carte sur Ko-fi.' } },
   { name: 'PayPal', url: '', text: { en: 'A one-off donation by card or PayPal.', fr: 'Un don ponctuel par carte ou PayPal.' } },
   { name: 'GitHub Sponsors', url: '', text: { en: 'Support the project from your GitHub account.', fr: 'Soutiens le projet depuis ton compte GitHub.' } },
 ];
