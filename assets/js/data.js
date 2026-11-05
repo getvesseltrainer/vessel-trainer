@@ -19,6 +19,20 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.6.0',
+    date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
+    title: { en: 'The Fun tab', fr: "L'onglet Fun" },
+    changes: [
+      { type: 'added', en: 'A new Fun tab: silly effects that are safe for your world, with one button to stop them all.', fr: 'Un nouvel onglet Fun : des effets absurdes et sans danger pour ton monde, avec un bouton pour tout arrêter.' },
+      { type: 'added', en: 'Wheel of fortune: it spins and picks a surprise effect for 20 seconds.', fr: 'Roue de la chance : elle tourne et choisit un effet surprise pendant 20 secondes.' },
+      { type: 'added', en: 'Roulette mode: a new surprise every 30 seconds.', fr: 'Mode roulette : une nouvelle surprise toutes les 30 secondes.' },
+      { type: 'added', en: 'Disco party: a disco ball, lights, music and creatures jumping to the beat.', fr: 'Soirée disco : une boule à facettes, des lumières, de la musique et des créatures qui sautent en rythme.' },
+      { type: 'added', en: 'Chicken gun: the R key fires chickens that vanish after 10 seconds.', fr: 'Pistolet à poulets : la touche R tire des poulets qui disparaissent après 10 secondes.' },
+      { type: 'added', en: 'Giant head, up to five times its size.', fr: "Tête géante, jusqu'à cinq fois sa taille." },
+      { type: 'added', en: 'Body swap: trade places with a creature.', fr: 'Échange de corps : échange ta place avec une créature.' },
+    ],
+  },
+  {
     version: '2.5.0',
     date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
     title: { en: 'Favorites, search and free camera', fr: 'Favoris, recherche et caméra libre' },
@@ -119,6 +133,12 @@ const CHANGELOG = [
 const ROADMAP = {
   next: [
     { en: 'Older Minecraft versions', fr: 'Anciennes versions de Minecraft', note: { en: 'Versions for players who stay on an older game.', fr: 'Des versions pour ceux qui restent sur un ancien jeu.' } },
+    { en: 'Fun: your character', fr: 'Fun : ton personnage', note: { en: 'Trails, funny footsteps, disco walk, disguises, ghost mode and dancing.', fr: 'Traînées, pas sonores, marche disco, déguisements, mode fantôme et danse.' } },
+    { en: 'Fun: creatures', fr: 'Fun : les créatures', note: { en: 'Hats, parades, choirs, pig towers, funny names, rainbow sheep and battle chickens.', fr: 'Chapeaux, parades, chorales, tours de cochons, noms rigolos, moutons arc-en-ciel et poulets de combat.' } },
+    { en: 'Fun: world and visuals', fr: 'Fun : monde et visuels', note: { en: 'Firework shows, mirror mode, screen filters, a tilted world, a huge moon and bouncy blocks.', fr: "Spectacles de feux d'artifice, mode miroir, filtres d'écran, monde penché, lune énorme et blocs rebondissants." } },
+    { en: 'Fun: sounds', fr: 'Fun : les sons', note: { en: 'Swapped sounds, squeaky voices, club music and a fart button.', fr: 'Sons échangés, voix aiguë, musique de boîte de nuit et bouton pet.' } },
+    { en: 'Fun: mini-games', fr: 'Fun : mini-jeux', note: { en: 'The floor is lava, treasure hunt, chicken shooting, instant parkour and survive the wave.', fr: 'Sol de lave, chasse au trésor, tir aux poulets, parcours instantané et survis à la vague.' } },
+    { en: 'Fun: items', fr: 'Fun : objets', note: { en: 'Confetti gun, magic fishing rod, plastic sword and portable trampoline.', fr: 'Pistolet à confettis, canne à pêche magique, épée en plastique et trampoline portable.' } },
   ],
   planned: [
     { en: 'Minecraft 26.4 support', fr: 'Compatibilité Minecraft 26.4', note: { en: 'Once the version is released.', fr: 'Dès la sortie de cette version.' } },
