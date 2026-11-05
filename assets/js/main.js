@@ -1,7 +1,7 @@
 /* Live menu: the same tree and the same keys as the mod. */
 const theme = { h1: '#1fa35b', h2: '#0e5c33', image: null };
 const demo = (() => {
-  const stage = $('#stage'), vt = $('#vt'), side = $('#vtSide');
+  const stage = $('#stage'), vt = $('#vt');
   const stack = [{ menu: MENU, sel: 0 }];
   const on = new Set(['Invincible']);
   const pick = new Map();
@@ -34,19 +34,16 @@ const demo = (() => {
       <div class="vt-bar" style="justify-content:center"><span style="color:#a8a8a8">${tr('Enter: OK  ·  Backspace: back', 'Entrée : OK  ·  Effacer : retour')}</span></div>
       <div class="vt-desc">${describe(label0(list[top.sel]), top.menu.title)}</div>
       ${notice ? `<div class="vt-notice">${notice}</div>` : ''}`;
-    side.style.setProperty('--h1', theme.h1);
-    side.innerHTML = [...on].map(n => `<span>${L(n)}</span>`).join('');
   };
 
   const nuke = () => {
     if (busy) return;
     busy = true;
-    const count = $('#vtCount'), flash = $('#vtFlash'), bg = $('#stageBg');
+    const count = $('#vtCount'), flash = $('#vtFlash');
     let n = 3;
     const tick = () => {
       if (n > 0) { count.textContent = n--; setTimeout(tick, calm ? 300 : 800); return; }
       count.textContent = '';
-      bg.src = 'assets/img/bombe_3.webp';
       flash.classList.remove('go'); void flash.offsetWidth; flash.classList.add('go');
       busy = false;
     };
@@ -60,7 +57,7 @@ const demo = (() => {
     if (e.type === 'choice') { step(e, 1); return; }
     if (e.label.startsWith('Bombe')) { nuke(); return; }
     if (e.label === 'Tout désactiver') {
-      on.clear(); pick.clear(); $('#stageBg').src = 'assets/img/watermark.webp'; say(tr('Trainer reset', 'Trainer réinitialisé')); return;
+      on.clear(); pick.clear(); say(tr('Trainer reset', 'Trainer réinitialisé')); return;
     }
     say(L(e.label));
   };
