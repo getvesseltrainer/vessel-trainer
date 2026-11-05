@@ -34,7 +34,7 @@ if (roadmapBox) onLang(() => {
     return `<section class="lane ${key}">
       <h2>${name}</h2>
       <p class="lane-hint">${hint}</p>
-      ${ROADMAP[key].map(item => `<article class="task"><h3>${item[lang]}</h3><p>${item.note[lang]}</p></article>`).join('')}
+      ${ROADMAP[key].map(item => `<article class="task"><h3>${item[lang]}</h3><p>${item.note[lang]}</p></article>`).join('') || `<p class="lane-hint">${tr('Everything here has shipped. See the changelog.', 'Tout ce qui était ici est sorti. Regarde le changelog.')}</p>`}
     </section>`;
   }).join('');
   document.dispatchEvent(new Event('pagecontent'));

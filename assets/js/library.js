@@ -1,4 +1,4 @@
-/* The structure library: entries shipped with the site, plus what this visitor added in this browser. */
+/* The structure library: the public catalog, plus what this visitor added in this browser. */
 const MAX_FILE_BYTES = 32 * 1024 * 1024;
 const MAX_UNPACKED_BYTES = 256 * 1024 * 1024;
 const COMMAND_BLOCKS = ['minecraft:command_block', 'minecraft:chain_command_block', 'minecraft:repeating_command_block'];
@@ -9,6 +9,12 @@ function readNbt(buffer) {
   const view = new DataView(buffer);
   const decoder = new TextDecoder();
   let at = 0;
+  const size = () => {
+    const n = view.getInt32(at);
+    if (n < 0) throw new Error('Bad length');
+    at += 4;
+    return n;
+  };
   const text = () => {
     const length = view.getUint16(at);
     at += 2;
@@ -24,12 +30,11 @@ function readNbt(buffer) {
       case 4: at += 8; return 0;
       case 5: at += 4; return 0;
       case 6: at += 8; return 0;
-      case 7: { const n = view.getInt32(at); at += 4 + n; return null; }
+      case 7: { at += size(); return null; }
       case 8: return text();
       case 9: {
         const inner = view.getInt8(at++);
-        const n = view.getInt32(at);
-        at += 4;
+        const n = size();
         const list = [];
         for (let i = 0; i < n; i++) list.push(payload(inner));
         return list;
@@ -43,8 +48,8 @@ function readNbt(buffer) {
           compound[name] = payload(inner);
         }
       }
-      case 11: { const n = view.getInt32(at); at += 4 + n * 4; return null; }
-      case 12: { const n = view.getInt32(at); at += 4 + n * 8; return null; }
+      case 11: { at += size() * 4; return null; }
+      case 12: { at += size() * 8; return null; }
       default: throw new Error('Unknown tag');
     }
   };
@@ -115,6 +120,7 @@ const store = (() => {
 })();
 
 let mine = [];
+let shared = LIBRARY_FALLBACK;
 const grid = $('#library');
 const search = $('#libSearch');
 
@@ -122,16 +128,20 @@ const stats = (size, blocks) => `${size.join(' × ')} · ${blocks.toLocaleString
 
 function renderLibrary() {
   const query = search.value.trim().toLowerCase();
-  const shipped = LIBRARY.map(item => {
-    const meta = LIBRARY_META[item.id];
+  // Community entries come from players, so everything from the catalog is escaped.
+  const shipped = shared.map(item => {
+    const id = escapeHtml(item.id);
     return `<article class="lib-card" data-find="${escapeHtml(`${item.name.en} ${item.name.fr} ${item.author}`.toLowerCase())}">
-      <img loading="lazy" src="assets/img/library/${item.id}.webp" width="800" height="450" alt="${escapeHtml(item.name[lang])}">
+      ${item.image
+        ? `<img loading="lazy" src="assets/img/library/${id}.webp" width="800" height="450" alt="${escapeHtml(item.name[lang])}">`
+        : `<div class="lib-blank" aria-hidden="true">${escapeHtml(item.size.join(' × '))}</div>`}
       <div class="lib-body">
+        ${item.community ? `<span class="lib-badge">${tr('Community', 'Communauté')}</span>` : ''}
         <h2>${escapeHtml(item.name[lang])}</h2>
-        <p class="lib-stats">${stats(meta.size, meta.blocks)}</p>
+        <p class="lib-stats">${stats(item.size, item.blocks)}</p>
         <p>${escapeHtml(item.text[lang])}</p>
         <p class="lib-author">${tr('By', 'Par')} ${escapeHtml(item.author)}</p>
-        <a class="pill" href="library/${item.id}.nbt" download>${tr('Download', 'Télécharger')}</a>
+        <a class="pill" href="library/${id}.nbt" download>${tr('Download', 'Télécharger')}</a>
       </div>
     </article>`;
   });
@@ -178,11 +188,15 @@ const showReport = (html, bad) => {
   report.classList.toggle('bad', bad);
   report.innerHTML = html;
 };
+const setReady = ready => {
+  $('#addButton').disabled = !ready;
+  $('#shareButton').disabled = !ready;
+};
 
 $('#addFile').addEventListener('change', async event => {
   const file = event.target.files[0];
   checked = null;
-  $('#addButton').disabled = true;
+  setReady(false);
   if (!file) { report.hidden = true; return; }
   try {
     const result = await inspectStructure(file);
@@ -193,7 +207,7 @@ $('#addFile').addEventListener('change', async event => {
     showReport(`<b>${tr('Valid structure', 'Structure valide')}</b> ${stats(result.size, result.blocks)}<br>${escapeHtml(result.top.join(', '))}${warnings.map(w => `<br><span class="warn">${escapeHtml(w)}</span>`).join('')}`, false);
     checked = result;
     if (!$('#addName').value) $('#addName').value = file.name.replace(/\.nbt$/i, '');
-    $('#addButton').disabled = false;
+    setReady(true);
   } catch (error) {
     showReport(escapeHtml(error.message), true);
   }
@@ -208,17 +222,50 @@ $('#addForm').addEventListener('submit', async event => {
   event.target.reset();
   checked = null;
   report.hidden = true;
-  $('#addButton').disabled = true;
+  setReady(false);
   renderLibrary();
   grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+/* GitHub refuses .nbt attachments but accepts .gz. A .nbt file is already gzip, so only the name changes. */
+$('#shareButton').addEventListener('click', () => {
+  const name = $('#addName').value.trim();
+  if (!checked) return;
+  if (!name) {
+    showReport(escapeHtml(tr('Give your structure a name first.', 'Donne d\'abord un nom à ta structure.')), true);
+    return;
+  }
+  if (checked.commandBlocks || checked.clickCommands) {
+    showReport(escapeHtml(tr('This structure can\'t be shared: it contains command blocks or text that runs a command.', 'Cette structure ne peut pas être partagée : elle contient des blocs de commande ou du texte qui lance une commande.')), true);
+    return;
+  }
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(new Blob([checked.bytes], { type: 'application/gzip' }));
+  link.download = `${name.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9-]+/g, '-').replace(/^-+|-+$/g, '') || 'structure'}.nbt.gz`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+
+  const form = new URL(SUBMIT_URL);
+  form.searchParams.set('title', `Structure: ${name}`);
+  form.searchParams.set('name', name);
+  form.searchParams.set('author', $('#addAuthor').value.trim());
+  form.searchParams.set('description', $('#addText').value.trim());
+  window.open(form, '_blank', 'noopener');
+  showReport(`<b>${tr('Last step', 'Dernière étape')}</b> ${escapeHtml(tr(`${link.download} was saved. Drag it into the Structure file box on GitHub, then send the form.`, `${link.download} est enregistré. Glisse-le dans la case Structure file sur GitHub, puis envoie le formulaire.`))}<br><a href="${escapeHtml(form.href)}" target="_blank" rel="noopener">${tr('Open the form again', 'Rouvrir le formulaire')}</a>`, false);
 });
 
 search.addEventListener('input', renderLibrary);
 onLang(() => {
   search.placeholder = tr('Search a structure', 'Chercher une structure');
+  $('#shareButton').hidden = !SUBMIT_URL;
   $('#addNote').textContent = SUBMIT_URL
-    ? ''
-    : tr('For now your structure stays in this browser. Sharing with all players opens once the library is online.', 'Pour l\'instant, ta structure reste dans ce navigateur. Le partage avec tous les joueurs ouvrira quand la bibliothèque sera en ligne.');
+    ? tr('Sharing needs a free GitHub account. Your name, text and file are public as soon as you send them, and the structure joins the library once reviewed.', 'Le partage demande un compte GitHub gratuit. Ton pseudo, ton texte et ton fichier sont publics dès l\'envoi, et la structure rejoint la bibliothèque une fois vérifiée.')
+    : tr('For now your structure stays in this browser.', 'Pour l\'instant, ta structure reste dans ce navigateur.');
   renderLibrary();
 });
 store.all().then(entries => { mine = entries; renderLibrary(); });
+/* The catalog changes without a site update. Pages opened from a local file keep the built-in copy. */
+fetch('library/index.json', { cache: 'no-cache' })
+  .then(response => (response.ok ? response.json() : Promise.reject(new Error('No catalog'))))
+  .then(entries => { shared = entries; renderLibrary(); })
+  .catch(() => {});

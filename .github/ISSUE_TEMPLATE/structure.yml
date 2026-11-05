@@ -1,0 +1,45 @@
+name: Share a structure
+description: Send a structure to the Vessel Trainer library.
+title: "Structure: "
+labels: ["structure"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing! Your structure appears in the library once it has been reviewed.
+        This form and its file are public. Use the library page of the website to check your file first.
+  - type: input
+    id: name
+    attributes:
+      label: Structure name
+      placeholder: My castle
+    validations:
+      required: true
+  - type: input
+    id: author
+    attributes:
+      label: Your name
+      description: Shown in the library. Leave empty to use your GitHub name.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: One or two sentences.
+    validations:
+      required: true
+  - type: textarea
+    id: file
+    attributes:
+      label: Structure file
+      description: Drag the .nbt.gz file saved from the library page here, and wait for its link to appear.
+    validations:
+      required: true
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Rules
+      options:
+        - label: I made this structure myself, or I have permission to share it.
+          required: true
+        - label: It contains no command blocks and nothing meant to harm a player's world.
+          required: true

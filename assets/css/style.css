@@ -214,7 +214,7 @@ code { font: 400 .9em var(--mono); }
 @media (max-width: 760px) { .steps { grid-template-columns: minmax(0, 1fr); } }
 .foot { position: relative; z-index: 3; padding-block: 26px; border-top: 1px solid rgba(255, 255, 255, .1); color: var(--soft); font-size: 15px; background: var(--panel); }
 .foot-in { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
-.foot-links { display: flex; gap: 18px; }
+.foot-links { display: flex; flex-wrap: wrap; gap: 8px 18px; }
 
 .nav-links { display: flex; gap: 6px; margin-right: auto; margin-left: 4px; padding: 3px; border-radius: 999px; background: rgba(20, 24, 44, .62); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 .nav-links a { padding: 7px 11px; border-radius: 999px; font-size: 15px; font-weight: 500; text-decoration: none; color: var(--soft); transition: color .25s, background .25s; }
@@ -270,6 +270,7 @@ kbd { font: 500 14px var(--mono); padding: 3px 9px; border-radius: 7px; color: v
 .lib-author { flex: 1; }
 .lib-badge { padding: 3px 10px; border-radius: 999px; background: rgba(255, 201, 107, .16); color: var(--gold); font-size: 13px; font-weight: 700; }
 .lib-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+.lib-body h2, .lib-body p { overflow-wrap: anywhere; }
 .add-box { max-width: 640px; }
 .add-box form { display: grid; gap: 14px; margin-top: 16px; justify-items: start; }
 .field { display: grid; gap: 6px; width: 100%; font-weight: 500; }

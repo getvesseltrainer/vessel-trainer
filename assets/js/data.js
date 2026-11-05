@@ -14,19 +14,21 @@ const SUPPORT_LINKS = [
   { name: 'GitHub Sponsors', url: '', text: { en: 'Support the project from your GitHub account.', fr: 'Soutiens le projet depuis ton compte GitHub.' } },
 ];
 
-/* The address where players send structures. Empty until the library is online. */
-const SUBMIT_URL = '';
-
-/* Add a structure: put its .nbt in the library folder, its image in assets/img/library, then add a block here. */
-const LIBRARY = [
-  { id: 'vess-statue', author: 'Vessel Trainer', name: { en: 'Vess statue', fr: 'Statue de Vess' }, text: { en: 'The mascot in glass and concrete, cork included.', fr: 'La mascotte en verre et en béton, bouchon compris.' } },
-  { id: 'shelter', author: 'Vessel Trainer', name: { en: 'Furnished shelter', fr: 'Abri équipé' }, text: { en: 'A wooden shelter with a crafting table, furnace and chest.', fr: 'Un abri en bois avec table de craft, four et coffre.' } },
-  { id: 'tower', author: 'Vessel Trainer', name: { en: 'Watchtower', fr: 'Tour de guet' }, text: { en: 'A 30-block stone tower with a ladder and a lookout.', fr: 'Une tour en pierre de 30 blocs, avec échelle et plateforme.' } },
-  { id: 'pyramid', author: 'Vessel Trainer', name: { en: 'Sandstone pyramid', fr: 'Pyramide de grès' }, text: { en: 'A hollow pyramid with an entrance.', fr: 'Une pyramide creuse avec une entrée.' } },
-  { id: 'arena', author: 'Vessel Trainer', name: { en: 'Arena', fr: 'Arène' }, text: { en: 'A round walled arena with a 20-block radius.', fr: 'Une arène ronde et fermée de 20 blocs de rayon.' } },
-];
+/* The form where players send structures. Empty it to hide the Share button. */
+const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/new?template=structure.yml';
 
 const CHANGELOG = [
+  {
+    version: '2.4.0',
+    date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
+    title: { en: 'Public library', fr: 'Bibliothèque publique' },
+    changes: [
+      { type: 'added', en: 'Public library: send your structures from the Library page. Once reviewed, every player can get them.', fr: 'Bibliothèque publique : envoie tes structures depuis la page Bibliothèque. Une fois vérifiées, tous les joueurs peuvent les récupérer.' },
+      { type: 'added', en: 'Online library in the Structures menu: browse and download structures without leaving the game.', fr: 'Bibliothèque en ligne dans le menu Structures : parcours et télécharge des structures sans quitter le jeu.' },
+      { type: 'added', en: 'Animated banners: GIF files now really move in the menu.', fr: 'Bannières animées : les fichiers GIF bougent maintenant vraiment dans le menu.' },
+      { type: 'changed', en: 'The mushroom cloud is about 40% bigger and can be seen as far as your render distance allows.', fr: 'Le champignon est environ 40 % plus grand et se voit aussi loin que ta distance de rendu le permet.' },
+    ],
+  },
   {
     version: '2.3.0',
     date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
@@ -93,13 +95,9 @@ const CHANGELOG = [
 ];
 
 const ROADMAP = {
-  next: [
-    { en: 'Minecraft 26.4 support', fr: 'Compatibilité Minecraft 26.4', note: { en: 'Once the version is released.', fr: 'Dès la sortie de cette version.' } },
-  ],
+  next: [],
   planned: [
-    { en: 'Public library', fr: 'Bibliothèque publique', note: { en: 'Share your structures with every player, and browse them from inside the game.', fr: 'Partager tes structures avec tous les joueurs, et les parcourir depuis le jeu.' } },
-    { en: 'Animated banners', fr: 'Bannières animées', note: { en: 'GIF banners that really move.', fr: 'Des bannières GIF qui bougent vraiment.' } },
-    { en: 'A bigger mushroom cloud', fr: 'Un champignon encore plus grand', note: { en: 'Visible from much further away.', fr: 'Visible de beaucoup plus loin.' } },
+    { en: 'Minecraft 26.4 support', fr: 'Compatibilité Minecraft 26.4', note: { en: 'Once the version is released.', fr: 'Dès la sortie de cette version.' } },
   ],
   ideas: [
     { en: 'New disasters', fr: 'Nouvelles catastrophes', note: { en: 'Tsunami, blizzard, sandstorm.', fr: 'Tsunami, blizzard, tempête de sable.' } },
