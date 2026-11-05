@@ -1,0 +1,26 @@
+name: Add approved structure
+
+# Runs only when someone with write access adds the "approved" label.
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+
+concurrency:
+  group: library
+  cancel-in-progress: false
+
+jobs:
+  add:
+    if: github.event.label.name == 'approved'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # The issue text comes from players: it is only ever read by the script, never placed in a shell command.
+      - run: python3 .github/scripts/approve.py
+        env:
+          GH_TOKEN: ${{ github.token }}
