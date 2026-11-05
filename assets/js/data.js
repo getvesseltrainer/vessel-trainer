@@ -106,10 +106,37 @@ const ROADMAP = {
   next: [],
   planned: [
     { en: 'Minecraft 26.4 support', fr: 'Compatibilité Minecraft 26.4', note: { en: 'Once the version is released.', fr: 'Dès la sortie de cette version.' } },
+    { en: 'Forge and NeoForge versions', fr: 'Versions Forge et NeoForge', note: { en: 'The trainer on the other mod loaders.', fr: 'Le trainer sur les autres chargeurs de mods.' } },
+    { en: 'Older Minecraft versions', fr: 'Anciennes versions de Minecraft', note: { en: 'Versions for players who stay on an older game.', fr: 'Des versions pour ceux qui restent sur un ancien jeu.' } },
+    { en: 'Favorites and hotkeys', fr: 'Favoris et raccourcis', note: { en: 'Pin your favorite cheats and give them a key.', fr: 'Épingle tes cheats préférés et donne-leur une touche.' } },
+    { en: 'Menu search', fr: 'Recherche dans le menu', note: { en: 'Type a few letters to find any button.', fr: 'Tape quelques lettres pour trouver n\'importe quel bouton.' } },
+    { en: 'Free camera and cinema mode', fr: 'Caméra libre et mode cinéma', note: { en: 'Leave your character and film your world.', fr: 'Quitte ton personnage et filme ton monde.' } },
+    { en: 'Library previews', fr: 'Aperçus de la bibliothèque', note: { en: 'An automatic image for every shared structure.', fr: 'Une image automatique pour chaque structure partagée.' } },
+    { en: 'New disasters', fr: 'Nouvelles catastrophes', note: { en: 'Tsunami, blizzard, sandstorm.', fr: 'Tsunami, blizzard, tempête de sable.' } },
   ],
   ideas: [
-    { en: 'New disasters', fr: 'Nouvelles catastrophes', note: { en: 'Tsunami, blizzard, sandstorm.', fr: 'Tsunami, blizzard, tempête de sable.' } },
+    { en: 'Build brush', fr: 'Pinceau de construction', note: { en: 'Paint, replace and sculpt blocks from a distance.', fr: 'Peins, remplace et sculpte des blocs à distance.' } },
+    { en: '.schem import', fr: 'Import .schem', note: { en: 'Open WorldEdit files in the Structure Manager.', fr: 'Ouvre les fichiers WorldEdit dans le gestionnaire de structures.' } },
+    { en: 'Banner library', fr: 'Bibliothèque de bannières', note: { en: 'Share your banners with other players.', fr: 'Partage tes bannières avec les autres joueurs.' } },
+    { en: 'Creature creator', fr: 'Créateur de créatures', note: { en: 'Pick a size, health and gear before spawning.', fr: 'Choisis la taille, la vie et l\'équipement avant de faire apparaître.' } },
+    { en: 'Theme creator', fr: 'Créateur de thèmes', note: { en: 'Choose your own menu colors.', fr: 'Choisis tes propres couleurs de menu.' } },
+    { en: 'Item kits', fr: 'Kits d\'objets', note: { en: 'Save an inventory and get it back in one click.', fr: 'Enregistre un inventaire et récupère-le en un clic.' } },
+    { en: 'Slow motion', fr: 'Ralenti', note: { en: 'Slow the world down to watch an explosion.', fr: 'Ralentis le monde pour regarder une explosion.' } },
+    { en: 'Power wheel', fr: 'Roue des pouvoirs', note: { en: 'Switch powers with a radial menu.', fr: 'Change de pouvoir avec un menu circulaire.' } },
     { en: 'Shareable profiles', fr: 'Profils partageables', note: { en: 'Send your cheat setup to a friend.', fr: 'Envoyer sa configuration à un ami.' } },
     { en: 'Controller support', fr: 'Compatibilité manette', note: { en: 'Use the menu with a gamepad.', fr: 'Utiliser le menu avec une manette.' } },
   ],
 };
+
+/*
+  Builds that do not exist yet: they show as Planned, without a download.
+  Finished builds are not listed here: they appear by themselves from the site/releases folder.
+*/
+const PLANNED_BUILDS = [
+  ...['fabric', 'neoforge', 'forge'].map(loader => ({ loader, mc: '26.4', note: { en: 'Once Minecraft 26.4 is released.', fr: 'Dès la sortie de Minecraft 26.4.' } })),
+  { loader: 'neoforge', mc: '26.3' },
+  { loader: 'forge', mc: '26.3' },
+  ...['26.2', '26.1.2', '1.21.11'].flatMap(mc => ['fabric', 'neoforge', 'forge'].map(loader => ({ loader, mc }))),
+  { loader: 'fabric', mc: '1.20.1' },
+  { loader: 'forge', mc: '1.20.1' },
+];

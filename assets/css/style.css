@@ -271,6 +271,23 @@ kbd { font: 500 14px var(--mono); padding: 3px 9px; border-radius: 7px; color: v
 .lib-badge { padding: 3px 10px; border-radius: 999px; background: rgba(255, 201, 107, .16); color: var(--gold); font-size: 13px; font-weight: 700; }
 .lib-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
 .lib-body h2, .lib-body p { overflow-wrap: anywhere; }
+.filters { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-block: 18px 12px; }
+.filter-group { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; border-radius: 999px; background: rgba(21, 26, 46, .78); }
+.chip { padding: 9px 15px; border: 0; border-radius: 999px; background: none; color: var(--soft); font: 700 15px/1 var(--body); cursor: pointer; transition: background .25s, color .25s; }
+.chip:hover { color: var(--white); }
+.chip[aria-pressed="true"] { background: var(--white); color: #0b0e1c; }
+.filter-select { display: flex; align-items: center; gap: 10px; color: var(--soft); font-weight: 700; }
+.filter-select select { padding: 9px 14px; border: 1px solid rgba(255, 255, 255, .16); border-radius: 12px; background: #151a2e; color: var(--white); font: 500 16px/1.2 var(--body); }
+.build-count { color: var(--soft); margin-bottom: 12px; }
+.builds { display: grid; gap: 10px; }
+.build { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding: 18px 22px; border-radius: 20px; background: rgba(21, 26, 46, .78); }
+.build.planned { background: rgba(21, 26, 46, .42); }
+.build-main { min-width: 0; }
+.build h2 { font: 700 21px/1.25 var(--body); letter-spacing: 0; }
+.build h2 .latest { margin-left: 6px; vertical-align: middle; }
+.build p { color: var(--soft); font-size: 15px; margin-top: 3px; }
+.build-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.build-status { padding: 5px 13px; border-radius: 999px; background: rgba(255, 201, 107, .16); color: var(--gold); font-size: 14px; font-weight: 700; }
 .banner-demo { display: block; width: 100%; max-width: 570px; height: auto; margin-block: 18px; border-radius: 10px; image-rendering: pixelated; }
 .add-box { max-width: 640px; }
 .add-box form { display: grid; gap: 14px; margin-top: 16px; justify-items: start; }
