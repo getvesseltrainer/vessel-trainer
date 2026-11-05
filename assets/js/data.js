@@ -19,6 +19,14 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.4.1',
+    date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
+    title: { en: 'An animated example', fr: 'Un exemple animé' },
+    changes: [
+      { type: 'added', en: 'A new animated banner: Vess floats, blinks and bubbles. Pick vess-animated in the settings.', fr: 'Une nouvelle bannière animée : Vess flotte, cligne des yeux et fait des bulles. Choisis vess-animated dans les réglages.' },
+    ],
+  },
+  {
     version: '2.4.0',
     date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
     title: { en: 'Public library', fr: 'Bibliothèque publique' },

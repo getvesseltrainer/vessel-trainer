@@ -271,6 +271,7 @@ kbd { font: 500 14px var(--mono); padding: 3px 9px; border-radius: 7px; color: v
 .lib-badge { padding: 3px 10px; border-radius: 999px; background: rgba(255, 201, 107, .16); color: var(--gold); font-size: 13px; font-weight: 700; }
 .lib-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
 .lib-body h2, .lib-body p { overflow-wrap: anywhere; }
+.banner-demo { display: block; width: 100%; max-width: 570px; height: auto; margin-block: 18px; border-radius: 10px; image-rendering: pixelated; }
 .add-box { max-width: 640px; }
 .add-box form { display: grid; gap: 14px; margin-top: 16px; justify-items: start; }
 .field { display: grid; gap: 6px; width: 100%; font-weight: 500; }
