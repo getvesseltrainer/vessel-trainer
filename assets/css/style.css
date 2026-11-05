@@ -288,6 +288,14 @@ kbd { font: 500 14px var(--mono); padding: 3px 9px; border-radius: 7px; color: v
 .build p { color: var(--soft); font-size: 15px; margin-top: 3px; }
 .build-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .build-status { padding: 5px 13px; border-radius: 999px; background: rgba(255, 201, 107, .16); color: var(--gold); font-size: 14px; font-weight: 700; }
+.build-tip { position: fixed; z-index: 30; width: min(420px, calc(100vw - 16px)); max-height: calc(100vh - 16px); overflow: auto; padding: 16px 18px; border: 1px solid rgba(255, 255, 255, .14); border-radius: 18px; background: #151a2e; box-shadow: 0 18px 50px rgba(0, 0, 0, .55); font-size: 15px; line-height: 1.4; pointer-events: none; }
+.build-tip > b { display: block; margin-bottom: 8px; font: 700 18px/1.25 var(--body); }
+.build-tip ul { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; }
+.build-tip li { display: grid; grid-template-columns: 68px minmax(0, 1fr); gap: 8px; align-items: baseline; }
+.build-tip li b { font-size: 12px; font-weight: 700; }
+.build-tip b.added { color: #63e6a0; } .build-tip b.changed { color: var(--gold); } .build-tip b.fixed { color: #7cc4ff; }
+.lib-preview { display: block; width: 100%; aspect-ratio: 16 / 9; background: linear-gradient(135deg, #2a1a66, #10152a); }
+.form-preview { display: block; width: 100%; max-width: 420px; aspect-ratio: 16 / 9; margin-top: 12px; border-radius: 12px; background: linear-gradient(135deg, #2a1a66, #10152a); }
 .banner-demo { display: block; width: 100%; max-width: 570px; height: auto; margin-block: 18px; border-radius: 10px; image-rendering: pixelated; }
 .add-box { max-width: 640px; }
 .add-box form { display: grid; gap: 14px; margin-top: 16px; justify-items: start; }

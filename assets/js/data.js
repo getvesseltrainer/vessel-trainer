@@ -19,6 +19,20 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.5.0',
+    date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
+    title: { en: 'Favorites, search and free camera', fr: 'Favoris, recherche et caméra libre' },
+    changes: [
+      { type: 'added', en: 'Favorites: press B on any button to pin it to the top of the menu.', fr: 'Favoris : appuie sur B sur n\'importe quel bouton pour l\'épingler en haut du menu.' },
+      { type: 'added', en: 'Hotkeys: press K on a button and give it a key, even with the menu closed.', fr: 'Raccourcis : appuie sur K sur un bouton et donne-lui une touche, même menu fermé.' },
+      { type: 'added', en: 'Menu search: press N and type a few letters, in English or French.', fr: 'Recherche : appuie sur N et tape quelques lettres, en anglais ou en français.' },
+      { type: 'added', en: 'Free camera: leave your body and fly through anything, in singleplayer.', fr: 'Caméra libre : quitte ton corps et vole à travers tout, en solo.' },
+      { type: 'added', en: 'Cinema mode: smooth movement, a hidden interface and camera paths to film your scenes.', fr: 'Mode cinéma : mouvements doux, interface cachée et trajets de caméra pour filmer tes scènes.' },
+      { type: 'added', en: 'Three new disasters: tsunami, blizzard and sandstorm.', fr: 'Trois nouvelles catastrophes : tsunami, blizzard et tempête de sable.' },
+      { type: 'added', en: 'Library previews: shared structures now get an automatic image on the website.', fr: 'Aperçus de la bibliothèque : les structures partagées ont maintenant une image automatique sur le site.' },
+    ],
+  },
+  {
     version: '2.4.1',
     date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
     title: { en: 'An animated example', fr: 'Un exemple animé' },
@@ -103,18 +117,15 @@ const CHANGELOG = [
 ];
 
 const ROADMAP = {
-  next: [],
+  next: [
+    { en: 'Older Minecraft versions', fr: 'Anciennes versions de Minecraft', note: { en: 'Versions for players who stay on an older game.', fr: 'Des versions pour ceux qui restent sur un ancien jeu.' } },
+  ],
   planned: [
     { en: 'Minecraft 26.4 support', fr: 'Compatibilité Minecraft 26.4', note: { en: 'Once the version is released.', fr: 'Dès la sortie de cette version.' } },
     { en: 'Forge and NeoForge versions', fr: 'Versions Forge et NeoForge', note: { en: 'The trainer on the other mod loaders.', fr: 'Le trainer sur les autres chargeurs de mods.' } },
-    { en: 'Older Minecraft versions', fr: 'Anciennes versions de Minecraft', note: { en: 'Versions for players who stay on an older game.', fr: 'Des versions pour ceux qui restent sur un ancien jeu.' } },
-    { en: 'Favorites and hotkeys', fr: 'Favoris et raccourcis', note: { en: 'Pin your favorite cheats and give them a key.', fr: 'Épingle tes cheats préférés et donne-leur une touche.' } },
-    { en: 'Menu search', fr: 'Recherche dans le menu', note: { en: 'Type a few letters to find any button.', fr: 'Tape quelques lettres pour trouver n\'importe quel bouton.' } },
-    { en: 'Free camera and cinema mode', fr: 'Caméra libre et mode cinéma', note: { en: 'Leave your character and film your world.', fr: 'Quitte ton personnage et filme ton monde.' } },
-    { en: 'Library previews', fr: 'Aperçus de la bibliothèque', note: { en: 'An automatic image for every shared structure.', fr: 'Une image automatique pour chaque structure partagée.' } },
-    { en: 'New disasters', fr: 'Nouvelles catastrophes', note: { en: 'Tsunami, blizzard, sandstorm.', fr: 'Tsunami, blizzard, tempête de sable.' } },
   ],
   ideas: [
+    { en: 'Vessel Launcher', fr: 'Vessel Launcher', note: { en: 'A launcher made for the trainer: one click and you play. You sign in with your own Microsoft account, so it only works if you own Minecraft.', fr: 'Un launcher fait pour le trainer : un clic et tu joues. Tu te connectes avec ton propre compte Microsoft, donc il faut posséder Minecraft.' } },
     { en: 'Build brush', fr: 'Pinceau de construction', note: { en: 'Paint, replace and sculpt blocks from a distance.', fr: 'Peins, remplace et sculpte des blocs à distance.' } },
     { en: '.schem import', fr: 'Import .schem', note: { en: 'Open WorldEdit files in the Structure Manager.', fr: 'Ouvre les fichiers WorldEdit dans le gestionnaire de structures.' } },
     { en: 'Banner library', fr: 'Bibliothèque de bannières', note: { en: 'Share your banners with other players.', fr: 'Partage tes bannières avec les autres joueurs.' } },
@@ -139,4 +150,6 @@ const PLANNED_BUILDS = [
   ...['26.2', '26.1.2', '1.21.11'].flatMap(mc => ['fabric', 'neoforge', 'forge'].map(loader => ({ loader, mc }))),
   { loader: 'fabric', mc: '1.20.1' },
   { loader: 'forge', mc: '1.20.1' },
+  { loader: 'fabric', mc: '1.19.2' },
+  { loader: 'forge', mc: '1.19.2' },
 ];

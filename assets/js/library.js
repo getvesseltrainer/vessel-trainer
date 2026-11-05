@@ -58,6 +58,91 @@ function readNbt(buffer) {
   return payload(10);
 }
 
+/* Previews: an isometric drawing made in the browser from the file itself, for structures without a screenshot. */
+const BLOCK_COLORS = [
+  [/glass/, '#a9dcec'], [/water|ice/, '#4f8fe0'], [/lava|magma/, '#f06a1e'], [/leaves|moss|azalea/, '#4c8a35'], [/grass_block/, '#6aa84a'],
+  [/sandstone|sand/, '#dcc98c'], [/dirt|mud|podzol/, '#7d5a3c'], [/log|wood|plank|stairs|slab|fence|door|barrel|chest|crafting|bookshelf/, '#a87b48'],
+  [/brick/, '#9a5a48'], [/deepslate|blackstone|basalt|obsidian|coal/, '#3c3c46'], [/quartz|snow|calcite|white/, '#e8e8ec'], [/gold|yellow/, '#e8c548'],
+  [/iron|stone|cobble|andesite|tuff|gravel|gray/, '#8d8d90'], [/diamond|cyan|prismarine/, '#45c8c0'], [/emerald|lime|green/, '#55c060'], [/copper|orange/, '#d07a3a'],
+  [/redstone|red|nether/, '#b03a3a'], [/purple|amethyst|magenta|pink/, '#a860d0'], [/blue|lapis/, '#3a5ad0'], [/brown/, '#7a5230'], [/black/, '#26262c'],
+];
+const colorCache = new Map();
+const blockColor = name => {
+  if (!colorCache.has(name)) {
+    const found = BLOCK_COLORS.find(([pattern]) => pattern.test(name));
+    colorCache.set(name, found ? found[1] : '#9c8fb0');
+  }
+  return colorCache.get(name);
+};
+const shade = (hex, amount) => `rgb(${[1, 3, 5].map(i => Math.round(parseInt(hex.slice(i, i + 2), 16) * amount)).join(',')})`;
+
+function drawPreview(canvas, root) {
+  const palette = root.palette || (root.palettes && root.palettes[0]);
+  const filled = new Map();
+  const key = (x, y, z) => (y * 4096 + z) * 4096 + x;
+  for (const block of root.blocks) {
+    const entry = palette[block.state];
+    const name = entry && (entry.id || entry.Name);
+    if (name && name !== 'minecraft:air' && name !== 'minecraft:structure_void' && Array.isArray(block.pos)) {
+      filled.set(key(block.pos[0], block.pos[1], block.pos[2]), { pos: block.pos, color: blockColor(name) });
+    }
+  }
+  // Only blocks with an open top or front side can be seen from this angle.
+  const shown = [...filled.values()].filter(({ pos: [x, y, z] }) => !filled.has(key(x, y + 1, z)) || !filled.has(key(x + 1, y, z)) || !filled.has(key(x, y, z + 1)));
+  shown.sort((a, b) => (a.pos[0] + a.pos[1] + a.pos[2]) - (b.pos[0] + b.pos[1] + b.pos[2]));
+
+  const [sizeX, sizeY, sizeZ] = root.size;
+  const width = canvas.width = 800;
+  const height = canvas.height = 450;
+  const unit = Math.min((width * .9) / (sizeX + sizeZ), (height * .9) / ((sizeX + sizeZ) / 2 + sizeY));
+  const half = unit;
+  const quarter = unit / 2;
+  const originX = width / 2 + (sizeZ - sizeX) * half / 2;
+  const originY = height / 2 - ((sizeX + sizeZ) / 2 * quarter * 2 - sizeY * unit) / 2 + 0;
+  const context = canvas.getContext('2d');
+  const face = (points, fill) => {
+    context.fillStyle = fill;
+    context.beginPath();
+    points.forEach(([x, y], index) => (index ? context.lineTo(x, y) : context.moveTo(x, y)));
+    context.closePath();
+    context.fill();
+  };
+  for (const { pos: [x, y, z], color } of shown) {
+    const px = originX + (x - z) * half;
+    const py = originY + (x + z) * quarter - y * unit;
+    if (!filled.has(key(x, y + 1, z))) face([[px, py - unit], [px + half, py - unit + quarter], [px, py - unit + quarter * 2], [px - half, py - unit + quarter]], shade(color, 1));
+    if (!filled.has(key(x, y, z + 1))) face([[px - half, py - unit + quarter], [px, py - unit + quarter * 2], [px, py + quarter * 2], [px - half, py + quarter]], shade(color, .72));
+    if (!filled.has(key(x + 1, y, z))) face([[px + half, py - unit + quarter], [px, py - unit + quarter * 2], [px, py + quarter * 2], [px + half, py + quarter]], shade(color, .55));
+  }
+}
+
+const unpack = async packed => new Response(new Blob([packed]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+
+/* Files are only downloaded when their card comes near the screen. */
+const previewWatcher = 'IntersectionObserver' in window ? new IntersectionObserver(entries => entries.forEach(entry => {
+  if (entry.isIntersecting) {
+    previewWatcher.unobserve(entry.target);
+    fillPreview(entry.target);
+  }
+}), { rootMargin: '300px' }) : null;
+
+async function fillPreview(canvas) {
+  try {
+    const item = canvas.dataset.local ? mine.find(entry => entry.id === +canvas.dataset.local) : null;
+    const packed = item ? item.bytes : await fetch(`library/${canvas.dataset.file}.nbt`).then(response => (response.ok ? response.arrayBuffer() : Promise.reject(new Error('No file'))));
+    if (packed.byteLength > MAX_FILE_BYTES) return;
+    const buffer = await unpack(packed);
+    if (buffer.byteLength <= MAX_UNPACKED_BYTES) drawPreview(canvas, readNbt(buffer));
+  } catch {
+    // The card keeps its plain background: a missing preview must never break the page.
+  }
+}
+
+const watchPreviews = () => grid.querySelectorAll('canvas.lib-preview').forEach(canvas => {
+  if (previewWatcher) previewWatcher.observe(canvas);
+  else fillPreview(canvas);
+});
+
 async function inspectStructure(file) {
   if (file.size > MAX_FILE_BYTES) throw new Error(tr('This file is larger than 32 MB.', 'Ce fichier dépasse 32 Mo.'));
   const packed = await file.arrayBuffer();
@@ -67,7 +152,7 @@ async function inspectStructure(file) {
   let buffer;
   let root;
   try {
-    buffer = await new Response(new Blob([packed]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+    buffer = await unpack(packed);
     if (buffer.byteLength > MAX_UNPACKED_BYTES) throw new Error('Too large');
     root = readNbt(buffer);
   } catch {
@@ -93,6 +178,7 @@ async function inspectStructure(file) {
     commandBlocks: COMMAND_BLOCKS.some(name => counts.has(name)),
     clickCommands: new TextDecoder('latin1').decode(buffer).includes('run_command'),
     bytes: packed,
+    root,
   };
 }
 
@@ -134,7 +220,7 @@ function renderLibrary() {
     return `<article class="lib-card" data-find="${escapeHtml(`${item.name.en} ${item.name.fr} ${item.author}`.toLowerCase())}">
       ${item.image
         ? `<img loading="lazy" src="assets/img/library/${id}.webp" width="800" height="450" alt="${escapeHtml(item.name[lang])}">`
-        : `<div class="lib-blank" aria-hidden="true">${escapeHtml(item.size.join(' × '))}</div>`}
+        : `<canvas class="lib-preview" width="800" height="450" data-file="${id}" role="img" aria-label="${escapeHtml(tr(`Preview of ${item.name[lang]}`, `Aperçu de ${item.name[lang]}`))}"></canvas>`}
       <div class="lib-body">
         ${item.community ? `<span class="lib-badge">${tr('Community', 'Communauté')}</span>` : ''}
         <h2>${escapeHtml(item.name[lang])}</h2>
@@ -146,7 +232,7 @@ function renderLibrary() {
     </article>`;
   });
   const local = mine.map(item => `<article class="lib-card" data-find="${escapeHtml(`${item.name} ${item.author}`.toLowerCase())}">
-      <div class="lib-blank" aria-hidden="true">${escapeHtml(item.size.join(' × '))}</div>
+      <canvas class="lib-preview" width="800" height="450" data-local="${item.id}" role="img" aria-label="${escapeHtml(tr(`Preview of ${item.name}`, `Aperçu de ${item.name}`))}"></canvas>
       <div class="lib-body">
         <span class="lib-badge">${tr('Only in this browser', 'Seulement dans ce navigateur')}</span>
         <h2>${escapeHtml(item.name)}</h2>
@@ -161,6 +247,7 @@ function renderLibrary() {
     </article>`);
   grid.innerHTML = [...local, ...shipped].join('');
   grid.querySelectorAll('.lib-card').forEach(card => { card.hidden = !card.dataset.find.includes(query); });
+  watchPreviews();
 }
 
 grid.addEventListener('click', async event => {
@@ -204,7 +291,8 @@ $('#addFile').addEventListener('change', async event => {
     const warnings = [];
     if (result.commandBlocks) warnings.push(tr('It contains command blocks. The trainer will skip them.', 'Elle contient des blocs de commande. Le trainer les ignorera.'));
     if (result.clickCommands) warnings.push(tr('It contains text that can run a command when clicked. Be careful with this file.', 'Elle contient du texte qui peut lancer une commande au clic. Méfie-toi de ce fichier.'));
-    showReport(`<b>${tr('Valid structure', 'Structure valide')}</b> ${stats(result.size, result.blocks)}<br>${escapeHtml(result.top.join(', '))}${warnings.map(w => `<br><span class="warn">${escapeHtml(w)}</span>`).join('')}`, false);
+    showReport(`<b>${tr('Valid structure', 'Structure valide')}</b> ${stats(result.size, result.blocks)}<br>${escapeHtml(result.top.join(', '))}${warnings.map(w => `<br><span class="warn">${escapeHtml(w)}</span>`).join('')}<canvas class="form-preview" width="800" height="450" aria-hidden="true"></canvas>`, false);
+    drawPreview($('.form-preview'), result.root);
     checked = result;
     if (!$('#addName').value) $('#addName').value = file.name.replace(/\.nbt$/i, '');
     setReady(true);

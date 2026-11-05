@@ -112,7 +112,7 @@ if (buildsBox) {
         <p>${loader} · Minecraft ${build.mc} · ${release ? `${release.date[lang]} · ` : ''}${build.kb} ${tr('KB', 'Ko')}</p>
       </div>
       <div class="build-actions">
-        <a class="pill quiet" href="changelog.html">${tr('What changed', 'Nouveautés')}</a>
+        <button class="pill quiet build-what" type="button" data-version="${build.version}" aria-describedby="buildTip">${tr('What changed', 'Nouveautés')}</button>
         <a class="pill" href="downloads/${build.file}" download>${tr('Download', 'Télécharger')}</a>
       </div>
     </article>`;
@@ -127,6 +127,48 @@ if (buildsBox) {
     buildsBox.innerHTML = shown.map(row).join('')
       || `<p class="sub">${tr('Nothing here yet for this choice. Try the Planned filter.', 'Rien pour ce choix pour l\'instant. Essaie le filtre Prévues.')}</p>`;
   };
+
+  /* What changed: a box next to the button. On a touch screen, where nothing hovers, a tap opens it. */
+  const tip = $('#buildTip');
+  let tipFor = null;
+  const hideTip = () => {
+    tip.hidden = true;
+    tipFor = null;
+  };
+  const showTip = button => {
+    const release = CHANGELOG.find(entry => entry.version === button.dataset.version);
+    if (!release) return;
+    tipFor = button;
+    tip.innerHTML = `<b>${release.title[lang]}</b><ul>${release.changes.map(change => `<li><b class="${change.type}">${typeLabel[change.type]()}</b><span>${change[lang]}</span></li>`).join('')}</ul>`;
+    tip.hidden = false;
+    placeTip();
+  };
+  const placeTip = () => {
+    const box = tipFor.getBoundingClientRect();
+    if (box.bottom < 0 || box.top > innerHeight) {
+      hideTip();
+      return;
+    }
+    const gap = 12;
+    const margin = 8;
+    const fitsLeft = box.left - gap - tip.offsetWidth >= margin;
+    tip.style.left = `${fitsLeft ? box.left - gap - tip.offsetWidth : Math.max(margin, innerWidth - tip.offsetWidth - margin)}px`;
+    const below = box.bottom + gap;
+    const beside = box.top + box.height / 2 - tip.offsetHeight / 2;
+    tip.style.top = `${Math.max(margin, Math.min(fitsLeft ? beside : below, innerHeight - tip.offsetHeight - margin))}px`;
+  };
+  const whatButton = event => event.target.closest && event.target.closest('.build-what');
+  buildsBox.addEventListener('pointerover', event => { if (event.pointerType === 'mouse' && whatButton(event)) showTip(whatButton(event)); });
+  buildsBox.addEventListener('pointerout', event => { if (event.pointerType === 'mouse' && whatButton(event)) hideTip(); });
+  buildsBox.addEventListener('focusin', event => { if (whatButton(event)) showTip(whatButton(event)); });
+  buildsBox.addEventListener('focusout', event => { if (whatButton(event)) hideTip(); });
+  document.addEventListener('click', event => {
+    const button = whatButton(event);
+    if (!button) hideTip();
+    else if (tipFor !== button) showTip(button);
+  });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') hideTip(); });
+  addEventListener('scroll', () => { if (tipFor) placeTip(); }, { passive: true });
 
   document.querySelectorAll('.chip').forEach(chip => chip.addEventListener('click', () => {
     filters[chip.dataset.filter] = chip.dataset.value;
