@@ -19,6 +19,18 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.7.0',
+    date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
+    title: { en: 'Five new powers', fr: 'Cinq nouveaux pouvoirs' },
+    changes: [
+      { type: 'added', en: 'Dash: a burst of speed where you look, with a safe landing.', fr: 'Dash : un élan dans la direction du regard, avec un atterrissage sans danger.' },
+      { type: 'added', en: 'Portal: place two linked doors. People, creatures and items go through.', fr: 'Portail : pose deux portes reliées. Joueur, créatures et objets les traversent.' },
+      { type: 'added', en: 'Reverse gravity: creatures in the aimed area fall towards the sky.', fr: 'Gravité inversée : les créatures de la zone visée tombent vers le ciel.' },
+      { type: 'added', en: 'Orbital beam: hold R and a beam from the sky follows your crosshair.', fr: 'Rayon orbital : maintiens R et un rayon venu du ciel suit ton viseur.' },
+      { type: 'added', en: 'Energy shield: for 10 seconds, projectiles bounce back and monsters are pushed away.', fr: "Bouclier d'énergie : pendant 10 secondes, les projectiles repartent et les monstres sont repoussés." },
+    ],
+  },
+  {
     version: '2.6.0',
     date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
     title: { en: 'The Fun tab', fr: "L'onglet Fun" },
@@ -143,6 +155,13 @@ const ROADMAP = {
   planned: [
     { en: 'Minecraft 26.4 support', fr: 'Compatibilité Minecraft 26.4', note: { en: 'Once the version is released.', fr: 'Dès la sortie de cette version.' } },
     { en: 'Forge and NeoForge versions', fr: 'Versions Forge et NeoForge', note: { en: 'The trainer on the other mod loaders.', fr: 'Le trainer sur les autres chargeurs de mods.' } },
+    { en: 'Charged powers', fr: 'Pouvoirs chargés', note: { en: 'Hold the R key to make any power stronger.', fr: "Maintiens la touche R pour rendre n'importe quel pouvoir plus fort." } },
+    { en: 'Powers: attack', fr: 'Pouvoirs : attaque', note: { en: 'Pocket tornado, sword rain, wind blade, lava geyser, giant fist and arrow volley.', fr: "Tornade de poche, pluie d'épées, lame du vent, geyser de lave, poing géant et salve de flèches." } },
+    { en: 'Powers: control', fr: 'Pouvoirs : contrôle', note: { en: 'Local time freeze, glass prison, creature magnet, mind control and repulsion.', fr: 'Gel du temps ciblé, prison de verre, aimant à créatures, contrôle mental et répulsion.' } },
+    { en: 'Powers: movement', fr: 'Pouvoirs : déplacement', note: { en: 'Super leap, wall walking and walking through walls.', fr: 'Super bond, marche sur les murs et traversée des murs.' } },
+    { en: 'Powers: defense', fr: 'Pouvoirs : défense', note: { en: 'Clones, area healing and smoke form.', fr: 'Clones, soin de zone et forme de fumée.' } },
+    { en: 'Powers: building', fr: 'Pouvoirs : construction', note: { en: 'Instant wall, light bridge, drill and growth ray.', fr: 'Mur instantané, pont de lumière, foreuse et rayon de croissance.' } },
+    { en: 'Powers: ultimates', fr: 'Pouvoirs : ultimes', note: { en: 'Targeted meteor shower, supernova and fire dragon.', fr: 'Pluie de météores ciblée, supernova et dragon de feu.' } },
   ],
   ideas: [
     { en: 'Vessel Launcher', fr: 'Vessel Launcher', note: { en: 'A launcher made for the trainer: one click and you play. You sign in with your own Microsoft account, so it only works if you own Minecraft.', fr: 'Un launcher fait pour le trainer : un clic et tu joues. Tu te connectes avec ton propre compte Microsoft, donc il faut posséder Minecraft.' } },
