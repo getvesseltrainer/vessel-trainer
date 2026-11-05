@@ -1,0 +1,1 @@
+const LIBRARY_META = {"shelter":{"size":[9,6,9],"blocks":248},"tower":{"size":[11,31,11],"blocks":617},"pyramid":{"size":[31,16,31],"blocks":928},"arena":{"size":[43,9,43],"blocks":2875},"vess-statue":{"size":[21,27,21],"blocks":2709}};

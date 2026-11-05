@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vessel Trainer Guide</title>
+<meta name="description" content="How to use Vessel Trainer, and what every button does.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="page">
+<div class="sky" aria-hidden="true"></div>
+<nav class="nav" aria-label="Main navigation" data-fr-aria="Navigation principale">
+  <a class="brand" href="index.html">Vessel Trainer</a>
+  <div class="nav-links">
+    <a href="guide.html">Guide</a>
+    <a href="library.html" data-fr="Bibliothèque">Library</a>
+    <a href="changelog.html">Changelog</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="support.html" data-fr="Soutenir">Support</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="fr">FR</button>
+    </div>
+    <a class="pill" href="index.html#install" data-fr="Télécharger">Download</a>
+  </div>
+</nav>
+<main class="page-main">
+  <div class="wrap">
+    <header class="page-top">
+      <div class="page-head">
+        <p class="kicker" data-fr="Mode d'emploi">How it works</p>
+        <h1 class="page-title">Guide</h1>
+        <p class="sub" data-fr="Les bases, puis tous les boutons du trainer expliqués un par un.">The basics, then every button in the trainer, one by one.</p>
+      </div>
+      <canvas id="vess" aria-hidden="true"></canvas>
+    </header>
+
+    <section class="doc">
+      <h2 data-fr="Les touches">Controls</h2>
+      <div class="key-grid">
+        <div><kbd>F4</kbd><span data-fr="Ouvrir ou fermer le menu">Open or close the menu</span></div>
+        <div><kbd>↑</kbd> <kbd>↓</kbd><span data-fr="Choisir une ligne">Pick a line</span></div>
+        <div><kbd>←</kbd> <kbd>→</kbd><span data-fr="Changer une valeur">Change a value</span></div>
+        <div><kbd>Enter</kbd><span data-fr="Valider">Select</span></div>
+        <div><kbd>Backspace</kbd><span data-fr="Revenir en arrière">Go back</span></div>
+        <div><kbd>R</kbd><span data-fr="Utiliser ton pouvoir">Use your power</span></div>
+        <div><kbd>C</kbd><span data-fr="Zoomer tant que la touche est maintenue">Zoom while held</span></div>
+      </div>
+      <p class="sub" data-fr="Toutes ces touches se changent dans les options de contrôle de Minecraft. Le menu affiche aussi une description sous chaque bouton.">You can change all of these in Minecraft's controls. The menu also shows a description under each button.</p>
+    </section>
+
+    <section class="doc split-doc">
+      <div>
+        <h2 data-fr="Construire en survie">Build in survival</h2>
+        <p class="sub" data-fr="Un plan affiche une structure en fantôme pour la construire toi-même. Rien n'est posé ni donné pour toi.">A plan shows a structure as ghosts so you can build it yourself. Nothing is placed or given for you.</p>
+        <ol class="doc-steps">
+          <li data-fr="Ouvre <b>Structures</b> et choisis une structure.">Open <b>Structures</b> and pick a structure.</li>
+          <li data-fr="Regarde un bloc et lance <b>Plan : poser au bloc visé</b>.">Look at a block and use <b>Plan: pin at aimed block</b>.</li>
+          <li data-fr="Pose les vrais blocs sur les fantômes, couche par couche.">Place real blocks on the ghosts, layer by layer.</li>
+          <li data-fr="La liste à l'écran montre ta progression et les matériaux qu'il te manque.">The on-screen list shows your progress and the materials you need.</li>
+        </ol>
+        <p class="sub" data-fr="Un mauvais bloc est signalé en rouge. Le plan revient quand tu rouvres ton monde.">A wrong block is marked in red. The plan comes back when you reopen your world.</p>
+      </div>
+      <img data-shot="plan" src="assets/img/en/plan.webp" width="1600" height="900" alt="A ghost plan on the ground with the progress list on screen." data-fr-alt="Un plan fantôme au sol avec la liste de progression à l'écran.">
+    </section>
+
+    <section class="doc split-doc">
+      <img data-shot="apercu" src="assets/img/en/apercu.webp" width="1600" height="900" alt="A preview of a captured building before placing it." data-fr-alt="L'aperçu d'un bâtiment capturé avant de le placer.">
+      <div>
+        <h2 data-fr="Capturer et partager">Capture and share</h2>
+        <ol class="doc-steps">
+          <li data-fr="Vise deux coins opposés avec <b>Capture : coin 1</b> et <b>coin 2</b>.">Aim at two opposite corners with <b>Capture: corner 1</b> and <b>corner 2</b>.</li>
+          <li data-fr="Lance <b>Capture : enregistrer</b>. Les coffres gardent leur contenu.">Use <b>Capture: save</b>. Chests keep their contents.</li>
+          <li data-fr="<b>Partager la structure</b> affiche le fichier .nbt, prêt à envoyer."><b>Share structure</b> shows the .nbt file, ready to send.</li>
+          <li data-fr="Pour importer, dépose un fichier dans le dossier, puis <b>Recharger les structures</b>.">To import, drop a file in the folder, then use <b>Reload structures</b>.</li>
+        </ol>
+        <p class="sub" data-fr="Les blocs de commande ne sont jamais posés. N'importe que des fichiers de personnes de confiance.">Command blocks are never placed. Only import files from people you trust.</p>
+      </div>
+    </section>
+
+    <section class="doc split-doc">
+      <div>
+        <h2>Zoom</h2>
+        <p class="sub" data-fr="Maintiens C pour zoomer, relâche pour revenir. Choisis x2, x4 ou x8 dans les réglages. La caméra se stabilise pendant le zoom.">Hold C to zoom and release to go back. Pick x2, x4 or x8 in the settings. The camera steadies itself while zoomed.</p>
+      </div>
+      <img data-shot="zoom" src="assets/img/en/zoom.webp" width="1600" height="900" alt="The game view zoomed in." data-fr-alt="La vue du jeu zoomée.">
+    </section>
+
+    <section class="doc">
+      <h2 data-fr="Tous les boutons">Every button</h2>
+      <label class="search" for="guideSearch"><span class="sr" data-fr="Chercher un bouton">Search a button</span><input id="guideSearch" type="search" autocomplete="off"></label>
+      <p class="sub" id="guideCount" aria-live="polite"></p>
+      <div id="reference"></div>
+    </section>
+  </div>
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span data-fr="Vessel Trainer v2.3.0. Projet indépendant, non affilié à Mojang Studios ni à Microsoft.">Vessel Trainer v2.3.0. Independent project, not affiliated with Mojang Studios or Microsoft.</span>
+    <span class="foot-links"><a href="index.html" data-fr="Accueil">Home</a><a href="guide.html">Guide</a><a href="library.html" data-fr="Bibliothèque">Library</a><a href="changelog.html">Changelog</a><a href="roadmap.html">Roadmap</a><a href="support.html" data-fr="Soutenir">Support</a></span>
+  </div>
+</footer>
+<script src="assets/js/vendor/three.min.js"></script>
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/lang.js"></script>
+<script src="assets/js/menu-data.js"></script>
+<script src="assets/js/vess.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/pages.js"></script>
+</body>
+</html>

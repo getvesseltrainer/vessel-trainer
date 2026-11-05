@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vessel Trainer</title>
+<meta name="description" content="Vessel Trainer: a 177-command menu for your Minecraft 26.3 singleplayer world.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+<h1 class="title" id="title" aria-label="Vessel Trainer"><span aria-hidden="true">VESSEL</span><span aria-hidden="true">TRAINER</span></h1>
+<canvas id="world" aria-hidden="true"></canvas>
+
+<nav class="nav" aria-label="Main navigation" data-fr-aria="Navigation principale">
+  <a class="brand" href="#top">Vessel Trainer</a>
+  <div class="nav-links">
+    <a href="guide.html">Guide</a>
+    <a href="library.html" data-fr="Bibliothèque">Library</a>
+    <a href="changelog.html">Changelog</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="support.html" data-fr="Soutenir">Support</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="fr">FR</button>
+    </div>
+    <a class="pill" href="#install" data-fr="Télécharger">Download</a>
+  </div>
+</nav>
+
+<div class="dots" id="dots" aria-hidden="true"></div>
+
+<main id="top">
+  <div id="story">
+    <section class="chapter hero-ch">
+      <div class="copy">
+        <p class="lead" data-fr="Ton monde Minecraft, refait d'une seule touche.">Your Minecraft world, remade with one key.</p>
+        <p class="hint" data-fr="Fais défiler">Scroll</p>
+      </div>
+    </section>
+
+    <section class="chapter right">
+      <div class="copy">
+        <p class="tag" data-fr="Construction">Build</p>
+        <h2 data-fr="Une pyramide en un appui">A pyramid in one press</h2>
+        <p data-fr="5 457 blocs posés d'un coup. Capture tes constructions, importe celles des autres, prévisualise, puis annule ou rétablis.">5,457 blocks placed at once. Capture your builds, import others', preview them, then undo or redo.</p>
+      </div>
+    </section>
+
+    <section class="chapter left">
+      <div class="copy">
+        <p class="tag" data-fr="Catastrophes">Disasters</p>
+        <h2 data-fr="Appelle la tempête">Call the storm</h2>
+        <p data-fr="Tornade, séisme, volcan, météorite géante. Le terrain change pour de bon.">Tornado, earthquake, volcano, giant meteorite. The land changes for good.</p>
+      </div>
+    </section>
+
+    <section class="chapter right night">
+      <div class="copy">
+        <p class="tag" data-fr="Pouvoirs">Powers</p>
+        <h2 data-fr="14 pouvoirs sur une touche">14 powers on one key</h2>
+        <p data-fr="Trou noir, laser, onde de choc, télékinésie. Choisis-en un et appuie sur R.">Black hole, laser, shockwave, telekinesis. Pick one and press R.</p>
+      </div>
+    </section>
+
+    <section class="chapter left night">
+      <div class="copy">
+        <p class="tag" data-fr="La bombe">The nuke</p>
+        <h2 data-fr="La grosse">The big one</h2>
+        <p data-fr="Un cratère jusqu'à 130 blocs de rayon, une onde de choc et un champignon de plus de 300 blocs géants.">A crater up to a 130-block radius, a shockwave and a mushroom cloud of over 300 giant blocks.</p>
+      </div>
+    </section>
+
+    <section class="chapter right">
+      <div class="copy">
+        <p class="tag" data-fr="Voici Vess">Meet Vess</p>
+        <h2 data-fr="Vess contient tout">Vess holds it all</h2>
+        <p data-fr="Vess est une fiole vivante. À l'intérieur : 177 commandes pour ton monde solo.">Vess is a living flask. Inside: 177 commands for your singleplayer world.</p>
+        <a class="pill big" href="#install" data-fr="Télécharger">Download</a>
+      </div>
+    </section>
+  </div>
+
+  <div class="solid">
+    <section class="shots" id="shots">
+      <div class="wrap">
+        <h2 data-fr="En jeu, pour de vrai">In game, for real</h2>
+        <p class="sub" data-fr="Captures réelles de Minecraft 26.3, avec le trainer en français.">Real Minecraft 26.3 screenshots, with the trainer in English.</p>
+      </div>
+      <div class="wrap stack">
+        <figure class="card"><img loading="lazy" data-shot="bombe_3" src="assets/img/en/bombe_3.webp" width="1600" height="900" alt="A mushroom cloud over a burning plain at dusk." data-fr-alt="Un champignon atomique au-dessus d'une plaine en feu au crépuscule."><figcaption data-fr="La bombe">The nuke</figcaption></figure>
+        <figure class="card"><img loading="lazy" data-shot="volcan" src="assets/img/en/volcan.webp" width="1600" height="900" alt="A volcano erupting." data-fr-alt="Un volcan en éruption."><figcaption data-fr="Le volcan">The volcano</figcaption></figure>
+        <figure class="card"><img loading="lazy" data-shot="pyramide" src="assets/img/en/pyramide.webp" width="1600" height="900" alt="A pyramid built next to a desert village." data-fr-alt="Une pyramide construite près d'un village du désert."><figcaption data-fr="La pyramide">The pyramid</figcaption></figure>
+        <figure class="card"><img loading="lazy" data-shot="apercu" src="assets/img/en/apercu.webp" width="1600" height="900" alt="A preview of a captured building hovering over the ground before it is placed." data-fr-alt="L'aperçu d'un bâtiment capturé, posé au sol avant d'être placé."><figcaption data-fr="L'aperçu avant de placer">Preview before placing</figcaption></figure>
+        <figure class="card"><img loading="lazy" data-shot="chaos" src="assets/img/en/chaos.webp" width="1600" height="900" alt="The Chaos menu with the purple theme." data-fr-alt="Le menu Chaos avec le thème violet."><figcaption data-fr="Le menu Chaos">The Chaos menu</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="try" id="try">
+      <div class="wrap">
+        <h2 data-fr="Essaie le menu">Try the menu</h2>
+        <p class="sub" data-fr="Toutes les entrées du jeu. Clique dans l'écran puis utilise les flèches et Entrée.">Every entry from the game. Click the screen, then use the arrow keys and Enter.</p>
+        <div class="stage" id="stage" tabindex="0" role="application" aria-label="Menu demo. Arrow keys to navigate, Enter to select, Backspace to go back." data-fr-aria="Démonstration du menu. Flèches pour naviguer, Entrée pour valider, Effacer pour revenir.">
+          <img class="stage-bg" id="stageBg" src="assets/img/watermark.webp" alt="">
+          <div class="vt" id="vt"></div>
+          <div class="vt-side" id="vtSide"></div>
+          <div class="vt-flash" id="vtFlash"></div>
+          <div class="vt-count" id="vtCount"></div>
+        </div>
+        <div class="pad" aria-label="Touch controls" data-fr-aria="Commandes tactiles">
+          <button type="button" data-k="ArrowUp" aria-label="Up" data-fr-aria="Haut">↑</button>
+          <button type="button" data-k="ArrowDown" aria-label="Down" data-fr-aria="Bas">↓</button>
+          <button type="button" data-k="ArrowLeft" aria-label="Previous value" data-fr-aria="Valeur précédente">←</button>
+          <button type="button" data-k="ArrowRight" aria-label="Next value" data-fr-aria="Valeur suivante">→</button>
+          <button type="button" data-k="Enter" aria-label="Select" data-fr-aria="Valider">OK</button>
+          <button type="button" data-k="Backspace" aria-label="Back" data-fr-aria="Retour">⌫</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="more">
+      <div class="wrap more-grid">
+        <a class="more-card" href="guide.html"><span data-fr="Mode d'emploi">How it works</span><b>Guide</b><i data-fr="Les bases et tous les boutons expliqués.">The basics, and every button explained.</i></a>
+        <a class="more-card" href="library.html"><span>Structures</span><b data-fr="Bibliothèque">Library</b><i data-fr="Des structures à télécharger et à importer.">Structures to download and import.</i></a>
+        <a class="more-card" href="changelog.html"><span data-fr="Mises à jour">Updates</span><b>Changelog</b><i data-fr="Tout ce qui a changé, version par version.">Everything that changed, version by version.</i></a>
+        <a class="more-card" href="roadmap.html"><span data-fr="La suite">What's next</span><b>Roadmap</b><i data-fr="Ce qui arrive dans les prochaines mises à jour.">What is coming in future updates.</i></a>
+      </div>
+    </section>
+
+    <section class="install" id="install">
+      <div class="wrap">
+        <h2 data-fr="Télécharger et installer">Download and install</h2>
+        <ol class="steps">
+          <li data-fr="Installe <a href=&quot;https://fabricmc.net/use/installer/&quot;>Fabric Loader</a> pour Minecraft 26.3.">Install <a href="https://fabricmc.net/use/installer/">Fabric Loader</a> for Minecraft 26.3.</li>
+          <li data-fr="Crée un profil avec son propre dossier de jeu.">Create a profile with its own game folder.</li>
+          <li data-fr="Mets le trainer et <a href=&quot;https://modrinth.com/mod/fabric-api&quot;>Fabric API</a> dans <code>mods</code>.">Put the trainer and <a href="https://modrinth.com/mod/fabric-api">Fabric API</a> in <code>mods</code>.</li>
+          <li data-fr="Ouvre un monde solo et appuie sur F4.">Open a singleplayer world and press F4.</li>
+        </ol>
+        <div class="downloads">
+          <a class="pill big" id="downloadJar" href="downloads/vesseltrainer-2.3.0.jar" download data-fr="Télécharger Vessel Trainer 2.3.0">Download Vessel Trainer 2.3.0</a>
+          <a class="pill big quiet" href="https://modrinth.com/mod/fabric-api" data-fr="Récupérer Fabric API">Get Fabric API</a>
+        </div>
+        <p class="note">207 KB · Minecraft 26.3 · Fabric</p>
+        <p class="note" data-fr="Mode solo uniquement : le menu refuse de s'ouvrir sur un serveur.">Singleplayer only: the menu refuses to open on a server.</p>
+      </div>
+    </section>
+
+    <footer class="foot">
+  <div class="wrap foot-in">
+    <span data-fr="Vessel Trainer v2.3.0. Projet indépendant, non affilié à Mojang Studios ni à Microsoft.">Vessel Trainer v2.3.0. Independent project, not affiliated with Mojang Studios or Microsoft.</span>
+    <span class="foot-links"><a href="#top" data-fr="Accueil">Home</a><a href="guide.html">Guide</a><a href="library.html" data-fr="Bibliothèque">Library</a><a href="changelog.html">Changelog</a><a href="roadmap.html">Roadmap</a><a href="support.html" data-fr="Soutenir">Support</a></span>
+  </div>
+</footer>
+  </div>
+</main>
+
+<script src="assets/js/vendor/three.min.js"></script>
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/js/vendor/lenis.min.js"></script>
+<script src="assets/js/lang.js"></script>
+<script src="assets/js/menu-data.js"></script>
+<script src="assets/js/vess.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
