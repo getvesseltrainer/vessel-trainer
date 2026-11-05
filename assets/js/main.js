@@ -99,6 +99,23 @@ const demo = (() => {
 
 
 
+/* Store buttons only become links once the project page exists. */
+onLang(() => document.querySelectorAll('[data-store]').forEach(button => {
+  const url = STORE_LINKS[button.dataset.store];
+  const name = button.dataset.store === 'curseforge' ? 'CurseForge' : 'Modrinth';
+  if (url) {
+    button.href = url;
+    button.textContent = name;
+    button.hidden = false;
+  } else if (button.dataset.store === 'modrinth') {
+    button.hidden = true;
+  } else {
+    button.classList.add('soon');
+    button.setAttribute('aria-disabled', 'true');
+    button.textContent = `${name} · ${tr('soon', 'bientôt')}`;
+  }
+}));
+
 /* Screenshots show the trainer in the language of the page. */
 onLang(() => document.querySelectorAll('img[data-shot]').forEach(img => { img.src = `assets/img/${lang}/${img.dataset.shot}.webp`; }));
 

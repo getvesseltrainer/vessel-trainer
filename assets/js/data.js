@@ -4,6 +4,9 @@
   ROADMAP: move items between the three lists.
   Each text has an English (en) and a French (fr) version.
 */
+/* Project pages on the mod platforms. A button stays marked as coming soon until it has an address. */
+const STORE_LINKS = { curseforge: '', modrinth: '' };
+
 /* Donation pages. Paste your own address in url; a link stays hidden on the page until it has one. */
 const SUPPORT_LINKS = [
   { name: 'Ko-fi', url: 'https://ko-fi.com/vesseltrainer', text: { en: 'Donate by card on Ko-fi.', fr: 'Fais un don par carte sur Ko-fi.' } },
