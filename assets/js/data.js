@@ -33,6 +33,19 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.8.0',
+    date: { en: 'November 6, 2026', fr: '6 novembre 2026' },
+    title: { en: 'The Admin tab', fr: "L'onglet Admin" },
+    changes: [
+      { type: 'added', en: 'Admin tab: a full admin panel for private servers. The owner installs the trainer on the server, and only its admins get the tab.', fr: "Onglet Admin : un vrai panneau d'administration pour les serveurs privés. Le propriétaire installe le trainer sur le serveur, et seuls ses admins ont l'onglet." },
+      { type: 'added', en: 'Players: teleport, heal, feed, freeze, mute, game mode, inventory and Ender chest view, kick, ban and op rights.', fr: "Joueurs : téléportation, soin, nourriture, gel, muet, mode de jeu, vue de l'inventaire et du coffre de l'Ender, expulsion, bannissement et droits d'op." },
+      { type: 'added', en: 'Server tools: announcements, chat mute, whitelist, unban, time, weather, difficulty, server rules, world cleanup, saving and live performance.', fr: 'Outils serveur : annonces, coupure du chat, liste blanche, débannissement, heure, météo, difficulté, règles, nettoyage du monde, sauvegarde et performances en direct.' },
+      { type: 'added', en: 'Events: admins can start the disasters and the bomb on their server for their players.', fr: 'Événements : les admins peuvent lancer les catastrophes et la bombe sur leur serveur pour leurs joueurs.' },
+      { type: 'added', en: 'Every admin action is checked by the server and written to logs/vessel-admin.log.', fr: 'Chaque action admin est vérifiée par le serveur et écrite dans logs/vessel-admin.log.' },
+      { type: 'changed', en: 'The rest of the trainer stays singleplayer only, even for admins.', fr: 'Le reste du trainer reste réservé au solo, même pour les admins.' },
+    ],
+  },
+  {
     version: '2.7.2 Forge 1.20.1',
     date: { en: 'November 5, 2026', fr: '5 novembre 2026' },
     title: { en: 'Forge 1.20.1 is here', fr: 'Forge 1.20.1 est là' },
@@ -193,8 +206,17 @@ const CHANGELOG = [
 
 const ROADMAP = {
   next: [
-    { en: 'Admin mode for private servers', fr: 'Mode admin pour serveurs privés', note: { en: 'An admin panel for private servers: installed by the owner, for admins only. Run events with disasters for your players.', fr: 'Un panneau admin pour serveurs privés : installé par le propriétaire, réservé aux admins. Lance des événements avec des catastrophes pour tes joueurs.' } },
     { en: 'Older Minecraft versions', fr: 'Anciennes versions de Minecraft', note: { en: 'Versions for players who stay on an older game.', fr: 'Des versions pour ceux qui restent sur un ancien jeu.' } },
+    { en: 'Build brush', fr: 'Pinceau de construction', note: { en: 'Paint, replace and sculpt blocks from a distance.', fr: 'Peins, remplace et sculpte des blocs à distance.' } },
+    { en: '.schem import', fr: 'Import .schem', note: { en: 'Open WorldEdit files in the Structure Manager.', fr: 'Ouvre les fichiers WorldEdit dans le gestionnaire de structures.' } },
+    { en: 'Banner library', fr: 'Bibliothèque de bannières', note: { en: 'Share your banners with other players.', fr: 'Partage tes bannières avec les autres joueurs.' } },
+    { en: 'Creature creator', fr: 'Créateur de créatures', note: { en: 'Pick a size, health and gear before spawning.', fr: 'Choisis la taille, la vie et l\'équipement avant de faire apparaître.' } },
+    { en: 'Theme creator', fr: 'Créateur de thèmes', note: { en: 'Choose your own menu colors.', fr: 'Choisis tes propres couleurs de menu.' } },
+    { en: 'Item kits', fr: 'Kits d\'objets', note: { en: 'Save an inventory and get it back in one click.', fr: 'Enregistre un inventaire et récupère-le en un clic.' } },
+    { en: 'Slow motion', fr: 'Ralenti', note: { en: 'Slow the world down to watch an explosion.', fr: 'Ralentis le monde pour regarder une explosion.' } },
+    { en: 'Power wheel', fr: 'Roue des pouvoirs', note: { en: 'Switch powers with a radial menu.', fr: 'Change de pouvoir avec un menu circulaire.' } },
+    { en: 'Shareable profiles', fr: 'Profils partageables', note: { en: 'Send your cheat setup to a friend.', fr: 'Envoyer sa configuration à un ami.' } },
+    { en: 'Controller support', fr: 'Compatibilité manette', note: { en: 'Use the menu with a gamepad.', fr: 'Utiliser le menu avec une manette.' } },
   ],
   planned: [
     { en: 'Minecraft 26.4 support', fr: 'Compatibilité Minecraft 26.4', note: { en: 'Once the version is released.', fr: 'Dès la sortie de cette version.' } },
@@ -209,16 +231,6 @@ const ROADMAP = {
   ],
   ideas: [
     { en: 'Vessel Launcher', fr: 'Vessel Launcher', note: { en: 'A launcher made for the trainer: one click and you play. You sign in with your own Microsoft account, so it only works if you own Minecraft.', fr: 'Un launcher fait pour le trainer : un clic et tu joues. Tu te connectes avec ton propre compte Microsoft, donc il faut posséder Minecraft.' } },
-    { en: 'Build brush', fr: 'Pinceau de construction', note: { en: 'Paint, replace and sculpt blocks from a distance.', fr: 'Peins, remplace et sculpte des blocs à distance.' } },
-    { en: '.schem import', fr: 'Import .schem', note: { en: 'Open WorldEdit files in the Structure Manager.', fr: 'Ouvre les fichiers WorldEdit dans le gestionnaire de structures.' } },
-    { en: 'Banner library', fr: 'Bibliothèque de bannières', note: { en: 'Share your banners with other players.', fr: 'Partage tes bannières avec les autres joueurs.' } },
-    { en: 'Creature creator', fr: 'Créateur de créatures', note: { en: 'Pick a size, health and gear before spawning.', fr: 'Choisis la taille, la vie et l\'équipement avant de faire apparaître.' } },
-    { en: 'Theme creator', fr: 'Créateur de thèmes', note: { en: 'Choose your own menu colors.', fr: 'Choisis tes propres couleurs de menu.' } },
-    { en: 'Item kits', fr: 'Kits d\'objets', note: { en: 'Save an inventory and get it back in one click.', fr: 'Enregistre un inventaire et récupère-le en un clic.' } },
-    { en: 'Slow motion', fr: 'Ralenti', note: { en: 'Slow the world down to watch an explosion.', fr: 'Ralentis le monde pour regarder une explosion.' } },
-    { en: 'Power wheel', fr: 'Roue des pouvoirs', note: { en: 'Switch powers with a radial menu.', fr: 'Change de pouvoir avec un menu circulaire.' } },
-    { en: 'Shareable profiles', fr: 'Profils partageables', note: { en: 'Send your cheat setup to a friend.', fr: 'Envoyer sa configuration à un ami.' } },
-    { en: 'Controller support', fr: 'Compatibilité manette', note: { en: 'Use the menu with a gamepad.', fr: 'Utiliser le menu avec une manette.' } },
   ],
 };
 
@@ -229,8 +241,8 @@ const ROADMAP = {
 /* Shown under a build on the Versions page, by loader and game version. */
 const BUILD_NOTES = {
   'forge-1.20.1': {
-    en: 'Needs Forge 47 for Minecraft 1.20.1. No Fabric API needed. Not in this build: player size, creature size, time speed and time stop.',
-    fr: 'Demande Forge 47 pour Minecraft 1.20.1, sans Fabric API. Absents de cette version : taille du joueur, taille des créatures, vitesse du temps et arrêt du temps.',
+    en: 'Needs Forge 47 for Minecraft 1.20.1. No Fabric API needed. Not in this build: player size, creature size, time speed, time stop and the Admin tab.',
+    fr: 'Demande Forge 47 pour Minecraft 1.20.1, sans Fabric API. Absents de cette version : taille du joueur, taille des créatures, vitesse du temps, arrêt du temps et onglet Admin.',
   },
 };
 
