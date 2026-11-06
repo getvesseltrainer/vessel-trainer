@@ -33,6 +33,17 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.9.0',
+    date: { en: 'November 6, 2026', fr: '6 novembre 2026' },
+    title: { en: 'Make it yours', fr: 'À ta façon' },
+    changes: [
+      { type: 'added', en: 'Item kits: save your inventory in 3 slots and get it back in one click, in any world.', fr: "Kits d'objets : enregistre ton inventaire dans 3 emplacements et retrouve-le en un clic, dans n'importe quel monde." },
+      { type: 'added', en: 'Slow motion: slow the world to a quarter of its speed with one button, to watch an explosion.', fr: 'Ralenti : ralentis le monde à un quart de sa vitesse en un bouton, pour admirer une explosion.' },
+      { type: 'added', en: 'Theme creator: pick the hue, brightness and fade of your menu.', fr: 'Créateur de thème : choisis la teinte, la luminosité et le dégradé de ton menu.' },
+      { type: 'added', en: 'Shareable profiles: copy a profile as a code and send it to a friend. A code can only hold cheat settings, and it cannot start world effects.', fr: "Profils partageables : copie un profil sous forme de code et envoie-le à un ami. Un code ne contient que des réglages de cheats et ne peut pas lancer d'effets sur le monde." },
+    ],
+  },
+  {
     version: '2.8.0',
     date: { en: 'November 6, 2026', fr: '6 novembre 2026' },
     title: { en: 'The Admin tab', fr: "L'onglet Admin" },
@@ -211,11 +222,7 @@ const ROADMAP = {
     { en: '.schem import', fr: 'Import .schem', note: { en: 'Open WorldEdit files in the Structure Manager.', fr: 'Ouvre les fichiers WorldEdit dans le gestionnaire de structures.' } },
     { en: 'Banner library', fr: 'Bibliothèque de bannières', note: { en: 'Share your banners with other players.', fr: 'Partage tes bannières avec les autres joueurs.' } },
     { en: 'Creature creator', fr: 'Créateur de créatures', note: { en: 'Pick a size, health and gear before spawning.', fr: 'Choisis la taille, la vie et l\'équipement avant de faire apparaître.' } },
-    { en: 'Theme creator', fr: 'Créateur de thèmes', note: { en: 'Choose your own menu colors.', fr: 'Choisis tes propres couleurs de menu.' } },
-    { en: 'Item kits', fr: 'Kits d\'objets', note: { en: 'Save an inventory and get it back in one click.', fr: 'Enregistre un inventaire et récupère-le en un clic.' } },
-    { en: 'Slow motion', fr: 'Ralenti', note: { en: 'Slow the world down to watch an explosion.', fr: 'Ralentis le monde pour regarder une explosion.' } },
     { en: 'Power wheel', fr: 'Roue des pouvoirs', note: { en: 'Switch powers with a radial menu.', fr: 'Change de pouvoir avec un menu circulaire.' } },
-    { en: 'Shareable profiles', fr: 'Profils partageables', note: { en: 'Send your cheat setup to a friend.', fr: 'Envoyer sa configuration à un ami.' } },
     { en: 'Controller support', fr: 'Compatibilité manette', note: { en: 'Use the menu with a gamepad.', fr: 'Utiliser le menu avec une manette.' } },
   ],
   planned: [
