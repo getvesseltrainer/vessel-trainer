@@ -193,6 +193,7 @@ const CHANGELOG = [
 
 const ROADMAP = {
   next: [
+    { en: 'Admin mode for private servers', fr: 'Mode admin pour serveurs privés', note: { en: 'An admin panel for private servers: installed by the owner, for admins only. Run events with disasters for your players.', fr: 'Un panneau admin pour serveurs privés : installé par le propriétaire, réservé aux admins. Lance des événements avec des catastrophes pour tes joueurs.' } },
     { en: 'Older Minecraft versions', fr: 'Anciennes versions de Minecraft', note: { en: 'Versions for players who stay on an older game.', fr: 'Des versions pour ceux qui restent sur un ancien jeu.' } },
   ],
   planned: [
@@ -207,7 +208,6 @@ const ROADMAP = {
     { en: 'Powers: ultimates', fr: 'Pouvoirs : ultimes', note: { en: 'Targeted meteor shower, supernova and fire dragon.', fr: 'Pluie de météores ciblée, supernova et dragon de feu.' } },
   ],
   ideas: [
-    { en: 'Admin mode for private servers', fr: 'Mode admin pour serveurs privés', note: { en: 'An admin panel for private servers: installed by the owner, for admins only. Run events with disasters for your players.', fr: 'Un panneau admin pour serveurs privés : installé par le propriétaire, réservé aux admins. Lance des événements avec des catastrophes pour tes joueurs.' } },
     { en: 'Vessel Launcher', fr: 'Vessel Launcher', note: { en: 'A launcher made for the trainer: one click and you play. You sign in with your own Microsoft account, so it only works if you own Minecraft.', fr: 'Un launcher fait pour le trainer : un clic et tu joues. Tu te connectes avec ton propre compte Microsoft, donc il faut posséder Minecraft.' } },
     { en: 'Build brush', fr: 'Pinceau de construction', note: { en: 'Paint, replace and sculpt blocks from a distance.', fr: 'Peins, remplace et sculpte des blocs à distance.' } },
     { en: '.schem import', fr: 'Import .schem', note: { en: 'Open WorldEdit files in the Structure Manager.', fr: 'Ouvre les fichiers WorldEdit dans le gestionnaire de structures.' } },
