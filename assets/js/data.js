@@ -14,6 +14,12 @@ const SUPPORT_LINKS = [
   { name: 'GitHub Sponsors', url: '', text: { en: 'Support the project from your GitHub account.', fr: 'Soutiens le projet depuis ton compte GitHub.' } },
 ];
 
+/*
+  Discord partners, shown on the Partners page. Add one block per server:
+  { name: 'Server name', invite: 'https://discord.gg/xxxxxxx', text: { en: 'One short sentence.', fr: 'Une phrase courte.' } },
+*/
+const PARTNERS = [];
+
 /* The form where players send structures. Empty it to hide the Share button. */
 const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/new?template=structure.yml';
 

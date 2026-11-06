@@ -194,6 +194,18 @@ if (buildsBox) {
   });
 }
 
+const partnerBox = $('#partners');
+if (partnerBox) onLang(() => {
+  partnerBox.innerHTML = PARTNERS.map(partner => `
+    <a class="partner" href="${partner.invite}" target="_blank" rel="noopener">
+      <span class="partner-icon" aria-hidden="true">${partner.name[0]}</span>
+      <span class="partner-text"><b>${partner.name}</b><i>${partner.text[lang]}</i></span>
+      <span class="pill quiet">${tr('Join', 'Rejoindre')}</span>
+    </a>`).join('')
+    || `<p class="sub">${tr('The first partner servers will appear here soon.', 'Les premiers serveurs partenaires arriveront ici bientôt.')}</p>`;
+  document.dispatchEvent(new Event('pagecontent'));
+});
+
 const supportBox = $('#supportLinks');
 if (supportBox) onLang(() => {
   const links = SUPPORT_LINKS.filter(link => link.url);
