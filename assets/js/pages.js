@@ -196,6 +196,22 @@ if (buildsBox) {
 
 const partnerBox = $('#partners');
 if (partnerBox) {
+  /* A browser cannot reach a Minecraft server, so a public service asks for it. No answer means unknown, never offline. */
+  const statuses = {};
+  const statusText = status => {
+    if (status === undefined) return tr('Checking…', 'Vérification…');
+    if (!status.online) return tr('Offline', 'Hors ligne');
+    const { players } = status;
+    return tr('Online', 'En ligne') + (players && players.online > 0 ? ` · ${players.online}/${players.max} ${tr('players', 'joueurs')}` : '');
+  };
+  const showStatuses = () => partnerBox.querySelectorAll('[data-status]').forEach(line => {
+    const status = statuses[line.dataset.status];
+    line.hidden = status === null;
+    if (status === null) return;
+    line.textContent = statusText(status);
+    line.classList.toggle('online', Boolean(status && status.online));
+    line.classList.toggle('offline', Boolean(status && !status.online));
+  });
   onLang(() => {
     partnerBox.innerHTML = PARTNERS.map(partner => `
       <article class="partner">
@@ -205,12 +221,25 @@ if (partnerBox) {
         <div class="partner-text">
           <h3>${partner.name}</h3>
           <p>${partner.text[lang]}</p>
+          ${partner.address ? `<p class="partner-status" data-status="${partner.address}"></p>` : ''}
           ${partner.address ? `<p class="partner-address"><code>${partner.address}</code><button class="partner-copy" type="button" data-copy="${partner.address}">${tr('Copy IP', 'Copier l\'IP')}</button></p>` : ''}
         </div>
         <a class="pill" href="${partner.invite}" target="_blank" rel="noopener">${tr('Join the Discord', 'Rejoindre le Discord')}</a>
       </article>`).join('')
       || `<p class="sub">${tr('The first partner servers will appear here soon.', 'Les premiers serveurs partenaires arriveront ici bientôt.')}</p>`;
+    showStatuses();
     document.dispatchEvent(new Event('pagecontent'));
+  });
+  PARTNERS.filter(partner => partner.address).forEach(async ({ address }) => {
+    try {
+      const reply = await fetch(`https://api.mcstatus.io/v2/status/java/${address}`, { signal: AbortSignal.timeout(8000) });
+      if (!reply.ok) throw new Error(`status ${reply.status}`);
+      const { online, players } = await reply.json();
+      statuses[address] = { online, players };
+    } catch {
+      statuses[address] = null;
+    }
+    showStatuses();
   });
   partnerBox.addEventListener('click', async event => {
     const button = event.target.closest('.partner-copy');
