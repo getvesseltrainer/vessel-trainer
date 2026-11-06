@@ -195,16 +195,37 @@ if (buildsBox) {
 }
 
 const partnerBox = $('#partners');
-if (partnerBox) onLang(() => {
-  partnerBox.innerHTML = PARTNERS.map(partner => `
-    <a class="partner" href="${partner.invite}" target="_blank" rel="noopener">
-      <span class="partner-icon" aria-hidden="true">${partner.name[0]}</span>
-      <span class="partner-text"><b>${partner.name}</b><i>${partner.text[lang]}</i></span>
-      <span class="pill quiet">${tr('Join', 'Rejoindre')}</span>
-    </a>`).join('')
-    || `<p class="sub">${tr('The first partner servers will appear here soon.', 'Les premiers serveurs partenaires arriveront ici bientôt.')}</p>`;
-  document.dispatchEvent(new Event('pagecontent'));
-});
+if (partnerBox) {
+  onLang(() => {
+    partnerBox.innerHTML = PARTNERS.map(partner => `
+      <article class="partner">
+        ${partner.icon
+          ? `<img class="partner-icon" src="assets/img/partners/${partner.icon}" alt="" width="84" height="84">`
+          : `<span class="partner-icon" aria-hidden="true">${partner.name[0]}</span>`}
+        <div class="partner-text">
+          <h3>${partner.name}</h3>
+          <p>${partner.text[lang]}</p>
+          ${partner.address ? `<p class="partner-address"><code>${partner.address}</code><button class="partner-copy" type="button" data-copy="${partner.address}">${tr('Copy IP', 'Copier l\'IP')}</button></p>` : ''}
+        </div>
+        <a class="pill" href="${partner.invite}" target="_blank" rel="noopener">${tr('Join the Discord', 'Rejoindre le Discord')}</a>
+      </article>`).join('')
+      || `<p class="sub">${tr('The first partner servers will appear here soon.', 'Les premiers serveurs partenaires arriveront ici bientôt.')}</p>`;
+    document.dispatchEvent(new Event('pagecontent'));
+  });
+  partnerBox.addEventListener('click', async event => {
+    const button = event.target.closest('.partner-copy');
+    if (!button) return;
+    const label = button.textContent;
+    try {
+      await navigator.clipboard.writeText(button.dataset.copy);
+      button.textContent = tr('Copied', 'Copié');
+    } catch {
+      getSelection().selectAllChildren(button.previousElementSibling);
+      button.textContent = tr('Press Ctrl+C', 'Fais Ctrl+C');
+    }
+    setTimeout(() => { button.textContent = label; }, 1800);
+  });
+}
 
 const supportBox = $('#supportLinks');
 if (supportBox) onLang(() => {
