@@ -36,6 +36,17 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.11.0',
+    date: { en: 'November 7, 2026', fr: '7 novembre 2026' },
+    title: { en: 'See more', fr: 'Voir plus loin' },
+    changes: [
+      { type: 'added', en: 'X-ray, under Player: see ores through the ground, or treasures like chests and spawners too.', fr: 'X-ray, dans Joueur : vois les minerais à travers le sol, ou aussi les trésors comme les coffres et les générateurs.' },
+      { type: 'added', en: 'Aimbot, under Player: aims by itself at monsters, animals or any creature in front of you. Players are never targeted.', fr: 'Aimbot, dans Joueur : vise tout seul les monstres, les animaux ou toute créature devant toi. Les joueurs ne sont jamais visés.' },
+      { type: 'added', en: 'Minimap: a map of the area, north up, in three sizes. Turn it on in the settings.', fr: 'Mini-carte : une carte des alentours, le nord en haut, en trois tailles. Active-la dans les réglages.' },
+      { type: 'changed', en: 'Like the rest of the trainer, all three only work in singleplayer and switch off on a server.', fr: 'Comme le reste du trainer, les trois ne marchent qu’en solo et se coupent sur un serveur.' },
+    ],
+  },
+  {
     version: '2.10.0',
     date: { en: 'November 7, 2026', fr: '7 novembre 2026' },
     title: { en: 'The creative update', fr: 'La mise à jour créative' },
