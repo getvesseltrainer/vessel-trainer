@@ -36,6 +36,16 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.11.1',
+    date: { en: 'November 7, 2026', fr: '7 novembre 2026' },
+    title: { en: 'Your menu, your ore', fr: 'Ton menu, ton minerai' },
+    changes: [
+      { type: 'added', en: 'X-ray: pick one ore to show, like diamond or ancient debris, or keep them all.', fr: 'X-ray : choisis un seul minerai à montrer, comme le diamant ou les débris antiques, ou garde-les tous.' },
+      { type: 'added', en: 'Move the menu: with the menu open, press Alt once and drag it anywhere with the mouse. The spot is saved, and Settings can put it back.', fr: "Déplace le menu : menu ouvert, appuie une fois sur Alt et glisse-le où tu veux avec la souris. L'endroit est enregistré, et les Réglages peuvent le remettre en place." },
+      { type: 'fixed', en: 'Admin tab: removing monsters or dropped items no longer misses some of them.', fr: "Onglet Admin : retirer les monstres ou les objets au sol n'en oublie plus." },
+    ],
+  },
+  {
     version: '2.11.0',
     date: { en: 'November 7, 2026', fr: '7 novembre 2026' },
     title: { en: 'See more', fr: 'Voir plus loin' },
