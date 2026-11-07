@@ -28,10 +28,26 @@ const PARTNERS = [
   },
 ];
 
+/* The form where players send banners. Empty it to hide the Share button. */
+const BANNER_SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/new?template=banner.yml';
+
 /* The form where players send structures. Empty it to hide the Share button. */
 const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/new?template=structure.yml';
 
 const CHANGELOG = [
+  {
+    version: '2.10.0',
+    date: { en: 'November 7, 2026', fr: '7 novembre 2026' },
+    title: { en: 'The creative update', fr: 'La mise à jour créative' },
+    changes: [
+      { type: 'added', en: 'Build brush: paint, replace, raise, dig and smooth blocks from a distance. A whole stroke undoes in one go.', fr: "Pinceau de construction : peins, remplace, élève, creuse et lisse les blocs à distance. Un trait entier s'annule d'un seul coup." },
+      { type: 'added', en: '.schem import: open WorldEdit files in the Structure Manager, with their chests and from older game versions too.', fr: 'Import .schem : ouvre les fichiers WorldEdit dans le Gestionnaire de structures, avec leurs coffres, même depuis de vieilles versions du jeu.' },
+      { type: 'added', en: 'Banner library: browse and share banners on the website, and download them straight from the game.', fr: 'Bibliothèque de bannières : parcours et partage des bannières sur le site, et télécharge-les directement depuis le jeu.' },
+      { type: 'added', en: 'Creature creator: pick a creature, its size, health and gear before it appears.', fr: "Créateur de créatures : choisis une créature, sa taille, sa vie et son équipement avant qu'elle apparaisse." },
+      { type: 'added', en: 'Power wheel: hold G, point at a power and let go.', fr: 'Roue des pouvoirs : maintiens G, pointe un pouvoir et relâche.' },
+      { type: 'added', en: 'Controller support: use the menu with a gamepad.', fr: 'Prise en charge des manettes : utilise le menu avec une manette.' },
+    ],
+  },
   {
     version: '2.9.0',
     date: { en: 'November 6, 2026', fr: '6 novembre 2026' },
@@ -218,12 +234,6 @@ const CHANGELOG = [
 const ROADMAP = {
   next: [
     { en: 'Older Minecraft versions', fr: 'Anciennes versions de Minecraft', note: { en: 'Versions for players who stay on an older game.', fr: 'Des versions pour ceux qui restent sur un ancien jeu.' } },
-    { en: 'Build brush', fr: 'Pinceau de construction', note: { en: 'Paint, replace and sculpt blocks from a distance.', fr: 'Peins, remplace et sculpte des blocs à distance.' } },
-    { en: '.schem import', fr: 'Import .schem', note: { en: 'Open WorldEdit files in the Structure Manager.', fr: 'Ouvre les fichiers WorldEdit dans le gestionnaire de structures.' } },
-    { en: 'Banner library', fr: 'Bibliothèque de bannières', note: { en: 'Share your banners with other players.', fr: 'Partage tes bannières avec les autres joueurs.' } },
-    { en: 'Creature creator', fr: 'Créateur de créatures', note: { en: 'Pick a size, health and gear before spawning.', fr: 'Choisis la taille, la vie et l\'équipement avant de faire apparaître.' } },
-    { en: 'Power wheel', fr: 'Roue des pouvoirs', note: { en: 'Switch powers with a radial menu.', fr: 'Change de pouvoir avec un menu circulaire.' } },
-    { en: 'Controller support', fr: 'Compatibilité manette', note: { en: 'Use the menu with a gamepad.', fr: 'Utiliser le menu avec une manette.' } },
   ],
   planned: [
     { en: 'Minecraft 26.4 support', fr: 'Compatibilité Minecraft 26.4', note: { en: 'Once the version is released.', fr: 'Dès la sortie de cette version.' } },

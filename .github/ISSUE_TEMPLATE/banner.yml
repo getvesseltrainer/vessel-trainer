@@ -1,0 +1,38 @@
+name: Share a banner
+description: Send a banner to the Vessel Trainer library.
+title: "Banner: "
+labels: ["banner"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing! Your banner appears in the library once it has been reviewed.
+        This form and your image are public as soon as you send them.
+  - type: input
+    id: name
+    attributes:
+      label: Banner name
+      placeholder: My banner
+    validations:
+      required: true
+  - type: input
+    id: author
+    attributes:
+      label: Your name
+      description: Shown in the library. Leave empty to use your GitHub name.
+  - type: textarea
+    id: file
+    attributes:
+      label: Banner image
+      description: Drag one PNG (up to 1280 pixels wide) or GIF (up to 600 pixels wide) here, 6 MB at most, and wait for its link to appear.
+    validations:
+      required: true
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Rules
+      options:
+        - label: I made this banner myself, or I have permission to share it.
+          required: true
+        - label: It contains nothing hateful, sexual, violent or meant to mislead.
+          required: true

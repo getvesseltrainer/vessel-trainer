@@ -14,6 +14,11 @@ from pathlib import Path
 MAX_FILE_BYTES = 32 * 1024 * 1024
 MAX_UNPACKED_BYTES = 256 * 1024 * 1024
 MAX_VOLUME = 500_000
+MAX_BANNER_BYTES = 6 * 1024 * 1024
+MAX_PNG_WIDTH = 1280
+MAX_GIF_WIDTH = 600
+MAX_BANNER_HEIGHT = 720
+IMAGE_LINK = re.compile(r'https://github\.com/user-attachments/assets/[0-9a-f-]{36}')
 FILE_LINK = re.compile(r'https://github\.com/user-attachments/files/\d+/[A-Za-z0-9._-]+')
 COMMAND_BLOCKS = {'minecraft:command_block', 'minecraft:chain_command_block', 'minecraft:repeating_command_block'}
 
@@ -184,24 +189,76 @@ def add(issue, library):
     return entry_id
 
 
+def check_banner(data):
+    """Reads the real format from the file's own header. Returns its extension."""
+    if len(data) > MAX_BANNER_BYTES:
+        raise Refused('The image is larger than 6 MB.')
+    if data[:8] == b'\x89PNG\r\n\x1a\n' and data[12:16] == b'IHDR':
+        kind, limit = 'png', MAX_PNG_WIDTH
+        width, height = struct.unpack('>II', data[16:24])
+    elif data[:6] in (b'GIF87a', b'GIF89a'):
+        kind, limit = 'gif', MAX_GIF_WIDTH
+        width, height = struct.unpack('<HH', data[6:10])
+    else:
+        raise Refused('The file is not a PNG or a GIF.')
+    if not 0 < width <= limit or not 0 < height <= MAX_BANNER_HEIGHT:
+        raise Refused(f'A {kind.upper()} banner can be at most {limit} pixels wide and {MAX_BANNER_HEIGHT} pixels tall.')
+    return kind
+
+
+def add_banner(issue, library):
+    body = issue.get('body') or ''
+    name = plain(field(body, 'Banner name'), 40)
+    if not name:
+        raise Refused('The banner has no name.')
+    links = sorted(set(IMAGE_LINK.findall(field(body, 'Banner image'))))
+    if len(links) != 1:
+        raise Refused('Attach exactly one image to the form.')
+    request = urllib.request.Request(links[0], headers={'User-Agent': 'vessel-trainer-library'})
+    try:
+        with urllib.request.urlopen(request, timeout=60) as response:
+            data = response.read(MAX_BANNER_BYTES + 1)
+    except OSError as error:
+        raise Refused('The image could not be downloaded.') from error
+    kind = check_banner(data)
+
+    folder = library / 'banners'
+    entry_id = slug(name, issue['number'])
+    (folder / f'{entry_id}.{kind}').write_bytes(data)
+    index_path = folder / 'index.json'
+    index = [entry for entry in json.loads(index_path.read_text(encoding='utf-8')) if entry['id'] != entry_id]
+    index.append({
+        'id': entry_id,
+        'format': kind,
+        'name': {'en': name, 'fr': name},
+        'author': plain(field(body, 'Your name'), 40) or issue['user']['login'],
+        'sha256': hashlib.sha256(data).hexdigest(),
+        'community': True,
+    })
+    index_path.write_text(json.dumps(index, ensure_ascii=False, indent=1), encoding='utf-8')
+    return entry_id
+
+
 def main():
     event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text(encoding='utf-8'))
     issue = event['issue']
     number = str(issue['number'])
     repository = os.environ['GITHUB_REPOSITORY']
+    is_banner = any(label['name'] == 'banner' for label in issue.get('labels', []))
+    kind = 'banner' if is_banner else 'structure'
     try:
-        entry_id = add(issue, Path('library'))
+        entry_id = (add_banner if is_banner else add)(issue, Path('library'))
     except Refused as reason:
-        run('gh', 'issue', 'comment', number, '--body', f'This structure could not be added: {reason}')
+        run('gh', 'issue', 'comment', number, '--body', f'This {kind} could not be added: {reason}')
         sys.exit(1)
 
     run('git', 'config', 'user.name', 'github-actions[bot]')
     run('git', 'config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com')
     run('git', 'add', 'library')
-    run('git', 'commit', '-m', f'Add structure {entry_id}')
+    run('git', 'commit', '-m', f'Add {kind} {entry_id}')
     run('git', 'push')
     run('gh', 'api', '-X', 'POST', f'repos/{repository}/pages/builds')
-    run('gh', 'issue', 'close', number, '--comment', 'Thank you! Your structure is now in the library.')
+    run('gh', 'issue', 'close', number, '--comment', f'Thank you! Your {kind} is now in the library.')
 
 
 if __name__ == '__main__':

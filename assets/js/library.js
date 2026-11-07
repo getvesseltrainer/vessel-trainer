@@ -352,6 +352,31 @@ onLang(() => {
   renderLibrary();
 });
 store.all().then(entries => { mine = entries; renderLibrary(); });
+/* Banners. Names come from players, so everything from the catalog is escaped. */
+let banners = [];
+const bannerBox = $('#bannerList');
+const renderBanners = () => {
+  bannerBox.innerHTML = banners.map(item => {
+    const file = `library/banners/${escapeHtml(item.id)}.${escapeHtml(item.format)}`;
+    return `<article class="lib-card">
+      <img class="banner-image" loading="lazy" src="${file}" alt="${escapeHtml(item.name[lang])}">
+      <div class="lib-body">
+        ${item.community ? `<span class="lib-badge">${tr('Community', 'Communauté')}</span>` : ''}
+        <h2>${escapeHtml(item.name[lang])}</h2>
+        <p class="lib-author">${tr('By', 'Par')} ${escapeHtml(item.author)}</p>
+        <a class="pill" href="${file}" download>${tr('Download', 'Télécharger')}</a>
+      </div>
+    </article>`;
+  }).join('');
+};
+$('#bannerShare').href = BANNER_SUBMIT_URL;
+$('#bannerShare').hidden = !BANNER_SUBMIT_URL;
+onLang(renderBanners);
+fetch('library/banners/index.json', { cache: 'no-cache' })
+  .then(response => (response.ok ? response.json() : Promise.reject(new Error('No catalog'))))
+  .then(entries => { banners = entries; renderBanners(); })
+  .catch(() => {});
+
 /* The catalog changes without a site update. Pages opened from a local file keep the built-in copy. */
 fetch('library/index.json', { cache: 'no-cache' })
   .then(response => (response.ok ? response.json() : Promise.reject(new Error('No catalog'))))

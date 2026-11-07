@@ -1,0 +1,22 @@
+[
+ {
+  "id": "vess",
+  "format": "png",
+  "name": {
+   "en": "Vess",
+   "fr": "Vess"
+  },
+  "author": "Vessel Trainer",
+  "sha256": "e2cbf7f9cd0fdebb2efc4c439c9da4b7565759ec45a9fc5e56b8dadb498d95b3"
+ },
+ {
+  "id": "vess-animated",
+  "format": "gif",
+  "name": {
+   "en": "Animated Vess",
+   "fr": "Vess animé"
+  },
+  "author": "Vessel Trainer",
+  "sha256": "d399f555d5d35dcc3ff93098e90d9141b9ee08c41b9ae6451020c5693a235a78"
+ }
+]
