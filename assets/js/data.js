@@ -36,13 +36,13 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
-    version: '2.12.0',
+    version: '2.11.1 Paper 26.3',
     date: { en: 'November 7, 2026', fr: '7 novembre 2026' },
     title: { en: 'Paper servers', fr: 'Serveurs Paper' },
     changes: [
-      { type: 'added', en: 'The Admin tab now works on Paper 26.3 servers too, with the new Vessel Trainer plugin in the server\'s plugins folder.', fr: "L'onglet Admin marche maintenant aussi sur les serveurs Paper 26.3, avec le nouveau plugin Vessel Trainer dans le dossier plugins du serveur." },
+      { type: 'added', en: "The Admin tab now works on Paper 26.3 servers too, with the Vessel Trainer plugin in the server's plugins folder.", fr: "L'onglet Admin marche maintenant aussi sur les serveurs Paper 26.3, avec le plugin Vessel Trainer dans le dossier plugins du serveur." },
       { type: 'added', en: 'On Paper, every op is an admin. The vesseltrainer.admin and vesseltrainer.owner permissions can narrow that down.', fr: 'Sur Paper, chaque op est admin. Les permissions vesseltrainer.admin et vesseltrainer.owner permettent de restreindre.' },
-      { type: 'changed', en: 'A server that cannot run the events yet, like Paper for now, hides them from the tab.', fr: "Un serveur qui ne peut pas encore lancer les événements, comme Paper pour l'instant, les cache de l'onglet." },
+      { type: 'changed', en: 'Events are not on Paper yet, so the tab hides them there.', fr: "Les événements ne sont pas encore sur Paper, donc l'onglet les y cache." },
     ],
   },
   {
