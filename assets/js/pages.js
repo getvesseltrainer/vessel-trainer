@@ -85,7 +85,7 @@ if (reference) {
 /* Versions: real files come from the build, the rest from PLANNED_BUILDS. */
 const buildsBox = $('#builds');
 if (buildsBox) {
-  const LOADERS = { fabric: 'Fabric', neoforge: 'NeoForge', forge: 'Forge' };
+  const LOADERS = { fabric: 'Fabric', neoforge: 'NeoForge', forge: 'Forge', paper: 'Paper' };
   const builds = [
     ...RELEASES.map((release, index) => ({ ...release, available: true, latest: RELEASES.findIndex(other => other.loader === release.loader && other.mc === release.mc) === index })),
     ...PLANNED_BUILDS.map(build => ({ ...build, available: false })),

@@ -36,6 +36,16 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.12.0',
+    date: { en: 'November 7, 2026', fr: '7 novembre 2026' },
+    title: { en: 'Paper servers', fr: 'Serveurs Paper' },
+    changes: [
+      { type: 'added', en: 'The Admin tab now works on Paper 26.3 servers too, with the new Vessel Trainer plugin in the server\'s plugins folder.', fr: "L'onglet Admin marche maintenant aussi sur les serveurs Paper 26.3, avec le nouveau plugin Vessel Trainer dans le dossier plugins du serveur." },
+      { type: 'added', en: 'On Paper, every op is an admin. The vesseltrainer.admin and vesseltrainer.owner permissions can narrow that down.', fr: 'Sur Paper, chaque op est admin. Les permissions vesseltrainer.admin et vesseltrainer.owner permettent de restreindre.' },
+      { type: 'changed', en: 'A server that cannot run the events yet, like Paper for now, hides them from the tab.', fr: "Un serveur qui ne peut pas encore lancer les événements, comme Paper pour l'instant, les cache de l'onglet." },
+    ],
+  },
+  {
     version: '2.11.1',
     date: { en: 'November 7, 2026', fr: '7 novembre 2026' },
     title: { en: 'Your menu, your ore', fr: 'Ton menu, ton minerai' },
@@ -278,6 +288,10 @@ const ROADMAP = {
 */
 /* Shown under a build on the Versions page, by loader and game version. */
 const BUILD_NOTES = {
+  'paper-26.3': {
+    en: 'A server plugin, not the trainer: it turns on the Admin tab on a Paper 26.3 server. Put it in the server\'s plugins folder; admins use the Fabric 26.3 trainer. Events are not in it yet.',
+    fr: "Un plugin pour le serveur, pas le trainer : il active l'onglet Admin sur un serveur Paper 26.3. Mets-le dans le dossier plugins du serveur ; les admins utilisent le trainer Fabric 26.3. Les événements n'y sont pas encore.",
+  },
   'forge-1.20.1': {
     en: 'Needs Forge 47 for Minecraft 1.20.1. No Fabric API needed. Not in this build: player size, creature size, time speed, time stop and the Admin tab.',
     fr: 'Demande Forge 47 pour Minecraft 1.20.1, sans Fabric API. Absents de cette version : taille du joueur, taille des créatures, vitesse du temps, arrêt du temps et onglet Admin.',
