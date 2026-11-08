@@ -63,7 +63,7 @@ def publish_structure(entry, data):
 
 
 def publish_banner(entry, data):
-	kind = approve.check_banner(data)
+	kind, data = approve.prepare_banner(data)
 	folder = LIBRARY / 'banners'
 	entry_id = approve.slug(entry['name'], f"w{entry['id']}")
 	(folder / f'{entry_id}.{kind}').write_bytes(data)

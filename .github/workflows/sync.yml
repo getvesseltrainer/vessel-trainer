@@ -20,6 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # A Python of its own, so the script can add the image library when a banner needs shrinking.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - name: Publish
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -30,4 +34,4 @@ jobs:
             echo "Supabase is not set up yet"
             exit 0
           fi
-          python3 .github/scripts/sync.py
+          python .github/scripts/sync.py

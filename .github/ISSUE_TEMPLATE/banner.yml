@@ -24,7 +24,7 @@ body:
     id: file
     attributes:
       label: Banner image
-      description: Drag one PNG (up to 1280 pixels wide) or GIF (up to 600 pixels wide) here, 6 MB at most, and wait for its link to appear.
+      description: Drag one PNG (up to 4096 pixels wide) or GIF (up to 600 pixels wide) here, 10 MB at most, and wait for its link to appear.
     validations:
       required: true
   - type: checkboxes

@@ -14,10 +14,15 @@ from pathlib import Path
 MAX_FILE_BYTES = 32 * 1024 * 1024
 MAX_UNPACKED_BYTES = 256 * 1024 * 1024
 MAX_VOLUME = 500_000
-MAX_BANNER_BYTES = 6 * 1024 * 1024
-MAX_PNG_WIDTH = 1280
+# What players may send, and what the published file may weigh: the game downloads at most 6 MB.
+MAX_BANNER_BYTES = 10 * 1024 * 1024
+MAX_PUBLISHED_BYTES = 6 * 1024 * 1024
+MAX_PNG_WIDTH = 4096
+MAX_PNG_HEIGHT = 2048
 MAX_GIF_WIDTH = 600
-MAX_BANNER_HEIGHT = 720
+MAX_GIF_HEIGHT = 720
+# The game shows banners at most this wide, so a bigger PNG is shrunk before it is published.
+GAME_WIDTH = 1280
 IMAGE_LINK = re.compile(r'https://github\.com/user-attachments/assets/[0-9a-f-]{36}')
 FILE_LINK = re.compile(r'https://github\.com/user-attachments/files/\d+/[A-Za-z0-9._-]+')
 COMMAND_BLOCKS = {'minecraft:command_block', 'minecraft:chain_command_block', 'minecraft:repeating_command_block'}
@@ -192,18 +197,48 @@ def add(issue, library):
 def check_banner(data):
     """Reads the real format from the file's own header. Returns its extension."""
     if len(data) > MAX_BANNER_BYTES:
-        raise Refused('The image is larger than 6 MB.')
+        raise Refused('The image is larger than 10 MB.')
     if data[:8] == b'\x89PNG\r\n\x1a\n' and data[12:16] == b'IHDR':
-        kind, limit = 'png', MAX_PNG_WIDTH
+        kind, limit, tallest = 'png', MAX_PNG_WIDTH, MAX_PNG_HEIGHT
         width, height = struct.unpack('>II', data[16:24])
     elif data[:6] in (b'GIF87a', b'GIF89a'):
-        kind, limit = 'gif', MAX_GIF_WIDTH
+        kind, limit, tallest = 'gif', MAX_GIF_WIDTH, MAX_GIF_HEIGHT
         width, height = struct.unpack('<HH', data[6:10])
     else:
         raise Refused('The file is not a PNG or a GIF.')
-    if not 0 < width <= limit or not 0 < height <= MAX_BANNER_HEIGHT:
-        raise Refused(f'A {kind.upper()} banner can be at most {limit} pixels wide and {MAX_BANNER_HEIGHT} pixels tall.')
+    if not 0 < width <= limit or not 0 < height <= tallest:
+        raise Refused(f'A {kind.upper()} banner can be at most {limit} pixels wide and {tallest} pixels tall.')
     return kind
+
+
+def pillow():
+    """The image library is only needed when a big PNG has to be shrunk."""
+    try:
+        from PIL import Image
+    except ImportError:
+        subprocess.run([sys.executable, '-m', 'pip', 'install', '--quiet', 'pillow'], check=True)
+        from PIL import Image
+    return Image
+
+
+def prepare_banner(data):
+    """Checks a banner and returns its format and the file to publish, shrunk to the game's width if needed."""
+    kind = check_banner(data)
+    if kind == 'png' and struct.unpack('>I', data[16:20])[0] > GAME_WIDTH:
+        Image = pillow()
+        try:
+            with Image.open(io.BytesIO(data)) as image:
+                image.load()
+                height = max(1, round(image.height * GAME_WIDTH / image.width))
+                small = image.convert('RGBA').resize((GAME_WIDTH, height), Image.LANCZOS)
+        except (OSError, ValueError) as error:
+            raise Refused('The image is damaged.') from error
+        out = io.BytesIO()
+        small.save(out, 'PNG', optimize=True)
+        data = out.getvalue()
+    if len(data) > MAX_PUBLISHED_BYTES:
+        raise Refused('The image is still larger than 6 MB.')
+    return kind, data
 
 
 def add_banner(issue, library):
@@ -220,7 +255,7 @@ def add_banner(issue, library):
             data = response.read(MAX_BANNER_BYTES + 1)
     except OSError as error:
         raise Refused('The image could not be downloaded.') from error
-    kind = check_banner(data)
+    kind, data = prepare_banner(data)
 
     folder = library / 'banners'
     entry_id = slug(name, issue['number'])

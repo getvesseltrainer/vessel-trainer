@@ -4,10 +4,9 @@
 */
 const VesselAccount = (() => {
   const MAX_WAITING = 5;
-  const MAX_BANNER_BYTES = 6 * 1024 * 1024;
+  const MAX_BANNER_BYTES = 10 * 1024 * 1024;
   const MAX_STRUCTURE_BYTES = 32 * 1024 * 1024;
-  const BANNER_LIMITS = { 'image/png': 1280, 'image/gif': 600 };
-  const MAX_BANNER_HEIGHT = 720;
+  const BANNER_LIMITS = { 'image/png': [4096, 2048], 'image/gif': [600, 720] };
   const enabled = Boolean(window.supabase && SUPABASE.url && SUPABASE.anonKey);
   const client = enabled ? supabase.createClient(SUPABASE.url, SUPABASE.anonKey) : null;
   let user = null;
@@ -73,13 +72,14 @@ const VesselAccount = (() => {
   const checkBanner = file => new Promise((resolve, reject) => {
     const limit = BANNER_LIMITS[file.type];
     if (!limit) return reject(new Error(tr('Pick a PNG or a GIF.', 'Choisis un PNG ou un GIF.')));
-    if (file.size > MAX_BANNER_BYTES) return reject(new Error(tr('The image is larger than 6 MB.', 'L\'image dépasse 6 Mo.')));
+    if (file.size > MAX_BANNER_BYTES) return reject(new Error(tr('The image is larger than 10 MB.', 'L\'image dépasse 10 Mo.')));
     const url = URL.createObjectURL(file);
     const image = new Image();
     image.onload = () => {
       URL.revokeObjectURL(url);
-      if (image.naturalWidth > limit || image.naturalHeight > MAX_BANNER_HEIGHT) {
-        reject(new Error(tr(`At most ${limit} × ${MAX_BANNER_HEIGHT} pixels for this format.`, `Au maximum ${limit} × ${MAX_BANNER_HEIGHT} pixels pour ce format.`)));
+      const [widest, tallest] = limit;
+      if (image.naturalWidth > widest || image.naturalHeight > tallest) {
+        reject(new Error(tr(`At most ${widest} × ${tallest} pixels for this format.`, `Au maximum ${widest} × ${tallest} pixels pour ce format.`)));
       } else {
         resolve({ width: image.naturalWidth, height: image.naturalHeight });
       }
@@ -139,7 +139,7 @@ const VesselAccount = (() => {
     // Once accounts are on, nothing goes through GitHub any more.
     $('#bannerShare').hidden = true;
     $('#bannerSignIn').hidden = Boolean(user);
-    $('#bannerNote').textContent = tr('Sharing needs you to sign in with Discord. Your banner becomes public once an admin approves it. PNG up to 1280 pixels wide or GIF up to 600 pixels, 6 MB at most.', "Partager demande de te connecter avec Discord. Ta bannière devient publique une fois validée par un admin. PNG jusqu'à 1280 pixels de large ou GIF jusqu'à 600 pixels, 6 Mo maximum.");
+    $('#bannerNote').textContent = tr('Sharing needs you to sign in with Discord. Your banner becomes public once an admin approves it. PNG up to 4096 pixels wide, shrunk to 1280 for the game, or GIF up to 600 pixels. 10 MB at most.', "Partager demande de te connecter avec Discord. Ta bannière devient publique une fois validée par un admin. PNG jusqu'à 4096 pixels de large, réduit à 1280 pour le jeu, ou GIF jusqu'à 600 pixels. 10 Mo maximum.");
     if (user && !$('#bannerAuthor').value) $('#bannerAuthor').value = displayName();
   };
   if (bannerForm) {
