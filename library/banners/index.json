@@ -18,5 +18,16 @@
   },
   "author": "Vessel Trainer",
   "sha256": "b8d62175cc2148c1fa4836454a35368ea3a36e07a9fb634f48609e6d06d776f6"
+ },
+ {
+  "id": "hd-w1",
+  "format": "png",
+  "name": {
+   "en": "HD",
+   "fr": "HD"
+  },
+  "author": "JordlOS21",
+  "sha256": "71b0e2e94856baa200cc71b6e81d0c7023220c374ef9d06ea196a2675bb6e5c1",
+  "community": true
  }
 ]
