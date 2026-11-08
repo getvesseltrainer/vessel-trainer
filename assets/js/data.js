@@ -43,6 +43,15 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.11.3',
+    date: { en: 'November 8, 2026', fr: '8 novembre 2026' },
+    title: { en: 'A centered title', fr: 'Un titre centré' },
+    changes: [
+      { type: 'fixed', en: 'The title of the example banners is now centered on the whole banner, on the still one and the GIF.', fr: "Le titre des bannières d'exemple est maintenant centré sur toute la bannière, sur l'image comme sur le GIF." },
+      { type: 'changed', en: 'Example banners from 2.11.2 are updated by themselves too, unless you changed them.', fr: "Les bannières d'exemple de la 2.11.2 se mettent aussi à jour toutes seules, sauf si tu les as modifiées." },
+    ],
+  },
+  {
     version: '2.11.2',
     date: { en: 'November 8, 2026', fr: '8 novembre 2026' },
     title: { en: 'A straighter banner', fr: 'Une bannière bien droite' },
