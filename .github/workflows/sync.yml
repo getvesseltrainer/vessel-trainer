@@ -4,7 +4,7 @@ name: Publish approved files
 # SUPABASE_URL and SUPABASE_SERVICE_KEY secrets are set in the repository settings.
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 permissions:

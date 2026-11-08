@@ -43,6 +43,15 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.11.2',
+    date: { en: 'November 8, 2026', fr: '8 novembre 2026' },
+    title: { en: 'A straighter banner', fr: 'Une bannière bien droite' },
+    changes: [
+      { type: 'fixed', en: 'The menu banner: the title is smaller and centered, and no longer crowds the version number.', fr: 'La bannière du menu : le titre est plus petit et centré, et ne serre plus le numéro de version.' },
+      { type: 'changed', en: 'The example banners in your banners folder are updated by themselves, unless you changed them.', fr: "Les bannières d'exemple de ton dossier se mettent à jour toutes seules, sauf si tu les as modifiées." },
+    ],
+  },
+  {
     version: '2.11.1 Paper 26.3',
     date: { en: 'November 7, 2026', fr: '7 novembre 2026' },
     title: { en: 'Paper servers', fr: 'Serveurs Paper' },
@@ -272,10 +281,6 @@ const CHANGELOG = [
 const ROADMAP = {
   next: [
     { en: 'Older Minecraft versions', fr: 'Anciennes versions de Minecraft', note: { en: 'Versions for players who stay on an older game.', fr: 'Des versions pour ceux qui restent sur un ancien jeu.' } },
-  ],
-  planned: [
-    { en: 'Minecraft 26.4 support', fr: 'Compatibilité Minecraft 26.4', note: { en: 'Once the version is released.', fr: 'Dès la sortie de cette version.' } },
-    { en: 'Forge and NeoForge versions', fr: 'Versions Forge et NeoForge', note: { en: 'The trainer on the other mod loaders.', fr: 'Le trainer sur les autres chargeurs de mods.' } },
     { en: 'Charged powers', fr: 'Pouvoirs chargés', note: { en: 'Hold the R key to make any power stronger.', fr: "Maintiens la touche R pour rendre n'importe quel pouvoir plus fort." } },
     { en: 'Powers: attack', fr: 'Pouvoirs : attaque', note: { en: 'Pocket tornado, sword rain, wind blade, lava geyser, giant fist and arrow volley.', fr: "Tornade de poche, pluie d'épées, lame du vent, geyser de lave, poing géant et salve de flèches." } },
     { en: 'Powers: control', fr: 'Pouvoirs : contrôle', note: { en: 'Local time freeze, glass prison, creature magnet, mind control and repulsion.', fr: 'Gel du temps ciblé, prison de verre, aimant à créatures, contrôle mental et répulsion.' } },
@@ -283,6 +288,10 @@ const ROADMAP = {
     { en: 'Powers: defense', fr: 'Pouvoirs : défense', note: { en: 'Clones, area healing and smoke form.', fr: 'Clones, soin de zone et forme de fumée.' } },
     { en: 'Powers: building', fr: 'Pouvoirs : construction', note: { en: 'Instant wall, light bridge, drill and growth ray.', fr: 'Mur instantané, pont de lumière, foreuse et rayon de croissance.' } },
     { en: 'Powers: ultimates', fr: 'Pouvoirs : ultimes', note: { en: 'Targeted meteor shower, supernova and fire dragon.', fr: 'Pluie de météores ciblée, supernova et dragon de feu.' } },
+  ],
+  planned: [
+    { en: 'Minecraft 26.4 support', fr: 'Compatibilité Minecraft 26.4', note: { en: 'Once the version is released.', fr: 'Dès la sortie de cette version.' } },
+    { en: 'Forge and NeoForge versions', fr: 'Versions Forge et NeoForge', note: { en: 'The trainer on the other mod loaders.', fr: 'Le trainer sur les autres chargeurs de mods.' } },
   ],
   ideas: [
     { en: 'Vessel Launcher', fr: 'Vessel Launcher', note: { en: 'A launcher made for the trainer: one click and you play. You sign in with your own Microsoft account, so it only works if you own Minecraft.', fr: 'Un launcher fait pour le trainer : un clic et tu joues. Tu te connectes avec ton propre compte Microsoft, donc il faut posséder Minecraft.' } },

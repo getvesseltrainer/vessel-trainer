@@ -29,6 +29,12 @@ const VesselAccount = (() => {
       const { data: rows } = await client.from('admins').select('user_id').eq('user_id', user.id);
       admin = Boolean(rows && rows.length);
     }
+    // Only decides whether the Admin link shows: the admin page itself asks the database every time.
+    try {
+      if (admin) localStorage.setItem('vt-admin', '1'); else localStorage.removeItem('vt-admin');
+    } catch {
+      /* Storage can be off; the link then simply does not show. */
+    }
     listeners.forEach(listener => listener());
   };
 

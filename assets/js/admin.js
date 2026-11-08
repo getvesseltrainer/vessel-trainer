@@ -47,7 +47,7 @@ const renderReview = async () => {
     </article>`;
   }));
   reviewBox.innerHTML = `<div class="chips review-filters">${filters}</div>
-    <p class="note">${tr('Approved files are checked again and published to the library within 15 minutes.', 'Les envois validés sont revérifiés puis publiés dans la bibliothèque sous 15 minutes.')}</p>
+    <p class="note">${tr('Approved files are checked again and published to the library within 5 minutes.', 'Les envois validés sont revérifiés puis publiés dans la bibliothèque sous 5 minutes.')}</p>
     <div class="lib-grid">${cards.join('') || `<p class="sub">${tr('Nothing here.', 'Rien ici.')}</p>`}</div>`;
   reviewBox.querySelectorAll('[data-status]').forEach(button => button.addEventListener('click', () => { reviewFilter = button.dataset.status; renderReview(); }));
   const review = async (id, status, reason) => {
@@ -65,4 +65,57 @@ const renderReview = async () => {
 if (reviewBox) {
   VesselAccount.onChange(renderReview);
   onLang(renderReview);
+}
+
+/* Counts of every status, and the published community entries with a way to take them out. */
+const statsBox = $('#adminStats');
+const publishedBox = $('#publishedList');
+
+const renderStats = async () => {
+  if (!statsBox || !VesselAccount.enabled || !VesselAccount.isAdmin()) {
+    if (statsBox) statsBox.innerHTML = '';
+    return;
+  }
+  const counts = await Promise.all(REVIEW_STATUSES.map(async status => {
+    const { count } = await VesselAccount.client.from('submissions').select('id', { count: 'exact', head: true }).eq('status', status);
+    return [status, count || 0];
+  }));
+  statsBox.innerHTML = counts.map(([status, count]) => `<div class="admin-stat"><b>${count}</b><span>${VesselAccount.statusLabel(status)}</span></div>`).join('');
+};
+
+const renderPublished = async () => {
+  if (!publishedBox) return;
+  if (!VesselAccount.enabled || !VesselAccount.isAdmin()) {
+    publishedBox.innerHTML = '';
+    return;
+  }
+  const { esc, client } = VesselAccount;
+  const read = url => fetch(url, { cache: 'no-cache' }).then(response => (response.ok ? response.json() : [])).catch(() => []);
+  const [structures, banners] = await Promise.all([read('library/index.json'), read('library/banners/index.json')]);
+  const { data: asked } = await client.from('removals').select('kind,entry_id,status').eq('status', 'pending');
+  const waiting = new Set((asked || []).map(item => `${item.kind}:${item.entry_id}`));
+  const rows = [
+    ...structures.filter(item => item.community).map(item => ({ kind: 'structure', item })),
+    ...banners.filter(item => item.community).map(item => ({ kind: 'banner', item })),
+  ];
+  publishedBox.innerHTML = rows.length ? rows.map(({ kind, item }) => {
+    const key = `${kind}:${item.id}`;
+    return `<div class="admin-row">
+      <span><b>${esc(item.name[lang] || item.name.en)}</b> · ${kind === 'banner' ? tr('banner', 'bannière') : tr('structure', 'structure')} · <small>${tr('by', 'par')} ${esc(item.author)}</small></span>
+      ${waiting.has(key)
+        ? `<small>${tr('Being removed…', 'Retrait en cours…')}</small>`
+        : `<button class="pill quiet" type="button" data-remove-kind="${kind}" data-remove-id="${esc(item.id)}">${tr('Remove', 'Retirer')}</button>`}
+    </div>`;
+  }).join('') : `<p class="sub">${tr('No community entries yet.', 'Aucune entrée de la communauté pour l\'instant.')}</p>`;
+  publishedBox.querySelectorAll('[data-remove-id]').forEach(button => button.addEventListener('click', async () => {
+    if (!confirm(tr('Take this out of the library?', 'Retirer ceci de la bibliothèque ?'))) return;
+    const { error } = await client.from('removals').insert({ kind: button.dataset.removeKind, entry_id: button.dataset.removeId });
+    if (error) alert(error.message);
+    renderPublished();
+  }));
+};
+
+if (statsBox) {
+  VesselAccount.onChange(() => { renderStats(); renderPublished(); });
+  onLang(() => { renderStats(); renderPublished(); });
 }

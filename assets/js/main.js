@@ -28,7 +28,7 @@ const demo = (() => {
     const rows = list.slice(first, first + visible).map((e, i) =>
       `<div class="vt-row${first + i === top.sel ? ' on' : ''}" data-i="${first + i}"><span>${label(e)}</span>${value(e)}</div>`).join('');
     vt.innerHTML = `
-      <div class="vt-head" style="--h1:${theme.h1};--h2:${theme.h2}">${theme.image ? `<img src="${theme.image}" alt="">` : '<b>VESSEL TRAINER</b>'}<i>v2.11.1</i></div>
+      <div class="vt-head" style="--h1:${theme.h1};--h2:${theme.h2}">${theme.image ? `<img src="${theme.image}" alt="">` : '<b>VESSEL TRAINER</b>'}<i>v2.11.2</i></div>
       <div class="vt-bar"><span>${L(top.menu.title)}</span><span>${top.sel + 1} / ${list.length}</span></div>
       ${rows}
       <div class="vt-bar" style="justify-content:center"><span style="color:#a8a8a8">${tr('Enter: OK  ·  Backspace: back', 'Entrée : OK  ·  Effacer : retour')}</span></div>

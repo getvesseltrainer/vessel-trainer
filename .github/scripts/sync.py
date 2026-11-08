@@ -6,6 +6,7 @@ import json
 import os
 import subprocess
 import sys
+import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -81,7 +82,33 @@ def publish_banner(entry, data):
 	return entry_id
 
 
+def remove(kind, entry_id):
+	"""Only community entries can be removed; the starter set comes with the site."""
+	folder = LIBRARY / 'banners' if kind == 'banner' else LIBRARY
+	index_path = folder / 'index.json'
+	index = json.loads(index_path.read_text(encoding='utf-8'))
+	entry = next((item for item in index if item['id'] == entry_id and item.get('community')), None)
+	if entry is None:
+		return False
+	name = f"{entry_id}.{entry['format']}" if kind == 'banner' else f'{entry_id}.nbt'
+	(folder / name).unlink(missing_ok=True)
+	index_path.write_text(json.dumps([item for item in index if item is not entry], ensure_ascii=False, indent=1), encoding='utf-8')
+	return True
+
+
 def main():
+	try:
+		removals = call('GET', '/rest/v1/removals?status=eq.pending&select=id,kind,entry_id&order=id')
+	except urllib.error.HTTPError as error:
+		# The removals table comes from removals.sql; until it is set up, publishing still works.
+		print(f'Removals are not available yet ({error.code})')
+		removals = []
+	removed = []
+	for request in removals:
+		done = remove(request['kind'], request['entry_id'])
+		call('PATCH', f"/rest/v1/removals?id=eq.{request['id']}", {'status': 'done' if done else 'failed'})
+		if done:
+			removed.append(request['entry_id'])
 	waiting = call('GET', '/rest/v1/submissions?status=eq.approved&select=id,kind,name,description,author,file_path&order=id')
 	published = []
 	for entry in waiting:
@@ -97,20 +124,25 @@ def main():
 			print(f"Could not fetch {entry['id']}: {error}")
 			continue
 		published.append((entry, entry_id))
-	if not published:
+	if not published and not removed:
 		print('Nothing to publish')
 		return
 	approve.run('git', 'config', 'user.name', 'github-actions[bot]')
 	approve.run('git', 'config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com')
 	approve.run('git', 'add', 'library')
-	approve.run('git', 'commit', '-m', 'Add ' + ', '.join(entry_id for _, entry_id in published))
+	parts = []
+	if published:
+		parts.append('Add ' + ', '.join(entry_id for _, entry_id in published))
+	if removed:
+		parts.append('Remove ' + ', '.join(removed))
+	approve.run('git', 'commit', '-m', '; '.join(parts))
 	approve.run('git', 'push')
 	for entry, _ in published:
 		mark(entry, 'published')
 	repository = os.environ.get('GITHUB_REPOSITORY')
 	if repository:
 		subprocess.run(['gh', 'api', '-X', 'POST', f'repos/{repository}/pages/builds'], check=False)
-	print('Published', len(published))
+	print('Published', len(published), 'removed', len(removed))
 
 
 if __name__ == '__main__':

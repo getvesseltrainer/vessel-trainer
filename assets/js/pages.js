@@ -11,6 +11,24 @@ const columnLabel = {
   ideas: () => [tr('Ideas', 'Idées'), tr('Being considered, nothing promised.', 'À l\'étude, rien de promis.')],
 };
 
+/* The Admin link only shows on the device where the site admin signed in. */
+(() => {
+  let admin = false;
+  try {
+    admin = localStorage.getItem('vt-admin') === '1';
+  } catch {
+    admin = false;
+  }
+  const links = document.querySelector('.nav-links');
+  if (admin && links && !links.querySelector('a[href="admin.html"]')) {
+    const link = document.createElement('a');
+    link.href = 'admin.html';
+    link.className = 'nav-admin';
+    link.textContent = 'Admin';
+    links.appendChild(link);
+  }
+})();
+
 const changelogBox = $('#changelog');
 if (changelogBox) onLang(() => {
   changelogBox.innerHTML = CHANGELOG.map((release, index) => `
