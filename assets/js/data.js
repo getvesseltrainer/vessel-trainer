@@ -28,6 +28,13 @@ const PARTNERS = [
   },
 ];
 
+/*
+  Accounts on the website. Paste the Project URL and the anon public key from Supabase, Project Settings, API.
+  Both are meant to be public: what each person can do is decided by the rules in site/supabase/schema.sql.
+  Never paste the service_role key here.
+*/
+const SUPABASE = { url: 'https://ifzrxjeypozpkhaoymoi.supabase.co', anonKey: 'sb_publishable_ZxDIf5OwVil4jrJfrhivQA_my8dzx_7' };
+
 /* The form where players send banners. Empty it to hide the Share button. */
 const BANNER_SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/new?template=banner.yml';
 

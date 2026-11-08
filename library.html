@@ -6,7 +6,7 @@
 <title>Vessel Trainer Library</title>
 <meta name="description" content="Structures to download and import in Vessel Trainer.">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/style.css?v=7b47639a88">
+<link rel="stylesheet" href="assets/css/style.css?v=9e47b6b561">
 </head>
 <body class="page">
 <div class="sky" aria-hidden="true"></div>
@@ -48,12 +48,21 @@
       <div class="lib-grid" id="bannerList"></div>
       <div class="lib-actions banner-share">
         <a class="pill" id="bannerShare" target="_blank" rel="noopener" data-fr="Partager une bannière">Share a banner</a>
+        <button class="pill" type="button" id="bannerSignIn" hidden data-fr="Se connecter avec Discord pour partager">Sign in with Discord to share</button>
       </div>
-      <p class="note" data-fr="Partager demande un compte GitHub gratuit. Ton image est publique dès l'envoi, et elle rejoint la bibliothèque après vérification. PNG jusqu'à 1280 pixels de large ou GIF jusqu'à 600 pixels, 6 Mo maximum.">Sharing needs a free GitHub account. Your image is public as soon as you send it, and it joins the library once it has been reviewed. PNG up to 1280 pixels wide or GIF up to 600 pixels, 6 MB at most.</p>
+      <form class="banner-form" id="bannerForm" hidden novalidate>
+        <label class="field" for="bannerFile"><span data-fr="Image (PNG ou GIF)">Image (PNG or GIF)</span><input id="bannerFile" type="file" accept="image/png,image/gif"></label>
+        <label class="field" for="bannerName"><span data-fr="Nom">Name</span><input id="bannerName" type="text" maxlength="40"></label>
+        <label class="field" for="bannerAuthor"><span data-fr="Ton pseudo">Your name</span><input id="bannerAuthor" type="text" maxlength="40"></label>
+        <button class="pill" type="submit" data-fr="Envoyer ma bannière">Send my banner</button>
+        <div class="report" id="bannerResult" aria-live="polite" hidden></div>
+      </form>
+      <p class="note" id="bannerNote" data-fr="Partager demande un compte GitHub gratuit. Ton image est publique dès l'envoi, et elle rejoint la bibliothèque après vérification. PNG jusqu'à 1280 pixels de large ou GIF jusqu'à 600 pixels, 6 Mo maximum.">Sharing needs a free GitHub account. Your image is public as soon as you send it, and it joins the library once it has been reviewed. PNG up to 1280 pixels wide or GIF up to 600 pixels, 6 MB at most.</p>
     </section>
 
     <section class="doc add-box" id="add">
       <h2 data-fr="Ajouter ta structure">Add your structure</h2>
+      <div class="account-box" id="accountBox" hidden></div>
       <p class="sub" data-fr="Choisis un fichier .nbt capturé avec le trainer. Il est analysé dans ton navigateur et rien n'est envoyé tant que tu ne le partages pas.">Choose a .nbt file captured with the trainer. It is checked in your browser and nothing is uploaded unless you share it.</p>
       <form id="addForm" novalidate>
         <label class="field" for="addFile"><span data-fr="Fichier .nbt">.nbt file</span><input id="addFile" type="file" accept=".nbt" required></label>
@@ -73,7 +82,7 @@
 <footer class="foot">
   <div class="wrap foot-in">
     <span data-fr="Vessel Trainer v2.11.1. Projet indépendant, non affilié à Mojang Studios ni à Microsoft.">Vessel Trainer v2.11.1. Independent project, not affiliated with Mojang Studios or Microsoft.</span>
-    <span class="foot-links"><a href="index.html" data-fr="Accueil">Home</a><a href="guide.html">Guide</a><a href="library.html" data-fr="Bibliothèque">Library</a><a href="changelog.html">Changelog</a><a href="versions.html">Versions</a><a href="roadmap.html">Roadmap</a><a href="partners.html" data-fr="Partenaires">Partners</a><a href="support.html" data-fr="Soutenir">Support</a></span>
+    <span class="foot-links"><a href="index.html" data-fr="Accueil">Home</a><a href="guide.html">Guide</a><a href="library.html" data-fr="Bibliothèque">Library</a><a href="changelog.html">Changelog</a><a href="versions.html">Versions</a><a href="roadmap.html">Roadmap</a><a href="partners.html" data-fr="Partenaires">Partners</a><a href="support.html" data-fr="Soutenir">Support</a><a href="privacy.html" data-fr="Confidentialité">Privacy</a></span>
   </div>
 </footer>
 <script src="assets/js/vendor/three.min.js?v=3b3a1c97de"></script>
@@ -81,9 +90,11 @@
 <script src="assets/js/vendor/lenis.min.js?v=b2958f142f"></script>
 <script src="assets/js/lang.js?v=d1ce296864"></script>
 <script src="assets/js/vess.js?v=04c6b9b6e1"></script>
-<script src="assets/js/data.js?v=cfc5144abd"></script>
+<script src="assets/js/data.js?v=b9fa814ead"></script>
 <script src="assets/js/library-meta.js?v=195f767918"></script>
-<script src="assets/js/library.js?v=132b3d2625"></script>
+<script src="assets/js/vendor/supabase.min.js?v=96277ec00e"></script>
+<script src="assets/js/account.js?v=20cc0bb5cf"></script>
+<script src="assets/js/library.js?v=5e99fc0099"></script>
 <script src="assets/js/pages.js?v=900a41320d"></script>
 </body>
 </html>

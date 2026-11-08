@@ -316,7 +316,7 @@ $('#addForm').addEventListener('submit', async event => {
 });
 
 /* GitHub refuses .nbt attachments but accepts .gz. A .nbt file is already gzip, so only the name changes. */
-$('#shareButton').addEventListener('click', () => {
+$('#shareButton').addEventListener('click', async () => {
   const name = $('#addName').value.trim();
   if (!checked) return;
   if (!name) {
@@ -325,6 +325,20 @@ $('#shareButton').addEventListener('click', () => {
   }
   if (checked.commandBlocks || checked.clickCommands) {
     showReport(escapeHtml(tr('This structure can\'t be shared: it contains command blocks or text that runs a command.', 'Cette structure ne peut pas être partagée : elle contient des blocs de commande ou du texte qui lance une commande.')), true);
+    return;
+  }
+  if (VesselAccount.enabled) {
+    if (!VesselAccount.signedIn()) {
+      showReport(escapeHtml(tr('Sign in with Discord above to share it.', 'Connecte-toi avec Discord ci-dessus pour la partager.')), true);
+      return;
+    }
+    try {
+      await VesselAccount.send('structure', { name, author: $('#addAuthor').value.trim(), description: $('#addText').value.trim(), bytes: checked.bytes });
+      showReport(`<b>${tr('Sent!', 'Envoyé !')}</b> ${escapeHtml(tr('Your structure joins the library once it has been reviewed. You can follow it in My files.', 'Ta structure rejoint la bibliothèque après vérification. Tu peux la suivre dans Mes envois.'))}`);
+      VesselAccount.refresh();
+    } catch (error) {
+      showReport(escapeHtml(error.message), true);
+    }
     return;
   }
   const link = document.createElement('a');
@@ -346,7 +360,9 @@ search.addEventListener('input', renderLibrary);
 onLang(() => {
   search.placeholder = tr('Search a structure', 'Chercher une structure');
   $('#shareButton').hidden = !SUBMIT_URL;
-  $('#addNote').textContent = SUBMIT_URL
+  $('#addNote').textContent = VesselAccount.enabled
+    ? tr('Sharing needs you to sign in with Discord. Your name, text and file become public once an admin approves them.', 'Partager demande de te connecter avec Discord. Ton pseudo, ton texte et ton fichier deviennent publics une fois validés par un admin.')
+    : SUBMIT_URL
     ? tr('Sharing needs a free GitHub account. Your name, text and file are public as soon as you send them, and the structure joins the library once reviewed.', 'Le partage demande un compte GitHub gratuit. Ton pseudo, ton texte et ton fichier sont publics dès l\'envoi, et la structure rejoint la bibliothèque une fois vérifiée.')
     : tr('For now your structure stays in this browser.', 'Pour l\'instant, ta structure reste dans ce navigateur.');
   renderLibrary();
@@ -370,7 +386,7 @@ const renderBanners = () => {
   }).join('');
 };
 $('#bannerShare').href = BANNER_SUBMIT_URL;
-$('#bannerShare').hidden = !BANNER_SUBMIT_URL;
+$('#bannerShare').hidden = !BANNER_SUBMIT_URL || VesselAccount.enabled;
 onLang(renderBanners);
 fetch('library/banners/index.json', { cache: 'no-cache' })
   .then(response => (response.ok ? response.json() : Promise.reject(new Error('No catalog'))))
