@@ -43,6 +43,20 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.12.1',
+    date: { en: 'November 9, 2026', fr: '9 novembre 2026' },
+    title: { en: '24 new powers', fr: '24 nouveaux pouvoirs' },
+    changes: [
+      { type: 'added', en: 'Attack powers: pocket tornado, sword rain, wind blade, lava geyser, giant fist and arrow volley.', fr: "Pouvoirs d'attaque : tornade de poche, pluie d'épées, lame du vent, geyser de lave, poing géant et salve de flèches." },
+      { type: 'added', en: 'Control powers: targeted time freeze, glass prison, creature magnet, mind control and repulsion.', fr: 'Pouvoirs de contrôle : gel du temps ciblé, prison de verre, aimant à créatures, contrôle mental et répulsion.' },
+      { type: 'added', en: 'Movement powers: super leap, wall walking and walking through walls.', fr: 'Pouvoirs de déplacement : super bond, marche sur les murs et traversée des murs.' },
+      { type: 'added', en: 'Defense powers: clones that draw the monsters, area healing and smoke form.', fr: 'Pouvoirs de défense : des clones qui attirent les monstres, soin de zone et forme de fumée.' },
+      { type: 'added', en: 'Building powers: instant wall (it can be undone), light bridge, drill and growth ray.', fr: 'Pouvoirs de construction : mur instantané (il peut être annulé), pont de lumière, foreuse et rayon de croissance.' },
+      { type: 'added', en: 'Ultimate powers: targeted meteor shower, supernova and fire dragon.', fr: 'Pouvoirs ultimes : pluie de météores ciblée, supernova et dragon de feu.' },
+      { type: 'fixed', en: 'Powers that target a creature no longer pick one that is already dying.', fr: "Les pouvoirs qui visent une créature ne choisissent plus une créature déjà en train de mourir." },
+    ],
+  },
+  {
     version: '2.12.0',
     date: { en: 'November 9, 2026', fr: '9 novembre 2026' },
     title: { en: 'VESSELCRAFT', fr: 'VESSELCRAFT' },
@@ -303,14 +317,9 @@ const ROADMAP = {
   next: [
     { en: 'Older Minecraft versions', fr: 'Anciennes versions de Minecraft', note: { en: 'Versions for players who stay on an older game.', fr: 'Des versions pour ceux qui restent sur un ancien jeu.' } },
     { en: 'Charged powers', fr: 'Pouvoirs chargés', note: { en: 'Hold the R key to make any power stronger.', fr: "Maintiens la touche R pour rendre n'importe quel pouvoir plus fort." } },
-    { en: 'Powers: attack', fr: 'Pouvoirs : attaque', note: { en: 'Pocket tornado, sword rain, wind blade, lava geyser, giant fist and arrow volley.', fr: "Tornade de poche, pluie d'épées, lame du vent, geyser de lave, poing géant et salve de flèches." } },
-    { en: 'Powers: control', fr: 'Pouvoirs : contrôle', note: { en: 'Local time freeze, glass prison, creature magnet, mind control and repulsion.', fr: 'Gel du temps ciblé, prison de verre, aimant à créatures, contrôle mental et répulsion.' } },
-    { en: 'Powers: movement', fr: 'Pouvoirs : déplacement', note: { en: 'Super leap, wall walking and walking through walls.', fr: 'Super bond, marche sur les murs et traversée des murs.' } },
-    { en: 'Powers: defense', fr: 'Pouvoirs : défense', note: { en: 'Clones, area healing and smoke form.', fr: 'Clones, soin de zone et forme de fumée.' } },
-    { en: 'Powers: building', fr: 'Pouvoirs : construction', note: { en: 'Instant wall, light bridge, drill and growth ray.', fr: 'Mur instantané, pont de lumière, foreuse et rayon de croissance.' } },
-    { en: 'Powers: ultimates', fr: 'Pouvoirs : ultimes', note: { en: 'Targeted meteor shower, supernova and fire dragon.', fr: 'Pluie de météores ciblée, supernova et dragon de feu.' } },
   ],
   planned: [
+    { en: 'Tornado strengths, EF0 to EF5', fr: 'Forces de tornade, EF0 à EF5', note: { en: 'Pick the tornado on the Enhanced Fujita scale: from EF0, which snaps branches, to EF5, which wipes out everything in its path.', fr: "Choisis ta tornade sur l'échelle de Fujita améliorée : de l'EF0, qui casse des branches, à l'EF5, qui rase tout sur son passage." } },
     { en: 'Minecraft 26.4 support', fr: 'Compatibilité Minecraft 26.4', note: { en: 'Once the version is released.', fr: 'Dès la sortie de cette version.' } },
     { en: 'Forge and NeoForge versions', fr: 'Versions Forge et NeoForge', note: { en: 'The trainer on the other mod loaders.', fr: 'Le trainer sur les autres chargeurs de mods.' } },
   ],
