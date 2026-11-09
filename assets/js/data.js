@@ -43,6 +43,18 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.12.0',
+    date: { en: 'November 9, 2026', fr: '9 novembre 2026' },
+    title: { en: 'VESSELCRAFT', fr: 'VESSELCRAFT' },
+    changes: [
+      { type: 'added', en: 'A new title screen: the VESSELCRAFT logo with TRAINER EDITION under it, and Vess floating beside it.', fr: "Un nouvel écran d'accueil : le logo VESSELCRAFT avec TRAINER EDITION dessous, et Vess qui flotte à côté." },
+      { type: 'added', en: 'Vess has its own yellow lines on the title screen, in English or French. The holiday ones stay.', fr: "Vess a ses propres phrases jaunes sur l'écran d'accueil, en français ou en anglais. Celles des fêtes restent." },
+      { type: 'added', en: 'A Vess button with the small icons under Minecraft Realms: what is new in your version, and links to the site, the Discord and CurseForge.', fr: "Un bouton Vess avec les petites icônes sous Minecraft Realms : les nouveautés de ta version, et les liens vers le site, le Discord et CurseForge." },
+      { type: 'added', en: 'The title screen shows your version and tells you when a newer one is out.', fr: "L'écran d'accueil affiche ta version et te prévient quand une plus récente est sortie." },
+      { type: 'changed', en: "Settings: turn the Vessel title screen or the update check off to get the game's own back.", fr: "Réglages : coupe l'écran d'accueil Vessel ou la vérification des mises à jour pour retrouver ceux du jeu." },
+    ],
+  },
+  {
     version: '2.11.3',
     date: { en: 'November 8, 2026', fr: '8 novembre 2026' },
     title: { en: 'A centered title', fr: 'Un titre centré' },
