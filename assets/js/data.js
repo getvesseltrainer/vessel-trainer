@@ -43,6 +43,19 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.12.3',
+    date: { en: 'November 9, 2026', fr: '9 novembre 2026' },
+    title: { en: 'Herobrine (beta)', fr: 'Herobrine (bêta)' },
+    changes: [
+      { type: 'added', en: 'Creatures > Special summon > Herobrine (BETA): summon him at the aimed block. He stares at you with his glowing white eyes and vanishes when you come close.', fr: "Créatures > Apparitions spéciales > Herobrine (BETA) : fais-le apparaître au bloc visé. Il te fixe de ses yeux blancs lumineux et disparaît quand tu t'approches." },
+      { type: 'added', en: 'The summoning altar from the legend: gold, netherrack and redstone torches. Light it and Herobrine answers. It can be undone.', fr: "L'autel d'invocation de la légende : or, netherrack et torches de redstone. Allume-le et Herobrine répond. Il s'annule comme une construction." },
+      { type: 'added', en: 'Herobrine haunts you: he appears far off, near your builds, and vanishes when you stare at him. His presence goes from Discreet to Nightmare, where he can stand right behind you.', fr: "Herobrine te traque : il apparaît au loin, près de tes constructions, et disparaît quand tu le fixes. Sa présence va de Discret à Cauchemar, où il peut se tenir juste derrière toi." },
+      { type: 'added', en: 'Two choices, both off by default: world changes (2 by 2 tunnels, bare trees, pyramids in the water, torches gone, each one can be undone) and attacks.', fr: 'Deux options, désactivées par défaut : les modifications du monde (tunnels 2 × 2, arbres sans feuilles, pyramides dans l\'eau, torches éteintes, chacune peut être annulée) et les attaques.' },
+      { type: 'added', en: 'A new Modes tab in the main menu, starting with Become Herobrine: glowing white eyes, sight in the dark, animals that flee, teleporting behind a creature, lightning and torches put out.', fr: "Un nouvel onglet Modes dans le menu principal, avec d'abord Devenir Herobrine : yeux blancs lumineux, vision dans le noir, animaux qui fuient, téléportation derrière une créature, foudre et torches éteintes." },
+      { type: 'added', en: 'Settings > Credits.', fr: 'Réglages > Crédits.' },
+    ],
+  },
+  {
     version: '2.12.1',
     date: { en: 'November 9, 2026', fr: '9 novembre 2026' },
     title: { en: '24 new powers', fr: '24 nouveaux pouvoirs' },
@@ -319,6 +332,7 @@ const ROADMAP = {
     { en: 'Charged powers', fr: 'Pouvoirs chargés', note: { en: 'Hold the R key to make any power stronger.', fr: "Maintiens la touche R pour rendre n'importe quel pouvoir plus fort." } },
   ],
   planned: [
+    { en: 'More Become modes', fr: "D'autres modes Devenir", note: { en: 'New ways to play as someone else in the Modes tab, like becoming the Warden, the Ender Dragon or a creeper.', fr: "De nouvelles façons de jouer dans la peau de quelqu'un d'autre, dans l'onglet Modes : devenir le Warden, l'Ender Dragon ou un creeper." } },
     { en: 'Tornado strengths, EF0 to EF5', fr: 'Forces de tornade, EF0 à EF5', note: { en: 'Pick the tornado on the Enhanced Fujita scale: from EF0, which snaps branches, to EF5, which wipes out everything in its path.', fr: "Choisis ta tornade sur l'échelle de Fujita améliorée : de l'EF0, qui casse des branches, à l'EF5, qui rase tout sur son passage." } },
     { en: 'Minecraft 26.4 support', fr: 'Compatibilité Minecraft 26.4', note: { en: 'Once the version is released.', fr: 'Dès la sortie de cette version.' } },
     { en: 'Forge and NeoForge versions', fr: 'Versions Forge et NeoForge', note: { en: 'The trainer on the other mod loaders.', fr: 'Le trainer sur les autres chargeurs de mods.' } },
