@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Vessel Trainer Roadmap</title>
-<meta name="description" content="What is coming next in Vessel Trainer.">
+<meta name="description" content="What is coming next in Vessel Trainer: work in progress, planned updates and ideas.">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/style.css?v=fefc7303d4">
+<link rel="stylesheet" href="assets/css/style.css?v=424e45047f">
 </head>
 <body class="page">
 <div class="sky" aria-hidden="true"></div>
@@ -34,11 +34,36 @@
       <div class="page-head">
         <p class="kicker" data-fr="La suite">What's next</p>
         <h1 class="page-title">Roadmap</h1>
-        <p class="sub" data-fr="Ce qui arrive dans les prochaines mises à jour. Ces plans peuvent encore changer.">What is coming in future updates. These plans can still change.</p>
+        <p class="sub" data-fr="Ce qui est en cours, ce qui est prévu et les idées à l'étude. Ces plans peuvent encore changer.">What is being built, what is planned and the ideas being considered. These plans can still change.</p>
+        <dl class="rm-stats" id="rmStats"></dl>
+        <div class="rm-cta" id="rmCta"></div>
       </div>
       <canvas id="vess" aria-hidden="true"></canvas>
     </header>
-    <div class="lanes" id="roadmap"></div>
+
+    <section class="rm-shipped" aria-labelledby="rmShippedTitle">
+      <div class="rm-section-head">
+        <h2 id="rmShippedTitle" data-fr="Sorti récemment">Recently shipped</h2>
+        <a class="rm-more" href="changelog.html" data-fr="Tout le changelog">Full changelog</a>
+      </div>
+      <div class="rm-shipped-list" id="rmShipped"></div>
+    </section>
+
+    <div class="rm-toolbar">
+      <div class="filter-group" role="group" id="rmFilters" aria-label="Category" data-fr-aria="Catégorie"></div>
+      <label class="search rm-search" for="rmSearch"><span class="sr" data-fr="Chercher dans la roadmap">Search the roadmap</span><input id="rmSearch" type="search" autocomplete="off"></label>
+    </div>
+    <p class="build-count" id="rmCount" aria-live="polite"></p>
+
+    <div class="rm-board" id="roadmap"></div>
+
+    <section class="rm-ask">
+      <div>
+        <h2 data-fr="Une idée pour le trainer ?">An idea for the trainer?</h2>
+        <p class="sub" data-fr="Les meilleures idées de la communauté arrivent ici. Décris ce que tu veux faire en jeu, pas comment le coder.">The best community ideas end up here. Describe what you want to do in the game, not how to code it.</p>
+      </div>
+      <div class="rm-ask-actions" id="rmAsk"></div>
+    </section>
   </div>
 </main>
 <footer class="foot">
@@ -52,7 +77,7 @@
 <script src="assets/js/vendor/lenis.min.js?v=b2958f142f"></script>
 <script src="assets/js/lang.js?v=223df2fd9b"></script>
 <script src="assets/js/vess.js?v=04c6b9b6e1"></script>
-<script src="assets/js/data.js?v=0180c4d244"></script>
-<script src="assets/js/pages.js?v=8f9ca3ec08"></script>
+<script src="assets/js/data.js?v=a57517ddd5"></script>
+<script src="assets/js/pages.js?v=11f79a810c"></script>
 </body>
 </html>

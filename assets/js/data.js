@@ -340,19 +340,54 @@ const CHANGELOG = [
   },
 ];
 
+/* Roadmap categories: each item has a cat, which colours its tag and lets visitors filter. */
+const ROADMAP_CATEGORIES = {
+  powers: { en: "Powers", fr: "Pouvoirs" },
+  world: { en: "World & chaos", fr: "Monde et chaos" },
+  build: { en: "Building", fr: "Construction" },
+  fun: { en: "Fun & modes", fr: "Fun et modes" },
+  tools: { en: "Tools", fr: "Outils" },
+  servers: { en: "Servers", fr: "Serveurs" },
+  versions: { en: "Versions", fr: "Versions" },
+};
+
+/* Where players send their own ideas. Empty one to hide its button. */
+const IDEA_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/new?template=idea.yml';
+const DISCORD_URL = 'https://discord.gg/ansJXWAek6';
+
 const ROADMAP = {
   next: [
-    { en: 'Older Minecraft versions', fr: 'Anciennes versions de Minecraft', note: { en: 'Versions for players who stay on an older game.', fr: 'Des versions pour ceux qui restent sur un ancien jeu.' } },
-    { en: 'Charged powers', fr: 'Pouvoirs chargés', note: { en: 'Hold the R key to make any power stronger.', fr: "Maintiens la touche R pour rendre n'importe quel pouvoir plus fort." } },
+    { cat: 'versions', en: "Older Minecraft versions", fr: "Anciennes versions de Minecraft", note: { en: "Versions for players who stay on an older game.", fr: "Des versions pour ceux qui restent sur un ancien jeu." } },
+    { cat: 'powers', en: "Charged powers", fr: "Pouvoirs chargés", note: { en: "Hold the R key to make any power stronger.", fr: "Maintiens la touche R pour rendre n'importe quel pouvoir plus fort." } },
   ],
   planned: [
-    { en: 'More Become modes', fr: "D'autres modes Devenir", note: { en: 'New ways to play as someone else in the Modes tab, like becoming the Warden, the Ender Dragon or a creeper.', fr: "De nouvelles façons de jouer dans la peau de quelqu'un d'autre, dans l'onglet Modes : devenir le Warden, l'Ender Dragon ou un creeper." } },
-    { en: 'Tornado strengths, EF0 to EF5', fr: 'Forces de tornade, EF0 à EF5', note: { en: 'Pick the tornado on the Enhanced Fujita scale: from EF0, which snaps branches, to EF5, which wipes out everything in its path.', fr: "Choisis ta tornade sur l'échelle de Fujita améliorée : de l'EF0, qui casse des branches, à l'EF5, qui rase tout sur son passage." } },
-    { en: 'Minecraft 26.4 support', fr: 'Compatibilité Minecraft 26.4', note: { en: 'Once the version is released.', fr: 'Dès la sortie de cette version.' } },
-    { en: 'Forge and NeoForge versions', fr: 'Versions Forge et NeoForge', note: { en: 'The trainer on the other mod loaders.', fr: 'Le trainer sur les autres chargeurs de mods.' } },
+    { cat: 'fun', en: "More Become modes", fr: "D'autres modes Devenir", note: { en: "New ways to play as someone else in the Modes tab, like becoming the Warden, the Ender Dragon or a creeper.", fr: "De nouvelles façons de jouer dans la peau de quelqu'un d'autre, dans l'onglet Modes : devenir le Warden, l'Ender Dragon ou un creeper." } },
+    { cat: 'world', en: "Tornado strengths, EF0 to EF5", fr: "Forces de tornade, EF0 à EF5", note: { en: "Pick the tornado on the Enhanced Fujita scale: from EF0, which snaps branches, to EF5, which wipes out everything in its path.", fr: "Choisis ta tornade sur l'échelle de Fujita améliorée : de l'EF0, qui casse des branches, à l'EF5, qui rase tout sur son passage." } },
+    { cat: 'versions', en: "Minecraft 26.4 support", fr: "Compatibilité Minecraft 26.4", note: { en: "Once the version is released.", fr: "Dès la sortie de cette version." } },
+    { cat: 'versions', en: "Forge and NeoForge versions", fr: "Versions Forge et NeoForge", note: { en: "The trainer on the other mod loaders.", fr: "Le trainer sur les autres chargeurs de mods." } },
   ],
   ideas: [
-    { en: 'Vessel Launcher', fr: 'Vessel Launcher', note: { en: 'A launcher made for the trainer: one click and you play. You sign in with your own Microsoft account, so it only works if you own Minecraft.', fr: 'Un launcher fait pour le trainer : un clic et tu joues. Tu te connectes avec ton propre compte Microsoft, donc il faut posséder Minecraft.' } },
+    { cat: 'tools', en: "Vessel Launcher", fr: "Vessel Launcher", note: { en: "A launcher made for the trainer: one click and you play. You sign in with your own Microsoft account, so it only works if you own Minecraft.", fr: "Un launcher fait pour le trainer : un clic et tu joues. Tu te connectes avec ton propre compte Microsoft, donc il faut posséder Minecraft." } },
+    { cat: 'fun', en: "Vess, your pet", fr: "Vess, ton familier", note: { en: "Vess follows you in the world, sniffs out ores nearby and cheers when you pull off something big.", fr: "Vess te suit dans le monde, flaire les minerais autour de toi et te félicite quand tu réussis un gros coup." } },
+    { cat: 'powers', en: "Combined powers", fr: "Pouvoirs combinés", note: { en: "Mix two powers into a new one: a fire tornado, a frozen meteor, a lightning black hole.", fr: "Mélange deux pouvoirs pour en créer un nouveau : tornade de feu, météorite gelée, trou noir électrique." } },
+    { cat: 'world', en: "Blood moon", fr: "Lune de sang", note: { en: "A red night where monsters are stronger and more numerous, with better loot for those who last until dawn.", fr: "Une nuit rouge où les monstres sont plus forts et plus nombreux, avec un meilleur butin pour ceux qui tiennent jusqu'à l'aube." } },
+    { cat: 'world', en: "Extreme weather", fr: "Météo extrême", note: { en: "Hail that hurts, acid rain that eats the leaves, and northern lights over the night sky.", fr: "De la grêle qui fait mal, une pluie acide qui ronge les feuilles et des aurores boréales dans le ciel de nuit." } },
+    { cat: 'world', en: "Rewind time", fr: "Retour dans le temps", note: { en: "Turn the last 30 seconds back around you: blocks, creatures and your own position.", fr: "Remonte les 30 dernières secondes autour de toi : les blocs, les créatures et ta propre position." } },
+    { cat: 'build', en: "Terrain sculptor", fr: "Sculpteur de terrain", note: { en: "A brush to raise hills, dig valleys, smooth and flatten the ground, with undo.", fr: "Un pinceau pour monter des collines, creuser des vallées, lisser et aplanir le sol, avec annulation." } },
+    { cat: 'build', en: "Copy and paste an area", fr: "Copier-coller d'une zone", note: { en: "Pick two corners, copy, turn it and paste it anywhere. Every paste can be undone.", fr: "Choisis deux coins, copie, tourne et colle où tu veux. Chaque collage s'annule." } },
+    { cat: 'build', en: "Village generator", fr: "Générateur de village", note: { en: "A whole town in one press: roads, houses, a square and a well, matched to the biome.", fr: "Une ville entière en un appui : routes, maisons, place et puits, adaptés au biome." } },
+    { cat: 'fun', en: "Boss creator", fr: "Créateur de boss", note: { en: "Turn any creature into a boss with a health bar, phases and its own attacks.", fr: "Transforme n'importe quelle créature en boss, avec une barre de vie, des phases et ses propres attaques." } },
+    { cat: 'fun', en: "New mini-games", fr: "Nouveaux mini-jeux", note: { en: "An elytra race through rings, a parkour course built for you, and a treasure hunt.", fr: "Une course d'élytres à travers des anneaux, un parcours de parkour construit pour toi et une chasse au trésor." } },
+    { cat: 'fun', en: "Daily challenge", fr: "Défi du jour", note: { en: "A new challenge every day, with a random set of rules. Same challenge for everyone.", fr: "Un nouveau défi chaque jour, avec des règles tirées au hasard. Le même défi pour tout le monde." } },
+    { cat: 'fun', en: "Vessel achievements", fr: "Succès Vessel", note: { en: "Trainer achievements to unlock while you play, from your first bomb to surviving a blood moon.", fr: "Des succès du trainer à débloquer en jouant, de ta première bombe à une lune de sang survécue." } },
+    { cat: 'tools', en: "Photo mode", fr: "Mode photo", note: { en: "Freeze the game, hide the interface, add filters and depth of field, and take timed shots.", fr: "Fige le jeu, cache l'interface, ajoute des filtres et du flou de profondeur, et prends des photos avec retardateur." } },
+    { cat: 'tools', en: "World map", fr: "Carte du monde", note: { en: "A full-screen map of everything you explored. Click a spot to go there, with your waypoints on it.", fr: "Une carte plein écran de tout ce que tu as exploré. Clique sur un endroit pour y aller, avec tes points de passage dessus." } },
+    { cat: 'tools', en: "Session stats", fr: "Statistiques de session", note: { en: "Blocks broken, creatures beaten, distance travelled and the powers you used the most.", fr: "Blocs cassés, créatures battues, distance parcourue et les pouvoirs que tu utilises le plus." } },
+    { cat: 'tools', en: "Macros", fr: "Macros", note: { en: "Chain several actions on one key: fly, night vision and teleport, in one press.", fr: "Enchaîne plusieurs actions sur une seule touche : vol, vision nocturne et téléportation, en un appui." } },
+    { cat: 'tools', en: "More languages", fr: "Plus de langues", note: { en: "The trainer and the site in Spanish, German and Portuguese.", fr: "Le trainer et le site en espagnol, en allemand et en portugais." } },
+    { cat: 'servers', en: "Trainer with friends on LAN", fr: "Trainer entre amis en LAN", note: { en: "The host of a LAN world can let chosen friends use the trainer too.", fr: "L'hôte d'un monde en LAN peut laisser des amis choisis utiliser le trainer aussi." } },
+    { cat: 'servers', en: "Admin roles", fr: "Rôles admin", note: { en: "Moderator, admin and owner, each with the rights you choose in the Admin tab.", fr: "Modérateur, admin et propriétaire, chacun avec les droits que tu choisis dans l'onglet Admin." } },
+    { cat: 'servers', en: "Events on Paper", fr: "Événements sur Paper", note: { en: "The disasters and the bomb from the Admin tab, on Paper servers too.", fr: "Les catastrophes et la bombe de l'onglet Admin, aussi sur les serveurs Paper." } },
   ],
 };
 

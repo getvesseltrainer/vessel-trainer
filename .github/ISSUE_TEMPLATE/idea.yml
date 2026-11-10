@@ -1,0 +1,38 @@
+name: Suggest an idea
+description: Suggest a feature for Vessel Trainer. The best ones go on the roadmap.
+title: "Idea: "
+labels: ["idea"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea! Describe what you want to do in the game, not how to code it.
+        This form is public. English or French, both are fine.
+  - type: input
+    id: name
+    attributes:
+      label: Idea in a few words
+      placeholder: A world map you can click to teleport
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Powers
+        - World & chaos
+        - Building
+        - Fun & modes
+        - Tools
+        - Servers
+        - Versions
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What would it do?
+      description: What you press, what happens in the game, and why it would be fun or useful.
+    validations:
+      required: true

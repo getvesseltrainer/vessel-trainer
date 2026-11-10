@@ -6,7 +6,7 @@ const typeLabel = {
   missing: () => tr('Missing', 'Absent'),
 };
 const columnLabel = {
-  next: () => [tr('Next', 'Prochainement'), tr('What comes first.', 'Ce qui arrive en premier.')],
+  next: () => [tr('In progress', 'En cours'), tr('Being built now: it comes first.', 'En train d\'être fait : ça arrive en premier.')],
   planned: () => [tr('Planned', 'Prévu'), tr('On the list, after that.', 'Sur la liste, juste après.')],
   ideas: () => [tr('Ideas', 'Idées'), tr('Being considered, nothing promised.', 'À l\'étude, rien de promis.')],
 };
@@ -47,17 +47,87 @@ if (changelogBox) onLang(() => {
 });
 
 const roadmapBox = $('#roadmap');
-if (roadmapBox) onLang(() => {
-  roadmapBox.innerHTML = Object.keys(ROADMAP).map(key => {
-    const [name, hint] = columnLabel[key]();
-    return `<section class="lane ${key}">
-      <h2>${name}</h2>
-      <p class="lane-hint">${hint}</p>
-      ${ROADMAP[key].map(item => `<article class="task"><h3>${item[lang]}</h3><p>${item.note[lang]}</p></article>`).join('') || `<p class="lane-hint">${tr('Everything here has shipped. See the changelog.', 'Tout ce qui était ici est sorti. Regarde le changelog.')}</p>`}
-    </section>`;
-  }).join('');
-  document.dispatchEvent(new Event('pagecontent'));
-});
+if (roadmapBox) {
+  const all = Object.keys(ROADMAP).flatMap(key => ROADMAP[key].map(item => ({ ...item, status: key })));
+  const filters = { cat: 'all', query: '' };
+  /* Accents and case do not matter in the search: "meteo" finds "Météo". */
+  const fold = text => text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const external = (url, label, quiet) => url ? `<a class="pill${quiet ? ' quiet' : ''}" href="${url}" target="_blank" rel="noopener">${label}</a>` : '';
+  const links = () => external(IDEA_URL, tr('Suggest an idea', 'Propose une idée'), false)
+    + external(DISCORD_URL, tr('Join the Discord', 'Rejoins le Discord'), true);
+
+  const matches = item => (filters.cat === 'all' || item.cat === filters.cat)
+    && (!filters.query || fold(`${item[lang]} ${item.note[lang]} ${ROADMAP_CATEGORIES[item.cat][lang]}`).includes(filters.query));
+
+  const card = item => `<article class="task cat-${item.cat}">
+      <div class="task-top">
+        <span class="tag">${ROADMAP_CATEGORIES[item.cat][lang]}</span>
+        ${item.status === 'next' ? `<span class="live">${tr('In progress', 'En cours')}</span>` : ''}
+      </div>
+      <h3>${item[lang]}</h3>
+      <p>${item.note[lang]}</p>
+    </article>`;
+
+  const renderBoard = () => {
+    const shown = all.filter(matches);
+    roadmapBox.innerHTML = Object.keys(ROADMAP).map(key => {
+      const items = shown.filter(item => item.status === key);
+      if (!items.length) return '';
+      const [name, hint] = columnLabel[key]();
+      return `<section class="lane ${key}" aria-labelledby="lane-${key}">
+        <div class="lane-head">
+          <h2 id="lane-${key}"><i class="dot" aria-hidden="true"></i>${name}</h2>
+          <span class="lane-count">${items.length}</span>
+        </div>
+        <p class="lane-hint">${hint}</p>
+        <div class="lane-grid">${items.map(card).join('')}</div>
+      </section>`;
+    }).join('') || `<p class="rm-empty">${tr('Nothing matches. Try another category, or suggest it as an idea.', 'Rien ne correspond. Essaie une autre catégorie, ou propose-la comme idée.')}</p>`;
+    $('#rmCount').textContent = shown.length === all.length
+      ? tr(`${all.length} items`, `${all.length} éléments`)
+      : tr(`${shown.length} of ${all.length} items`, `${shown.length} sur ${all.length} éléments`);
+  };
+
+  const renderFilters = () => {
+    const count = cat => all.filter(item => cat === 'all' || item.cat === cat).length;
+    const chips = [['all', tr('All', 'Tout')], ...Object.keys(ROADMAP_CATEGORIES).map(cat => [cat, ROADMAP_CATEGORIES[cat][lang]])]
+      .filter(([cat]) => count(cat) > 0);
+    $('#rmFilters').innerHTML = chips.map(([cat, name]) =>
+      `<button class="chip${cat === 'all' ? '' : ` cat-${cat}`}" type="button" data-cat="${cat}" aria-pressed="${filters.cat === cat}">${name} <span class="chip-count">${count(cat)}</span></button>`).join('');
+  };
+
+  $('#rmFilters').addEventListener('click', event => {
+    const chip = event.target.closest('[data-cat]');
+    if (!chip) return;
+    filters.cat = chip.dataset.cat;
+    renderFilters();
+    renderBoard();
+  });
+  $('#rmSearch').addEventListener('input', event => {
+    filters.query = fold(event.target.value.trim());
+    renderBoard();
+  });
+
+  onLang(() => {
+    const stat = (key, name, value) => `<div class="rm-stat ${key}"><dt>${name}</dt><dd>${value}</dd></div>`;
+    $('#rmStats').innerHTML = stat('next', tr('In progress', 'En cours'), ROADMAP.next.length)
+      + stat('planned', tr('Planned', 'Prévu'), ROADMAP.planned.length)
+      + stat('ideas', tr('Ideas', 'Idées'), ROADMAP.ideas.length)
+      + stat('shipped', tr('Updates out', 'Mises à jour sorties'), CHANGELOG.length);
+    $('#rmCta').innerHTML = links();
+    $('#rmAsk').innerHTML = links();
+    $('#rmShipped').innerHTML = CHANGELOG.slice(0, 3).map(release => `
+      <a class="rm-ship" href="changelog.html">
+        <span class="badge">v${release.version}</span>
+        <b>${release.title[lang]}</b>
+        <time>${release.date[lang]}</time>
+      </a>`).join('');
+    $('#rmSearch').placeholder = tr('Search: map, Paper, tornado…', 'Chercher : carte, Paper, tornade…');
+    renderFilters();
+    renderBoard();
+    document.dispatchEvent(new Event('pagecontent'));
+  });
+}
 
 /* Screenshots follow the page's language, as on the home page. */
 onLang(() => document.querySelectorAll('img[data-shot]').forEach(img => { img.src = `assets/img/${lang}/${img.dataset.shot}.webp`; }));
@@ -294,7 +364,7 @@ mountVess($('#vess'));
   gsap.from('.page-head > *', { y: 40, opacity: 0, duration: 1.1, stagger: .1, ease: 'expo.out' });
   gsap.from('#vess', { scale: .7, opacity: 0, duration: 1.4, ease: 'expo.out' });
   const enter = () => {
-    gsap.from('.release, .task, .build', { y: 34, opacity: .1, duration: .9, stagger: .07, ease: 'expo.out', clearProps: 'all' });
+    gsap.from('.release, .task, .build, .rm-ship', { y: 34, opacity: .1, duration: .9, stagger: .07, ease: 'expo.out', clearProps: 'all' });
   };
   enter();
   document.addEventListener('pagecontent', enter);
