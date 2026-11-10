@@ -29,22 +29,207 @@ const columnLabel = {
   }
 })();
 
+/* A release's anchor, shared with the Roadmap page: "2.7.2 Forge 1.20.1" becomes #v2-7-2-forge-1-20-1. */
+const releaseId = version => 'v' + version.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
 const changelogBox = $('#changelog');
-if (changelogBox) onLang(() => {
-  changelogBox.innerHTML = CHANGELOG.map((release, index) => `
-    <article class="release">
+if (changelogBox) {
+  const SHOWN_FIRST = 6;
+  const PRODUCTS = {
+    trainer: () => tr('Trainer', 'Trainer'),
+    paper: () => tr('Paper plugin', 'Plugin Paper'),
+    forge: () => 'Forge 1.20.1',
+  };
+  const productOf = release => /paper/i.test(release.version) ? 'paper' : /forge/i.test(release.version) ? 'forge' : 'trainer';
+  const releases = CHANGELOG.map(release => ({ ...release, id: releaseId(release.version), product: productOf(release) }));
+  const latestTrainer = releases.find(release => release.product === 'trainer');
+  const filters = { type: 'all', product: 'all', query: '' };
+  let showAll = false;
+
+  const fold = text => text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const escape = text => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const highlight = text => {
+    const safe = escape(text);
+    const raw = $('#clSearch').value.trim();
+    if (!raw) return safe;
+    const pattern = new RegExp(escape(raw).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+    return safe.replace(pattern, match => `<mark>${match}</mark>`);
+  };
+  const changeMatches = change => (filters.type === 'all' || change.type === filters.type)
+    && (!filters.query || fold(change[lang]).includes(filters.query));
+  const releaseVisible = release => (filters.product === 'all' || release.product === filters.product)
+    && (release.changes.some(changeMatches) || (filters.type === 'all' && filters.query && fold(`${release.version} ${release.title[lang]}`).includes(filters.query)));
+  const filtering = () => filters.type !== 'all' || filters.product !== 'all' || filters.query;
+  const counts = list => list.reduce((sum, change) => ({ ...sum, [change.type]: (sum[change.type] || 0) + 1 }), {});
+  const summary = changes => {
+    const n = counts(changes);
+    return Object.keys(typeLabel).filter(type => n[type]).map(type => `<span class="cl-sum ${type}">${n[type]} ${typeLabel[type]().toLowerCase()}</span>`).join('');
+  };
+
+  const card = (release, index) => {
+    const titleHit = filters.query && fold(`${release.version} ${release.title[lang]}`).includes(filters.query);
+    const changes = release.changes.filter(change => changeMatches(change) || (titleHit && filters.type === 'all'));
+    return `<article class="release${index === 0 ? ' newest' : ''}" id="${release.id}">
       <div class="release-side">
-        <span class="badge">v${release.version}</span>
+        <a class="badge" href="#${release.id}" title="${tr('Link to this version', 'Lien vers cette version')}">v${escape(release.version.split(' ')[0])}</a>
         <time>${release.date[lang]}</time>
-        ${index === 0 ? `<span class="latest">${tr('Latest', 'Dernière version')}</span>` : ''}
+        <span class="cl-product ${release.product}">${PRODUCTS[release.product]()}</span>
+        ${release === releases[0] ? `<span class="latest">${tr('Latest update', 'Dernière mise à jour')}</span>` : ''}
+        <button class="cl-copy" type="button" data-copy="${release.id}">${tr('Copy link', 'Copier le lien')}</button>
       </div>
       <div class="release-body">
-        <h2>${release.title[lang]}</h2>
-        <ul>${release.changes.map(c => `<li><b class="${c.type}">${typeLabel[c.type]()}</b><span>${c[lang]}</span></li>`).join('')}</ul>
+        <h2>${highlight(release.title[lang])}</h2>
+        <div class="cl-sums">${summary(release.changes)}</div>
+        <ul>${changes.map(c => `<li><b class="${c.type}">${typeLabel[c.type]()}</b><span>${highlight(c[lang])}</span></li>`).join('')}</ul>
       </div>
-    </article>`).join('');
-  document.dispatchEvent(new Event('pagecontent'));
-});
+    </article>`;
+  };
+
+  const renderList = () => {
+    const visible = releases.filter(releaseVisible);
+    const all = showAll || filtering();
+    const shown = all ? visible : visible.slice(0, SHOWN_FIRST);
+    changelogBox.innerHTML = shown.map(card).join('')
+      || `<p class="rm-empty">${tr('No change matches. Try another filter or word.', 'Aucun changement ne correspond. Essaie un autre filtre ou un autre mot.')}</p>`;
+    const older = $('#clOlder');
+    older.hidden = all || visible.length <= SHOWN_FIRST;
+    older.textContent = tr(`Show the ${visible.length - SHOWN_FIRST} older versions`, `Afficher les ${visible.length - SHOWN_FIRST} versions plus anciennes`);
+    const changes = visible.reduce((sum, release) => sum + release.changes.filter(changeMatches).length, 0);
+    $('#clCount').textContent = filtering()
+      ? tr(`${visible.length} versions, ${changes} changes match`, `${visible.length} versions, ${changes} changements correspondent`)
+      : tr(`${releases.length} versions since November 4, 2026`, `${releases.length} versions depuis le 4 novembre 2026`);
+    renderTimeline(visible);
+  };
+
+  /* The timeline groups versions by day, newest first; the select does the same job on a phone. */
+  const renderTimeline = visible => {
+    const days = [];
+    visible.forEach(release => {
+      const day = days.find(group => group.date === release.date[lang]);
+      day ? day.items.push(release) : days.push({ date: release.date[lang], items: [release] });
+    });
+    $('#clTimeline').innerHTML = days.map(day => `<div class="cl-day">
+        <p class="cl-date">${day.date}</p>
+        <ul>${day.items.map(release => `<li><a href="#${release.id}" data-id="${release.id}"><span class="cl-dot ${release.product}"></span><span>v${escape(release.version)}</span><small>${escape(release.title[lang])}</small></a></li>`).join('')}</ul>
+      </div>`).join('');
+    $('#clJump').innerHTML = visible.map(release => `<option value="${release.id}">v${escape(release.version)} · ${escape(release.title[lang])}</option>`).join('');
+    watchActive();
+  };
+
+  /* Opens the list when a link points at an older, hidden version, then scrolls to it. */
+  const goTo = id => {
+    if (!document.getElementById(id) && !showAll) {
+      showAll = true;
+      renderList();
+    }
+    const target = document.getElementById(id);
+    if (!target) return;
+    history.replaceState(null, '', '#' + id);
+    if (window.vtLenis) window.vtLenis.scrollTo(target, { offset: -150 });
+    else target.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' });
+  };
+
+  let observer;
+  const watchActive = () => {
+    if (observer) observer.disconnect();
+    if (!('IntersectionObserver' in window)) return;
+    observer = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      document.querySelectorAll('.cl-timeline a').forEach(link => link.classList.toggle('on', link.dataset.id === entry.target.id));
+      const jump = $('#clJump');
+      if (jump.value !== entry.target.id) jump.value = entry.target.id;
+    }), { rootMargin: '-30% 0px -60% 0px' });
+    changelogBox.querySelectorAll('.release').forEach(release => observer.observe(release));
+  };
+
+  const renderChips = () => {
+    const all = releases.flatMap(release => release.changes);
+    const n = counts(all);
+    $('#clTypes').innerHTML = [['all', tr('All', 'Tout'), all.length], ...Object.keys(typeLabel).filter(type => n[type]).map(type => [type, typeLabel[type](), n[type]])]
+      .map(([type, name, count]) => `<button class="chip cl-type ${type}" type="button" data-type="${type}" aria-pressed="${filters.type === type}">${name} <span class="chip-count">${count}</span></button>`).join('');
+    $('#clProducts').innerHTML = [['all', tr('Everything', 'Tout')], ...Object.keys(PRODUCTS).map(product => [product, PRODUCTS[product]()])]
+      .map(([product, name]) => `<button class="chip" type="button" data-product="${product}" aria-pressed="${filters.product === product}">${name}</button>`).join('');
+  };
+
+  $('#clTypes').addEventListener('click', event => {
+    const chip = event.target.closest('[data-type]');
+    if (!chip) return;
+    filters.type = chip.dataset.type;
+    renderChips();
+    renderList();
+  });
+  $('#clProducts').addEventListener('click', event => {
+    const chip = event.target.closest('[data-product]');
+    if (!chip) return;
+    filters.product = chip.dataset.product;
+    renderChips();
+    renderList();
+  });
+  $('#clSearch').addEventListener('input', event => {
+    filters.query = fold(event.target.value.trim());
+    renderList();
+  });
+  $('#clOlder').addEventListener('click', () => {
+    showAll = true;
+    renderList();
+  });
+  $('#clJump').addEventListener('change', event => goTo(event.target.value));
+  $('#clTimeline').addEventListener('click', event => {
+    const link = event.target.closest('a[data-id]');
+    if (!link) return;
+    event.preventDefault();
+    goTo(link.dataset.id);
+  });
+  changelogBox.addEventListener('click', event => {
+    const badge = event.target.closest('a.badge');
+    if (badge) {
+      event.preventDefault();
+      goTo(badge.getAttribute('href').slice(1));
+      return;
+    }
+    const copy = event.target.closest('[data-copy]');
+    if (!copy) return;
+    const url = `${location.href.split('#')[0]}#${copy.dataset.copy}`;
+    const done = () => {
+      copy.textContent = tr('Link copied', 'Lien copié');
+      setTimeout(() => { copy.textContent = tr('Copy link', 'Copier le lien'); }, 1800);
+    };
+    if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, () => { history.replaceState(null, '', '#' + copy.dataset.copy); });
+    else history.replaceState(null, '', '#' + copy.dataset.copy);
+  });
+
+  onLang(() => {
+    const all = releases.flatMap(release => release.changes);
+    const n = counts(all);
+    const stat = (key, name, value) => `<div class="rm-stat ${key}"><dt>${name}</dt><dd>${value}</dd></div>`;
+    $('#clStats').innerHTML = stat('shipped', tr('Versions', 'Versions'), releases.length)
+      + stat('next', tr('Added', 'Ajouts'), n.added || 0)
+      + stat('planned', tr('Changed', 'Modifications'), n.changed || 0)
+      + stat('ideas', tr('Fixed', 'Corrections'), n.fixed || 0);
+    $('#clLatest').innerHTML = latestTrainer ? `
+      <div class="cl-latest-text">
+        <p class="kicker">${tr('Latest trainer version', 'Dernière version du trainer')}</p>
+        <h2><span class="badge">v${escape(latestTrainer.version)}</span> ${escape(latestTrainer.title[lang])}</h2>
+        <p class="sub">${latestTrainer.date[lang]} · ${summary(latestTrainer.changes)}</p>
+      </div>
+      <div class="cl-latest-actions">
+        <a class="pill" href="versions.html">${tr('Download', 'Télécharger')}</a>
+        <a class="pill quiet" href="#${latestTrainer.id}" data-go="${latestTrainer.id}">${tr('What is new', 'Les nouveautés')}</a>
+      </div>` : '';
+    $('#clSearch').placeholder = tr('Search: Herobrine, Paper, X-ray…', 'Chercher : Herobrine, Paper, X-ray…');
+    renderChips();
+    renderList();
+    document.dispatchEvent(new Event('pagecontent'));
+  });
+  $('#clLatest').addEventListener('click', event => {
+    const link = event.target.closest('[data-go]');
+    if (!link) return;
+    event.preventDefault();
+    goTo(link.dataset.go);
+  });
+  const hash = location.hash.slice(1);
+  if (hash) requestAnimationFrame(() => goTo(hash));
+}
 
 const roadmapBox = $('#roadmap');
 if (roadmapBox) {
@@ -117,7 +302,7 @@ if (roadmapBox) {
     $('#rmCta').innerHTML = links();
     $('#rmAsk').innerHTML = links();
     $('#rmShipped').innerHTML = CHANGELOG.slice(0, 3).map(release => `
-      <a class="rm-ship" href="changelog.html">
+      <a class="rm-ship" href="changelog.html#${releaseId(release.version)}">
         <span class="badge">v${release.version}</span>
         <b>${release.title[lang]}</b>
         <time>${release.date[lang]}</time>
@@ -358,6 +543,7 @@ mountVess($('#vess'));
   if (calm || !window.gsap) return;
   if (window.Lenis) {
     const lenis = new Lenis({ lerp: .09 });
+    window.vtLenis = lenis;
     gsap.ticker.add(t => lenis.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
   }

@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Vessel Trainer Changelog</title>
-<meta name="description" content="Every Vessel Trainer update.">
+<meta name="description" content="Every Vessel Trainer update, version by version: what was added, changed and fixed.">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/style.css?v=424e45047f">
+<link rel="stylesheet" href="assets/css/style.css?v=7af7360fe1">
 </head>
 <body class="page">
 <div class="sky" aria-hidden="true"></div>
@@ -35,10 +35,28 @@
         <p class="kicker" data-fr="Mises à jour">Updates</p>
         <h1 class="page-title">Changelog</h1>
         <p class="sub" data-fr="Tout ce qui a changé dans Vessel Trainer, version par version.">Everything that changed in Vessel Trainer, version by version.</p>
+        <dl class="rm-stats" id="clStats"></dl>
       </div>
       <canvas id="vess" aria-hidden="true"></canvas>
     </header>
-    <div class="releases" id="changelog"></div>
+
+    <section class="cl-latest" id="clLatest" aria-label="Latest version" data-fr-aria="Dernière version"></section>
+
+    <div class="rm-toolbar cl-toolbar">
+      <div class="filter-group" role="group" id="clTypes" aria-label="Kind of change" data-fr-aria="Type de changement"></div>
+      <div class="filter-group" role="group" id="clProducts" aria-label="Product" data-fr-aria="Produit"></div>
+      <label class="search rm-search" for="clSearch"><span class="sr" data-fr="Chercher dans le changelog">Search the changelog</span><input id="clSearch" type="search" autocomplete="off"></label>
+    </div>
+    <p class="build-count" id="clCount" aria-live="polite"></p>
+
+    <div class="cl-layout">
+      <nav class="cl-timeline" id="clTimeline" aria-label="Versions" data-fr-aria="Versions"></nav>
+      <div class="cl-main">
+        <label class="cl-jump" for="clJump"><span data-fr="Aller à la version">Go to version</span><select id="clJump"></select></label>
+        <div class="releases" id="changelog"></div>
+        <button class="pill quiet cl-older" id="clOlder" type="button" hidden></button>
+      </div>
+    </div>
   </div>
 </main>
 <footer class="foot">
@@ -53,6 +71,6 @@
 <script src="assets/js/lang.js?v=223df2fd9b"></script>
 <script src="assets/js/vess.js?v=04c6b9b6e1"></script>
 <script src="assets/js/data.js?v=a57517ddd5"></script>
-<script src="assets/js/pages.js?v=11f79a810c"></script>
+<script src="assets/js/pages.js?v=29e2f9831f"></script>
 </body>
 </html>
