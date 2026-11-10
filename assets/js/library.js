@@ -287,12 +287,10 @@ function renderLibrary() {
 const renderSummary = () => {
   const structures = mine.length + shared.length;
   const community = shared.filter(item => item.community).length + banners.filter(item => item.community).length;
-  const blocks = [...shared, ...mine].reduce((sum, item) => sum + (item.blocks || 0), 0);
   const stat = (key, label, value) => `<div class="rm-stat ${key}"><dt>${label}</dt><dd>${value}</dd></div>`;
   $('#libStats').innerHTML = stat('shipped', 'Structures', structures)
     + stat('ideas', tr('Banners', 'Bannières'), banners.length)
-    + stat('next', tr('From the community', 'De la communauté'), community)
-    + stat('planned', tr('Blocks to place', 'Blocs à poser'), blocks >= 10000 ? `${Math.round(blocks / 1000)}k` : number(blocks));
+    + stat('next', tr('From the community', 'De la communauté'), community);
   const shownStructures = view.kind === 'banners' ? 0 : grid.children.length;
   const shownBanners = view.kind === 'structures' ? 0 : bannerBox.children.length;
   $('#libCount').textContent = tr(`${shownStructures} structures and ${shownBanners} banners shown`, `${shownStructures} structures et ${shownBanners} bannières affichées`);
