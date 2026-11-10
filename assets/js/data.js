@@ -45,6 +45,24 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.13.0',
+    date: { en: 'November 10, 2026', fr: '10 novembre 2026' },
+    title: { en: 'Powers in 3D', fr: 'Des pouvoirs en 3D' },
+    changes: [
+      { type: 'added', en: 'Black hole: a black sphere ringed with light, and a glowing disk of gas spinning around it. It swells, then shrinks just before it blows.', fr: "Trou noir : une sphère noire cerclée de lumière, et un disque de gaz brûlant qui tourne autour. Il grossit, puis se resserre juste avant d'exploser." },
+      { type: 'added', en: 'Giant fist: a real clenched hand in a purple sleeve comes down from the sky, squashes on impact and goes back up.', fr: "Poing géant : une vraie main serrée dans une manche violette tombe du ciel, s'écrase à l'impact et remonte." },
+      { type: 'added', en: 'Fire dragon: a horned head, a long scaled body that follows it like a snake, and two flapping wings.', fr: 'Dragon de feu : une tête à cornes, un long corps à écailles qui la suit comme un serpent, et deux ailes qui battent.' },
+      { type: 'added', en: 'Meteor and meteor shower: rocks of lava that tumble as they fall.', fr: 'Météore et pluie de météores : des roches en fusion qui tournoient en tombant.' },
+      { type: 'added', en: 'Pocket tornado: a funnel of wind that spins as it moves forward.', fr: "Tornade de poche : un entonnoir de vent qui tourne en avançant." },
+      { type: 'added', en: 'Laser and orbital beam: real beams of light, red for the laser, white and blue for the orbital beam.', fr: 'Laser et rayon orbital : de vrais faisceaux lumineux, rouge pour le laser, blanc et bleu pour le rayon orbital.' },
+      { type: 'added', en: 'Wind blade: a pale crescent flies forward and cuts through everything.', fr: 'Lame du vent : un croissant pâle file droit devant et tranche tout.' },
+      { type: 'added', en: 'Time freeze: a golden clock above the area, its hands spinning back then stopping dead, and a ring of ticks on the ground.', fr: "Gel du temps : une horloge dorée au-dessus de la zone, ses aiguilles qui tournent à l'envers puis s'arrêtent net, et un cercle gradué au sol." },
+      { type: 'added', en: 'Supernova: a white star that swells and throbs faster and faster until it blows.', fr: "Supernova : une étoile blanche qui gonfle et palpite de plus en plus vite jusqu'à l'explosion." },
+      { type: 'added', en: 'Shockwave: a ring of air spreads over the ground. Area healing: a circle of green and gold runes.', fr: "Onde de choc : un anneau d'air s'étend sur le sol. Soin de zone : un cercle de runes vertes et dorées." },
+      { type: 'added', en: 'Portable trampoline: a black mat in a padded blue frame that sinks under each jump. Portals: glowing ovals with a turning swirl, purple and orange.', fr: 'Trampoline portable : une toile noire dans un cadre bleu rembourré, qui s’enfonce à chaque saut. Portails : des ovales lumineux avec un tourbillon qui tourne, violet et orange.' },
+    ],
+  },
+  {
     version: '1.1 Paper 26.3',
     date: { en: 'November 10, 2026', fr: '10 novembre 2026' },
     title: { en: 'Admin tools on Paper', fr: 'Outils admin sur Paper' },
