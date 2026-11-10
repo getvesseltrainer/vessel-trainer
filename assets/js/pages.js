@@ -367,31 +367,83 @@ if (buildsBox) {
   const mcBox = $('#mcFilter');
   const newest = (a, b) => b.localeCompare(a, 'en', { numeric: true });
   const games = [...new Set(builds.map(build => build.mc))].sort(newest);
+  const pairKey = build => `${build.loader}-${build.mc}`;
 
   /* A build for another game has its own changelog entry, such as "2.7.2 Forge 1.20.1". */
   const changesOf = build => {
     const own = `${build.version} ${LOADERS[build.loader]} ${build.mc}`;
     return CHANGELOG.some(entry => entry.version === own) ? own : build.version;
   };
+  const releaseOf = build => CHANGELOG.find(entry => entry.version === changesOf(build));
+  const size = kb => (kb >= 1024 ? `${(kb / 1024).toFixed(1).replace('.', lang === 'fr' ? ',' : '.')} ${tr('MB', 'Mo')}` : `${kb} ${tr('KB', 'Ko')}`);
+  const needs = build => (BUILD_NEEDS[pairKey(build)] || []).map(need => `<span class="v-need">${need}</span>`).join('');
 
-  const row = build => {
+  /* The two downloads most people want: the trainer to play, and the plugin for a Paper server. */
+  const renderPicks = () => {
+    const play = RELEASES.find(release => release.loader === 'fabric');
+    const server = RELEASES.find(release => release.loader === 'paper');
+    const pick = (build, kind) => {
+      if (!build) return '';
+      const release = releaseOf(build);
+      const steps = kind === 'play'
+        ? [
+          tr(`Install <a href="${FABRIC_INSTALLER_URL}" target="_blank" rel="noopener">Fabric Loader</a> for Minecraft ${build.mc}.`, `Installe <a href="${FABRIC_INSTALLER_URL}" target="_blank" rel="noopener">Fabric Loader</a> pour Minecraft ${build.mc}.`),
+          tr(`Put this file and <a href="${FABRIC_API_URL}" target="_blank" rel="noopener">Fabric API</a> in <code>.minecraft/mods</code>.`, `Mets ce fichier et <a href="${FABRIC_API_URL}" target="_blank" rel="noopener">Fabric API</a> dans <code>.minecraft/mods</code>.`),
+          tr('Start the game with the Fabric profile, open a world and press F4.', 'Lance le jeu avec le profil Fabric, ouvre un monde et appuie sur F4.'),
+        ]
+        : [
+          tr('Put this file in the <code>plugins</code> folder of your Paper server and restart it.', 'Mets ce fichier dans le dossier <code>plugins</code> de ton serveur Paper et redémarre-le.'),
+          tr('In the server console, type <code>op YourName</code> for each admin.', 'Dans la console du serveur, tape <code>op TonPseudo</code> pour chaque admin.'),
+          tr('Admins join with the Fabric trainer and press F4 for the Admin tab.', "Les admins rejoignent avec le trainer Fabric et appuient sur F4 pour l'onglet Admin."),
+        ];
+      return `<article class="v-pick ${kind}">
+        <p class="kicker">${kind === 'play' ? tr('To play', 'Pour jouer') : tr('For your server', 'Pour ton serveur')}</p>
+        <h2>${build.name} <span class="badge">v${build.version}</span></h2>
+        <p class="v-pick-meta">${LOADERS[build.loader]} · Minecraft ${build.mc}${release ? ` · ${release.date[lang]}` : ''} · ${size(build.kb)}</p>
+        <div class="v-needs" aria-label="${tr('Needs', 'Il faut')}">${needs(build)}</div>
+        <div class="v-pick-actions">
+          <a class="pill" href="downloads/${build.file}" download>${tr('Download', 'Télécharger')} v${build.version}</a>
+          ${release ? `<a class="pill quiet" href="changelog.html#${releaseId(release.version)}">${tr('What is new', 'Les nouveautés')}</a>` : ''}
+        </div>
+        <ol class="v-steps">${steps.map(step => `<li>${step}</li>`).join('')}</ol>
+      </article>`;
+    };
+    $('#vPicks').innerHTML = pick(play, 'play') + pick(server, 'server');
+  };
+
+  /* One row per game version, one column per loader: what exists, what is coming. */
+  const renderGrid = () => {
+    const loaders = Object.keys(LOADERS);
+    const cell = (loader, mc) => {
+      const latest = builds.find(build => build.available && build.latest && build.loader === loader && build.mc === mc);
+      if (latest) return `<td><a class="v-cell available" href="downloads/${latest.file}" download title="${tr('Download', 'Télécharger')} ${latest.name} ${latest.version}">v${latest.version}</a></td>`;
+      if (builds.some(build => !build.available && build.loader === loader && build.mc === mc)) return `<td><span class="v-cell planned">${tr('Planned', 'Prévue')}</span></td>`;
+      return `<td><span class="v-cell none" aria-label="${tr('Not planned', 'Pas prévue')}">—</span></td>`;
+    };
+    $('#vGrid').innerHTML = `<thead><tr><th scope="col">Minecraft</th>${loaders.map(loader => `<th scope="col">${LOADERS[loader]}</th>`).join('')}</tr></thead>
+      <tbody>${games.map(mc => `<tr><th scope="row">${mc}</th>${loaders.map(loader => cell(loader, mc)).join('')}</tr>`).join('')}</tbody>`;
+  };
+
+  const row = (build, older) => {
     const loader = LOADERS[build.loader];
     if (!build.available) {
       return `<article class="build planned">
         <div class="build-main">
-          <h2>${tr(`${loader} for Minecraft ${build.mc}`, `${loader} pour Minecraft ${build.mc}`)}</h2>
+          <h2><span class="v-loader ${build.loader}">${loader}</span> ${tr(`for Minecraft ${build.mc}`, `pour Minecraft ${build.mc}`)}</h2>
           <p>${build.note ? build.note[lang] : tr('Not available yet.', 'Pas encore disponible.')}</p>
         </div>
         <span class="build-status">${tr('Planned', 'Prévue')}</span>
       </article>`;
     }
-    const release = CHANGELOG.find(entry => entry.version === changesOf(build));
-    const note = BUILD_NOTES[`${build.loader}-${build.mc}`];
-    return `<article class="build">
+    const release = releaseOf(build);
+    const note = BUILD_NOTES[pairKey(build)];
+    return `<article class="build${older ? ' older' : ''}">
       <div class="build-main">
-        <h2>${build.name} ${build.version}${build.latest ? ` <span class="latest">${tr('Latest', 'Dernière version')}</span>` : ''}</h2>
-        <p>${loader} · Minecraft ${build.mc} · ${release ? `${release.date[lang]} · ` : ''}${build.kb} ${tr('KB', 'Ko')}</p>
-        ${note ? `<p>${note[lang]}</p>` : ''}
+        <h2><span class="v-loader ${build.loader}">${loader}</span> ${build.name} ${build.version}${build.latest ? ` <span class="latest">${tr('Latest', 'Dernière version')}</span>` : ''}</h2>
+        <p>Minecraft ${build.mc} · ${release ? `${release.date[lang]} · ` : ''}${size(build.kb)}${release ? ` · ${release.title[lang]}` : ''}</p>
+        ${note && !older ? `<p>${note[lang]}</p>` : ''}
+        ${build.latest && needs(build) ? `<div class="v-needs">${needs(build)}</div>` : ''}
+        ${build.sha256 ? `<details class="lib-check"><summary>${tr('File check', 'Vérifier le fichier')}</summary><p>SHA-256 <code>${build.sha256}</code></p></details>` : ''}
       </div>
       <div class="build-actions">
         <button class="pill quiet build-what" type="button" data-version="${changesOf(build)}" aria-describedby="buildTip">${tr('What changed', 'Nouveautés')}</button>
@@ -400,14 +452,39 @@ if (buildsBox) {
     </article>`;
   };
 
+  /* The latest build of each loader and game first; its older builds fold away beneath it. */
   const render = () => {
     const shown = builds.filter(build => (filters.loader === 'all' || build.loader === filters.loader)
       && (filters.status === 'all' || build.available === (filters.status === 'available'))
       && (filters.mc === 'all' || build.mc === filters.mc));
-    document.querySelectorAll('.chip').forEach(chip => chip.setAttribute('aria-pressed', filters[chip.dataset.filter] === chip.dataset.value));
+    document.querySelectorAll('.filters .chip').forEach(chip => chip.setAttribute('aria-pressed', filters[chip.dataset.filter] === chip.dataset.value));
     $('#buildCount').textContent = tr(`${shown.length} version${shown.length === 1 ? '' : 's'}`, `${shown.length} version${shown.length > 1 ? 's' : ''}`);
-    buildsBox.innerHTML = shown.map(row).join('')
-      || `<p class="sub">${tr('Nothing here yet for this choice. Try the Planned filter.', 'Rien pour ce choix pour l\'instant. Essaie le filtre Prévues.')}</p>`;
+    const groups = [];
+    shown.forEach(build => {
+      // Planned builds for the same game share one row: "Minecraft 26.4: Fabric, NeoForge, Forge".
+      const key = build.available ? `a-${pairKey(build)}` : `p-${build.mc}`;
+      const group = groups.find(item => item.key === key);
+      group ? group.items.push(build) : groups.push({ key, items: [build] });
+    });
+    buildsBox.innerHTML = groups.map(({ items }) => {
+      const [first, ...rest] = items;
+      if (!first.available) {
+        const noted = items.find(build => build.note);
+        return `<article class="build planned">
+          <div class="build-main">
+            <h2>Minecraft ${first.mc} ${items.map(build => `<span class="v-loader ${build.loader}">${LOADERS[build.loader]}</span>`).join(' ')}</h2>
+            <p>${noted ? noted.note[lang] : tr('Not available yet.', 'Pas encore disponible.')}</p>
+          </div>
+          <span class="build-status">${tr('Planned', 'Prévue')}</span>
+        </article>`;
+      }
+      if (!rest.length) return row(first, false);
+      return row(first, false) + `<details class="v-older">
+        <summary>${tr(`${rest.length} older ${LOADERS[first.loader]} ${first.mc} versions`, `${rest.length} versions ${LOADERS[first.loader]} ${first.mc} plus anciennes`)}</summary>
+        <div class="builds">${rest.map(build => row(build, true)).join('')}</div>
+      </details>`;
+    }).join('')
+      || `<p class="rm-empty">${tr('Nothing here yet for this choice. Try the Planned filter.', 'Rien pour ce choix pour l\'instant. Essaie le filtre Prévues.')}</p>`;
   };
 
   /* What changed: a box next to the button. On a touch screen, where nothing hovers, a tap opens it. */
@@ -452,7 +529,7 @@ if (buildsBox) {
   document.addEventListener('keydown', event => { if (event.key === 'Escape') hideTip(); });
   addEventListener('scroll', () => { if (tipFor) placeTip(); }, { passive: true });
 
-  document.querySelectorAll('.chip').forEach(chip => chip.addEventListener('click', () => {
+  document.querySelectorAll('.filters .chip').forEach(chip => chip.addEventListener('click', () => {
     filters[chip.dataset.filter] = chip.dataset.value;
     render();
   }));
@@ -461,8 +538,16 @@ if (buildsBox) {
     render();
   });
   onLang(() => {
+    const available = builds.filter(build => build.available);
+    const stat = (key, label, value) => `<div class="rm-stat ${key}"><dt>${label}</dt><dd>${value}</dd></div>`;
+    $('#vStats').innerHTML = stat('next', tr('Available', 'Disponibles'), available.length)
+      + stat('planned', tr('Planned', 'Prévues'), builds.length - available.length)
+      + stat('shipped', tr('Minecraft versions', 'Versions de Minecraft'), new Set(available.map(build => build.mc)).size)
+      + stat('ideas', tr('Loaders', 'Chargeurs'), new Set(available.map(build => build.loader)).size);
     mcBox.innerHTML = [`<option value="all">${tr('All versions', 'Toutes les versions')}</option>`, ...games.map(mc => `<option value="${mc}">${mc}</option>`)].join('');
     mcBox.value = filters.mc;
+    renderPicks();
+    renderGrid();
     render();
   });
 }

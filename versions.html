@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Vessel Trainer Versions</title>
-<meta name="description" content="Every version of Vessel Trainer, by mod loader and Minecraft version.">
+<meta name="description" content="Download Vessel Trainer: the latest version, what it needs, how to install it, and every version by mod loader and Minecraft version.">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/style.css?v=6bcdb43cc9">
+<link rel="stylesheet" href="assets/css/style.css?v=1b1f63d398">
 </head>
 <body class="page">
 <div class="sky" aria-hidden="true"></div>
@@ -34,31 +34,48 @@
       <div class="page-head">
         <p class="kicker" data-fr="Téléchargements">Downloads</p>
         <h1 class="page-title">Versions</h1>
-        <p class="sub" data-fr="Toutes les versions du trainer, disponibles ou prévues. Filtre par chargeur de mods et par version de Minecraft.">Every version of the trainer, available or planned. Filter by mod loader and Minecraft version.</p>
+        <p class="sub" data-fr="La bonne version pour ton jeu, ce qu'il lui faut et comment l'installer. Plus toutes les autres, disponibles ou prévues.">The right version for your game, what it needs and how to install it. Plus all the others, available or planned.</p>
+        <dl class="rm-stats" id="vStats"></dl>
       </div>
       <canvas id="vess" aria-hidden="true"></canvas>
     </header>
 
-    <div class="filters">
-      <div class="filter-group" role="group" aria-label="Mod loader" data-fr-aria="Chargeur de mods">
-        <button class="chip" type="button" data-filter="loader" data-value="all" data-fr="Tous">All</button>
-        <button class="chip" type="button" data-filter="loader" data-value="fabric">Fabric</button>
-        <button class="chip" type="button" data-filter="loader" data-value="neoforge">NeoForge</button>
-        <button class="chip" type="button" data-filter="loader" data-value="forge">Forge</button>
-        <button class="chip" type="button" data-filter="loader" data-value="paper">Paper</button>
-      </div>
-      <div class="filter-group" role="group" aria-label="Status" data-fr-aria="État">
-        <button class="chip" type="button" data-filter="status" data-value="all" data-fr="Toutes">All</button>
-        <button class="chip" type="button" data-filter="status" data-value="available" data-fr="Disponibles">Available</button>
-        <button class="chip" type="button" data-filter="status" data-value="planned" data-fr="Prévues">Planned</button>
-      </div>
-      <label class="filter-select" for="mcFilter"><span data-fr="Minecraft">Minecraft</span><select id="mcFilter"></select></label>
-    </div>
+    <section class="v-picks" id="vPicks" aria-label="Recommended downloads" data-fr-aria="Téléchargements conseillés"></section>
 
-    <p class="build-count" id="buildCount" aria-live="polite"></p>
-    <div class="builds" id="builds"></div>
-    <div class="build-tip" id="buildTip" role="tooltip" hidden></div>
-    <p class="note" data-fr="Les anciennes versions ne reçoivent plus de corrections. Prends la dernière, sauf si tu as besoin d'une version précise. Les versions prévues peuvent encore changer.">Older versions no longer get fixes. Use the latest one unless you need a specific version. Planned versions can still change.</p>
+    <section class="v-grid-wrap" aria-labelledby="vGridTitle">
+      <div class="rm-section-head">
+        <h2 id="vGridTitle" data-fr="Compatibilité">Compatibility</h2>
+        <p class="pt-checked" data-fr="Clique sur une version pour la télécharger.">Click a version to download it.</p>
+      </div>
+      <div class="v-table-scroll" tabindex="0" role="region" aria-labelledby="vGridTitle">
+        <table class="v-table" id="vGrid"></table>
+      </div>
+    </section>
+
+    <section class="v-all" aria-labelledby="vAllTitle">
+      <div class="rm-section-head">
+        <h2 id="vAllTitle" data-fr="Toutes les versions">Every version</h2>
+      </div>
+      <div class="rm-toolbar v-toolbar filters">
+        <div class="filter-group" role="group" aria-label="Mod loader" data-fr-aria="Chargeur de mods">
+          <button class="chip" type="button" data-filter="loader" data-value="all" data-fr="Tous">All</button>
+          <button class="chip" type="button" data-filter="loader" data-value="fabric">Fabric</button>
+          <button class="chip" type="button" data-filter="loader" data-value="neoforge">NeoForge</button>
+          <button class="chip" type="button" data-filter="loader" data-value="forge">Forge</button>
+          <button class="chip" type="button" data-filter="loader" data-value="paper">Paper</button>
+        </div>
+        <div class="filter-group" role="group" aria-label="Status" data-fr-aria="État">
+          <button class="chip" type="button" data-filter="status" data-value="all" data-fr="Toutes">All</button>
+          <button class="chip" type="button" data-filter="status" data-value="available" data-fr="Disponibles">Available</button>
+          <button class="chip" type="button" data-filter="status" data-value="planned" data-fr="Prévues">Planned</button>
+        </div>
+        <label class="filter-select" for="mcFilter"><span data-fr="Minecraft">Minecraft</span><select id="mcFilter"></select></label>
+      </div>
+      <p class="build-count" id="buildCount" aria-live="polite"></p>
+      <div class="builds" id="builds"></div>
+      <div class="build-tip" id="buildTip" role="tooltip" hidden></div>
+      <p class="note" data-fr="Les anciennes versions ne reçoivent plus de corrections. Prends la dernière, sauf si tu as besoin d'une version précise. Les versions prévues peuvent encore changer.">Older versions no longer get fixes. Use the latest one unless you need a specific version. Planned versions can still change.</p>
+    </section>
   </div>
 </main>
 <footer class="foot">
@@ -72,8 +89,8 @@
 <script src="assets/js/vendor/lenis.min.js?v=b2958f142f"></script>
 <script src="assets/js/lang.js?v=223df2fd9b"></script>
 <script src="assets/js/vess.js?v=04c6b9b6e1"></script>
-<script src="assets/js/data.js?v=105ba0b7a0"></script>
-<script src="assets/js/versions-meta.js?v=791252b09c"></script>
-<script src="assets/js/pages.js?v=6ea25debc0"></script>
+<script src="assets/js/data.js?v=4d9386c1ce"></script>
+<script src="assets/js/versions-meta.js?v=0ca8060411"></script>
+<script src="assets/js/pages.js?v=35fda54120"></script>
 </body>
 </html>

@@ -412,6 +412,15 @@ const BUILD_NOTES = {
   },
 };
 
+/* What each build needs, shown on its card on the Versions page, by loader and game version. */
+const BUILD_NEEDS = {
+  'fabric-26.3': ['Fabric Loader 0.20.1+', 'Fabric API', 'Java 25'],
+  'paper-26.3': ['Paper 26.3', 'Java 25'],
+  'forge-1.20.1': ['Forge 47', 'Java 17'],
+};
+const FABRIC_INSTALLER_URL = 'https://fabricmc.net/use/installer/';
+const FABRIC_API_URL = 'https://modrinth.com/mod/fabric-api';
+
 const PLANNED_BUILDS = [
   ...['fabric', 'neoforge', 'forge'].map(loader => ({ loader, mc: '26.4', note: { en: 'Once Minecraft 26.4 is released.', fr: 'Dès la sortie de Minecraft 26.4.' } })),
   { loader: 'neoforge', mc: '26.3' },

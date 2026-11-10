@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Vessel Trainer Library</title>
-<meta name="description" content="Structures to download and import in Vessel Trainer.">
+<meta name="description" content="Structures and menu banners for Vessel Trainer, made by the team and the community. Download them here or straight from the game.">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/style.css?v=6bcdb43cc9">
+<link rel="stylesheet" href="assets/css/style.css?v=1b1f63d398">
 </head>
 <body class="page">
 <div class="sky" aria-hidden="true"></div>
@@ -32,50 +32,112 @@
   <div class="wrap">
     <header class="page-top">
       <div class="page-head">
-        <p class="kicker" data-fr="Structures">Structures</p>
+        <p class="kicker" data-fr="Structures et bannières">Structures and banners</p>
         <h1 class="page-title" data-fr="Bibliothèque">Library</h1>
-        <p class="sub" data-fr="Récupère une structure depuis le jeu, dans Structures puis Bibliothèque en ligne. Ou télécharge-la ici, dépose-la dans ton dossier de structures et recharge la liste.">Get a structure from the game, in Structures then Online library. Or download it here, drop it in your structures folder and reload the list.</p>
+        <p class="sub" data-fr="Des constructions prêtes à poser et des bannières pour ton menu, faites par l'équipe et la communauté.">Ready-to-place builds and banners for your menu, made by the team and the community.</p>
+        <dl class="rm-stats" id="libStats"></dl>
+        <div class="rm-cta">
+          <a class="pill" href="#add" data-fr="Partager ta création">Share your build</a>
+          <a class="pill quiet" href="#how" data-fr="Comment les utiliser">How to use them</a>
+        </div>
       </div>
       <canvas id="vess" aria-hidden="true"></canvas>
     </header>
 
-    <label class="search" for="libSearch"><span class="sr" data-fr="Chercher une structure">Search a structure</span><input id="libSearch" type="search" autocomplete="off"></label>
-    <div class="lib-grid" id="library"></div>
-
-    <section class="doc" id="banners">
-      <h2 data-fr="Bannières">Banners</h2>
-      <p class="sub" data-fr="Des bannières pour l'en-tête du menu. Télécharge-les ici, ou directement dans le jeu : Réglages, puis Bibliothèque de bannières.">Banners for the top of the menu. Download them here, or straight from the game: Settings, then Banner library.</p>
-      <div class="lib-grid" id="bannerList"></div>
-      <div class="lib-actions banner-share">
-        <a class="pill" id="bannerShare" target="_blank" rel="noopener" data-fr="Partager une bannière">Share a banner</a>
-        <button class="pill" type="button" id="bannerSignIn" hidden data-fr="Se connecter avec Discord pour partager">Sign in with Discord to share</button>
-      </div>
-      <form class="banner-form" id="bannerForm" hidden novalidate>
-        <label class="field" for="bannerFile"><span data-fr="Image (PNG ou GIF)">Image (PNG or GIF)</span><input id="bannerFile" type="file" accept="image/png,image/gif"></label>
-        <label class="field" for="bannerName"><span data-fr="Nom">Name</span><input id="bannerName" type="text" maxlength="40"></label>
-        <label class="field" for="bannerAuthor"><span data-fr="Ton pseudo">Your name</span><input id="bannerAuthor" type="text" maxlength="40"></label>
-        <button class="pill" type="submit" data-fr="Envoyer ma bannière">Send my banner</button>
-        <div class="report" id="bannerResult" aria-live="polite" hidden></div>
-      </form>
-      <p class="note" id="bannerNote" data-fr="Partager demande un compte GitHub gratuit. Ton image est publique dès l'envoi, et elle rejoint la bibliothèque après vérification. PNG jusqu'à 4096 pixels de large, réduit à 1280 pour le jeu, ou GIF jusqu'à 600 pixels. 10 Mo maximum.">Sharing needs a free GitHub account. Your image is public as soon as you send it, and it joins the library once it has been reviewed. PNG up to 4096 pixels wide, shrunk to 1280 for the game, or GIF up to 600 pixels. 10 MB at most.</p>
+    <section class="lib-how" id="how" aria-labelledby="libHowTitle">
+      <h2 class="sr" id="libHowTitle" data-fr="Comment les utiliser">How to use them</h2>
+      <ol class="lib-steps">
+        <li>
+          <b data-fr="Depuis le jeu">From the game</b>
+          <span data-fr="Appuie sur F4, puis <b>Structures</b>, <b>Bibliothèque en ligne</b>, <b>Actualiser la liste</b>. Choisis une structure et <b>Télécharger la structure</b>.">Press F4, then <b>Structures</b>, <b>Online library</b>, <b>Refresh the list</b>. Pick a structure and <b>Download structure</b>.</span>
+        </li>
+        <li>
+          <b data-fr="Ou depuis ce site">Or from this site</b>
+          <span data-fr="Télécharge le fichier et mets-le dans <code>.minecraft/config/vesseltrainer/structures</code>, puis <b>Recharger les structures</b>.">Download the file into <code>.minecraft/config/vesseltrainer/structures</code>, then <b>Reload structures</b>.</span>
+        </li>
+        <li>
+          <b data-fr="Pose-la">Place it</b>
+          <span data-fr="Vise un bloc et lance <b>Aperçu au bloc visé</b>, puis <b>Placer au bloc visé</b>. Tout s'annule avec <b>Annuler</b>.">Aim at a block and use <b>Preview at aimed block</b>, then <b>Place at aimed block</b>. <b>Undo</b> takes it all back.</span>
+        </li>
+      </ol>
     </section>
 
-    <section class="doc add-box" id="add">
-      <h2 data-fr="Ajouter ta structure">Add your structure</h2>
+    <div class="rm-toolbar lib-toolbar">
+      <div class="filter-group" role="group" id="libKinds" aria-label="Show" data-fr-aria="Afficher"></div>
+      <div class="filter-group" role="group" id="libSources" aria-label="Made by" data-fr-aria="Fait par"></div>
+      <label class="search rm-search" for="libSearch"><span class="sr" data-fr="Chercher dans la bibliothèque">Search the library</span><input id="libSearch" type="search" autocomplete="off"></label>
+      <label class="filter-select lib-sort" for="libSort"><span data-fr="Trier">Sort</span><select id="libSort"></select></label>
+    </div>
+    <p class="build-count" id="libCount" aria-live="polite"></p>
+
+    <section class="lib-section" id="structures" aria-labelledby="libStructTitle">
+      <div class="rm-section-head">
+        <h2 id="libStructTitle">Structures</h2>
+        <span class="lane-count" id="libStructCount"></span>
+      </div>
+      <div class="lib-grid" id="library"></div>
+      <p class="rm-empty" id="libEmpty" hidden></p>
+    </section>
+
+    <section class="lib-section" id="banners" aria-labelledby="libBannerTitle">
+      <div class="rm-section-head">
+        <h2 id="libBannerTitle" data-fr="Bannières">Banners</h2>
+        <span class="lane-count" id="libBannerCount"></span>
+      </div>
+      <p class="sub lib-section-sub" data-fr="Pour l'en-tête du menu. Dans le jeu : <b>Réglages</b>, <b>Bibliothèque de bannières</b>, puis <b>Télécharger et utiliser</b>. Depuis le site, mets le fichier dans <code>.minecraft/config/vesseltrainer/banners</code>.">For the top of the menu. In the game: <b>Settings</b>, <b>Banner library</b>, then <b>Download and use</b>. From the site, put the file in <code>.minecraft/config/vesseltrainer/banners</code>.</p>
+      <div class="lib-grid lib-banners" id="bannerList"></div>
+      <p class="rm-empty" id="libBannerEmpty" hidden></p>
+    </section>
+
+    <section class="lib-share" id="add" aria-labelledby="libShareTitle">
+      <div class="lib-share-head">
+        <p class="kicker" data-fr="À toi de jouer">Your turn</p>
+        <h2 id="libShareTitle" data-fr="Partage ta création">Share your build</h2>
+        <p class="sub" data-fr="Une structure capturée avec le trainer, ou une bannière pour le menu. Tout est vérifié avant d'arriver dans la bibliothèque.">A structure captured with the trainer, or a banner for the menu. Everything is reviewed before it joins the library.</p>
+      </div>
       <div class="account-box" id="accountBox" hidden></div>
-      <p class="sub" data-fr="Choisis un fichier .nbt capturé avec le trainer. Il est analysé dans ton navigateur et rien n'est envoyé tant que tu ne le partages pas.">Choose a .nbt file captured with the trainer. It is checked in your browser and nothing is uploaded unless you share it.</p>
-      <form id="addForm" novalidate>
-        <label class="field" for="addFile"><span data-fr="Fichier .nbt">.nbt file</span><input id="addFile" type="file" accept=".nbt" required></label>
-        <div class="report" id="addReport" aria-live="polite" hidden></div>
-        <label class="field" for="addName"><span data-fr="Nom">Name</span><input id="addName" type="text" maxlength="60" required></label>
-        <label class="field" for="addAuthor"><span data-fr="Ton pseudo">Your name</span><input id="addAuthor" type="text" maxlength="40"></label>
-        <label class="field" for="addText"><span>Description</span><textarea id="addText" rows="3" maxlength="240"></textarea></label>
-        <div class="lib-actions">
-          <button class="pill" type="button" id="shareButton" disabled data-fr="Partager avec tout le monde">Share with everyone</button>
-          <button class="pill quiet" type="submit" id="addButton" disabled data-fr="Garder dans ce navigateur">Keep in this browser</button>
+
+      <div class="lib-share-grid">
+        <div class="lib-panel add-box">
+          <h3 data-fr="Une structure">A structure</h3>
+          <p class="sub" data-fr="Choisis un fichier .nbt capturé avec le trainer. Il est analysé dans ton navigateur et rien n'est envoyé tant que tu ne le partages pas.">Choose a .nbt file captured with the trainer. It is checked in your browser and nothing is uploaded unless you share it.</p>
+          <form id="addForm" novalidate>
+            <label class="field" for="addFile"><span data-fr="Fichier .nbt">.nbt file</span><input id="addFile" type="file" accept=".nbt" required></label>
+            <div class="report" id="addReport" aria-live="polite" hidden></div>
+            <label class="field" for="addName"><span data-fr="Nom">Name</span><input id="addName" type="text" maxlength="60" required></label>
+            <label class="field" for="addAuthor"><span data-fr="Ton pseudo">Your name</span><input id="addAuthor" type="text" maxlength="40"></label>
+            <label class="field" for="addText"><span>Description</span><textarea id="addText" rows="3" maxlength="240"></textarea></label>
+            <div class="lib-actions">
+              <button class="pill" type="button" id="shareButton" disabled data-fr="Partager avec tout le monde">Share with everyone</button>
+              <button class="pill quiet" type="submit" id="addButton" disabled data-fr="Garder dans ce navigateur">Keep in this browser</button>
+            </div>
+          </form>
+          <p class="note" id="addNote"></p>
         </div>
-      </form>
-      <p class="note" id="addNote"></p>
+
+        <div class="lib-panel">
+          <h3 data-fr="Une bannière">A banner</h3>
+          <p class="sub" data-fr="Une image pour l'en-tête du menu, fixe ou animée.">An image for the top of the menu, still or animated.</p>
+          <div class="lib-actions banner-share">
+            <a class="pill" id="bannerShare" target="_blank" rel="noopener" data-fr="Partager une bannière">Share a banner</a>
+            <button class="pill" type="button" id="bannerSignIn" hidden data-fr="Se connecter avec Discord pour partager">Sign in with Discord to share</button>
+          </div>
+          <form class="banner-form" id="bannerForm" hidden novalidate>
+            <label class="field" for="bannerFile"><span data-fr="Image (PNG ou GIF)">Image (PNG or GIF)</span><input id="bannerFile" type="file" accept="image/png,image/gif"></label>
+            <label class="field" for="bannerName"><span data-fr="Nom">Name</span><input id="bannerName" type="text" maxlength="40"></label>
+            <label class="field" for="bannerAuthor"><span data-fr="Ton pseudo">Your name</span><input id="bannerAuthor" type="text" maxlength="40"></label>
+            <button class="pill" type="submit" data-fr="Envoyer ma bannière">Send my banner</button>
+            <div class="report" id="bannerResult" aria-live="polite" hidden></div>
+          </form>
+          <p class="note" id="bannerNote" data-fr="Partager demande un compte GitHub gratuit. Ton image est publique dès l'envoi, et elle rejoint la bibliothèque après vérification. PNG jusqu'à 4096 pixels de large, réduit à 1280 pour le jeu, ou GIF jusqu'à 600 pixels. 10 Mo maximum.">Sharing needs a free GitHub account. Your image is public as soon as you send it, and it joins the library once it has been reviewed. PNG up to 4096 pixels wide, shrunk to 1280 for the game, or GIF up to 600 pixels. 10 MB at most.</p>
+        </div>
+      </div>
+
+      <ul class="lib-rules">
+        <li data-fr="Les blocs de commande ne sont jamais posés, et une structure qui en contient ne peut pas être partagée.">Command blocks are never placed, and a structure that has any cannot be shared.</li>
+        <li data-fr="Un texte qui lance une commande au clic bloque aussi le partage.">Text that runs a command when clicked blocks sharing too.</li>
+        <li data-fr="N'importe que des fichiers de personnes de confiance.">Only import files from people you trust.</li>
+      </ul>
     </section>
   </div>
 </main>
@@ -90,11 +152,11 @@
 <script src="assets/js/vendor/lenis.min.js?v=b2958f142f"></script>
 <script src="assets/js/lang.js?v=223df2fd9b"></script>
 <script src="assets/js/vess.js?v=04c6b9b6e1"></script>
-<script src="assets/js/data.js?v=105ba0b7a0"></script>
+<script src="assets/js/data.js?v=4d9386c1ce"></script>
 <script src="assets/js/library-meta.js?v=195f767918"></script>
 <script src="assets/js/vendor/supabase.min.js?v=96277ec00e"></script>
 <script src="assets/js/account.js?v=6cd736e3d2"></script>
-<script src="assets/js/library.js?v=5e99fc0099"></script>
-<script src="assets/js/pages.js?v=6ea25debc0"></script>
+<script src="assets/js/library.js?v=856f220a6b"></script>
+<script src="assets/js/pages.js?v=35fda54120"></script>
 </body>
 </html>

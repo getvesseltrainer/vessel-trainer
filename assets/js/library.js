@@ -209,46 +209,121 @@ let mine = [];
 let shared = LIBRARY_FALLBACK;
 const grid = $('#library');
 const search = $('#libSearch');
+let banners = [];
+const bannerBox = $('#bannerList');
 
-const stats = (size, blocks) => `${size.join(' × ')} · ${blocks.toLocaleString(lang === 'fr' ? 'fr-FR' : 'en-US')} ${tr('blocks', 'blocs')}`;
+const number = n => Number(n || 0).toLocaleString(lang === 'fr' ? 'fr-FR' : 'en-US');
+const stats = (size, blocks) => `${size.join(' × ')} · ${number(blocks)} ${tr('blocks', 'blocs')}`;
 
-function renderLibrary() {
-  const query = search.value.trim().toLowerCase();
+/* What the visitor is looking at: kind, who made it, a search and an order. */
+const view = { kind: 'all', source: 'all', sort: 'name' };
+const fold = text => String(text).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const sourceOf = item => (item.local ? 'mine' : item.community ? 'community' : 'team');
+const SOURCES = {
+  team: () => tr('Vessel team', 'Équipe Vessel'),
+  community: () => tr('Community', 'Communauté'),
+  mine: () => tr('In this browser', 'Dans ce navigateur'),
+};
+const matchesView = (item, words) => (view.source === 'all' || sourceOf(item) === view.source) && fold(words).includes(fold(search.value.trim()));
+const ordered = list => {
+  const name = item => (item.local ? item.name : item.name[lang]);
+  const by = {
+    name: (a, b) => name(a).localeCompare(name(b), lang),
+    big: (a, b) => (b.blocks || 0) - (a.blocks || 0),
+    small: (a, b) => (a.blocks || 0) - (b.blocks || 0),
+  }[view.sort] || (() => 0);
+  return [...list].sort(by);
+};
+
+const structureCard = item => {
   // Community entries come from players, so everything from the catalog is escaped.
-  const shipped = shared.map(item => {
-    const id = escapeHtml(item.id);
-    return `<article class="lib-card" data-find="${escapeHtml(`${item.name.en} ${item.name.fr} ${item.author}`.toLowerCase())}">
-      ${item.image
-        ? `<img loading="lazy" src="assets/img/library/${id}.webp" width="800" height="450" alt="${escapeHtml(item.name[lang])}">`
-        : `<canvas class="lib-preview" width="800" height="450" data-file="${id}" role="img" aria-label="${escapeHtml(tr(`Preview of ${item.name[lang]}`, `Aperçu de ${item.name[lang]}`))}"></canvas>`}
+  const local = item.local;
+  const id = escapeHtml(local ? item.id : item.id);
+  const name = local ? item.name : item.name[lang];
+  const text = local ? item.text : item.text[lang];
+  const source = sourceOf(item);
+  const [x, y, z] = item.size;
+  const picture = !local && item.image
+    ? `<img loading="lazy" src="assets/img/library/${id}.webp" width="800" height="450" alt="${escapeHtml(name)}">`
+    : `<canvas class="lib-preview" width="800" height="450" ${local ? `data-local="${item.id}"` : `data-file="${id}"`} role="img" aria-label="${escapeHtml(tr(`Preview of ${name}`, `Aperçu de ${name}`))}"></canvas>`;
+  return `<article class="lib-card">
+      <div class="lib-media">
+        ${picture}
+        <span class="lib-size" title="${tr('Width × height × depth', 'Largeur × hauteur × profondeur')}">${x} × ${y} × ${z}</span>
+      </div>
       <div class="lib-body">
-        ${item.community ? `<span class="lib-badge">${tr('Community', 'Communauté')}</span>` : ''}
-        <h2>${escapeHtml(item.name[lang])}</h2>
-        <p class="lib-stats">${stats(item.size, item.blocks)}</p>
-        <p>${escapeHtml(item.text[lang])}</p>
-        <p class="lib-author">${tr('By', 'Par')} ${escapeHtml(item.author)}</p>
-        <a class="pill" href="library/${id}.nbt" download>${tr('Download', 'Télécharger')}</a>
+        <span class="lib-badge ${source}">${SOURCES[source]()}</span>
+        <h2>${escapeHtml(name)}</h2>
+        ${text ? `<p>${escapeHtml(text)}</p>` : ''}
+        <ul class="lib-meta">
+          <li><b>${number(item.blocks)}</b> ${tr('blocks', 'blocs')}</li>
+          <li>${tr('By', 'Par')} <b>${escapeHtml(item.author || tr('you', 'toi'))}</b></li>
+        </ul>
+        <div class="lib-actions">
+          ${local
+            ? `<button class="pill" type="button" data-save="${item.id}">${tr('Download', 'Télécharger')}</button>
+               <button class="pill quiet" type="button" data-remove="${item.id}">${tr('Remove', 'Retirer')}</button>`
+            : `<a class="pill" href="library/${id}.nbt" download>${tr('Download', 'Télécharger')}</a>`}
+        </div>
+        ${!local && item.sha256 ? `<details class="lib-check"><summary>${tr('File check', 'Vérifier le fichier')}</summary><p>SHA-256 <code>${escapeHtml(item.sha256)}</code></p></details>` : ''}
       </div>
     </article>`;
-  });
-  const local = mine.map(item => `<article class="lib-card" data-find="${escapeHtml(`${item.name} ${item.author}`.toLowerCase())}">
-      <canvas class="lib-preview" width="800" height="450" data-local="${item.id}" role="img" aria-label="${escapeHtml(tr(`Preview of ${item.name}`, `Aperçu de ${item.name}`))}"></canvas>
-      <div class="lib-body">
-        <span class="lib-badge">${tr('Only in this browser', 'Seulement dans ce navigateur')}</span>
-        <h2>${escapeHtml(item.name)}</h2>
-        <p class="lib-stats">${stats(item.size, item.blocks)}</p>
-        <p>${escapeHtml(item.text)}</p>
-        <p class="lib-author">${tr('By', 'Par')} ${escapeHtml(item.author || tr('you', 'toi'))}</p>
-        <div class="lib-actions">
-          <button class="pill" type="button" data-save="${item.id}">${tr('Download', 'Télécharger')}</button>
-          <button class="pill quiet" type="button" data-remove="${item.id}">${tr('Remove', 'Retirer')}</button>
-        </div>
-      </div>
-    </article>`);
-  grid.innerHTML = [...local, ...shipped].join('');
-  grid.querySelectorAll('.lib-card').forEach(card => { card.hidden = !card.dataset.find.includes(query); });
+};
+
+function renderLibrary() {
+  const all = [...mine.map(item => ({ ...item, local: true })), ...shared];
+  const shown = ordered(all.filter(item => matchesView(item, item.local ? `${item.name} ${item.author} ${item.text}` : `${item.name.en} ${item.name.fr} ${item.text.en} ${item.text.fr} ${item.author}`)));
+  grid.innerHTML = shown.map(structureCard).join('');
+  $('#structures').hidden = view.kind === 'banners';
+  $('#libStructCount').textContent = shown.length;
+  const empty = $('#libEmpty');
+  empty.hidden = shown.length > 0;
+  empty.textContent = tr('No structure matches. Try another word or filter, or share yours below.', 'Aucune structure ne correspond. Essaie un autre mot ou un autre filtre, ou partage la tienne plus bas.');
   watchPreviews();
+  renderSummary();
 }
+
+/* Counts at the top of the page and under the filters. */
+const renderSummary = () => {
+  const structures = mine.length + shared.length;
+  const community = shared.filter(item => item.community).length + banners.filter(item => item.community).length;
+  const blocks = [...shared, ...mine].reduce((sum, item) => sum + (item.blocks || 0), 0);
+  const stat = (key, label, value) => `<div class="rm-stat ${key}"><dt>${label}</dt><dd>${value}</dd></div>`;
+  $('#libStats').innerHTML = stat('shipped', 'Structures', structures)
+    + stat('ideas', tr('Banners', 'Bannières'), banners.length)
+    + stat('next', tr('From the community', 'De la communauté'), community)
+    + stat('planned', tr('Blocks to place', 'Blocs à poser'), blocks >= 10000 ? `${Math.round(blocks / 1000)}k` : number(blocks));
+  const shownStructures = view.kind === 'banners' ? 0 : grid.children.length;
+  const shownBanners = view.kind === 'structures' ? 0 : bannerBox.children.length;
+  $('#libCount').textContent = tr(`${shownStructures} structures and ${shownBanners} banners shown`, `${shownStructures} structures et ${shownBanners} bannières affichées`);
+};
+
+const renderFilters = () => {
+  const chip = (group, value, label) => `<button class="chip" type="button" data-${group}="${value}" aria-pressed="${view[group] === value}">${label}</button>`;
+  $('#libKinds').innerHTML = chip('kind', 'all', tr('Everything', 'Tout')) + chip('kind', 'structures', 'Structures') + chip('kind', 'banners', tr('Banners', 'Bannières'));
+  $('#libSources').innerHTML = chip('source', 'all', tr('Anyone', 'Tout le monde'))
+    + Object.keys(SOURCES).filter(key => key !== 'mine' || mine.length).map(key => chip('source', key, SOURCES[key]())).join('');
+  const sort = $('#libSort');
+  sort.innerHTML = [['name', tr('Name', 'Nom')], ['big', tr('Biggest first', 'Les plus grandes')], ['small', tr('Smallest first', 'Les plus petites')]]
+    .map(([value, label]) => `<option value="${value}">${label}</option>`).join('');
+  sort.value = view.sort;
+};
+const renderAll = () => {
+  renderFilters();
+  renderLibrary();
+  renderBanners();
+};
+document.querySelector('.lib-toolbar').addEventListener('click', event => {
+  const button = event.target.closest('[data-kind], [data-source]');
+  if (!button) return;
+  if (button.dataset.kind) view.kind = button.dataset.kind;
+  if (button.dataset.source) view.source = button.dataset.source;
+  renderAll();
+});
+$('#libSort').addEventListener('change', event => {
+  view.sort = event.target.value;
+  renderLibrary();
+});
 
 grid.addEventListener('click', async event => {
   const save = event.target.closest('[data-save]');
@@ -264,7 +339,8 @@ grid.addEventListener('click', async event => {
   if (remove) {
     await store.remove(+remove.dataset.remove);
     mine = await store.all();
-    renderLibrary();
+    if (!mine.length && view.source === 'mine') view.source = 'all';
+    renderAll();
   }
 });
 
@@ -311,7 +387,8 @@ $('#addForm').addEventListener('submit', async event => {
   checked = null;
   report.hidden = true;
   setReady(false);
-  renderLibrary();
+  view.kind = view.kind === 'banners' ? 'all' : view.kind;
+  renderAll();
   grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
@@ -356,38 +433,49 @@ $('#shareButton').addEventListener('click', async () => {
   showReport(`<b>${tr('Last step', 'Dernière étape')}</b> ${escapeHtml(tr(`${link.download} was saved. Drag it into the Structure file box on GitHub, then send the form.`, `${link.download} est enregistré. Glisse-le dans la case Structure file sur GitHub, puis envoie le formulaire.`))}<br><a href="${escapeHtml(form.href)}" target="_blank" rel="noopener">${tr('Open the form again', 'Rouvrir le formulaire')}</a>`, false);
 });
 
-search.addEventListener('input', renderLibrary);
+search.addEventListener('input', () => {
+  renderLibrary();
+  renderBanners();
+});
 onLang(() => {
-  search.placeholder = tr('Search a structure', 'Chercher une structure');
+  search.placeholder = tr('Search: castle, Vess, tower…', 'Chercher : château, Vess, tour…');
   $('#shareButton').hidden = !SUBMIT_URL;
   $('#addNote').textContent = VesselAccount.enabled
     ? tr('Sharing needs you to sign in with Discord. Your name, text and file become public once an admin approves them.', 'Partager demande de te connecter avec Discord. Ton pseudo, ton texte et ton fichier deviennent publics une fois validés par un admin.')
     : SUBMIT_URL
     ? tr('Sharing needs a free GitHub account. Your name, text and file are public as soon as you send them, and the structure joins the library once reviewed.', 'Le partage demande un compte GitHub gratuit. Ton pseudo, ton texte et ton fichier sont publics dès l\'envoi, et la structure rejoint la bibliothèque une fois vérifiée.')
     : tr('For now your structure stays in this browser.', 'Pour l\'instant, ta structure reste dans ce navigateur.');
-  renderLibrary();
+  renderAll();
 });
-store.all().then(entries => { mine = entries; renderLibrary(); });
+store.all().then(entries => { mine = entries; renderAll(); });
 /* Banners. Names come from players, so everything from the catalog is escaped. */
-let banners = [];
-const bannerBox = $('#bannerList');
-const renderBanners = () => {
-  bannerBox.innerHTML = banners.map(item => {
+function renderBanners() {
+  const shown = banners.filter(item => matchesView(item, `${item.name.en} ${item.name.fr} ${item.author}`));
+  bannerBox.innerHTML = shown.map(item => {
     const file = `library/banners/${escapeHtml(item.id)}.${escapeHtml(item.format)}`;
-    return `<article class="lib-card">
-      <img class="banner-image" loading="lazy" src="${file}" alt="${escapeHtml(item.name[lang])}">
+    const source = sourceOf(item);
+    return `<article class="lib-card lib-banner">
+      <div class="lib-media banner-media">
+        <img class="banner-image" loading="lazy" src="${file}" alt="${escapeHtml(item.name[lang])}">
+        <span class="lib-size">${item.format === 'gif' ? tr('Animated GIF', 'GIF animé') : 'PNG'}</span>
+      </div>
       <div class="lib-body">
-        ${item.community ? `<span class="lib-badge">${tr('Community', 'Communauté')}</span>` : ''}
+        <span class="lib-badge ${source}">${SOURCES[source]()}</span>
         <h2>${escapeHtml(item.name[lang])}</h2>
-        <p class="lib-author">${tr('By', 'Par')} ${escapeHtml(item.author)}</p>
-        <a class="pill" href="${file}" download>${tr('Download', 'Télécharger')}</a>
+        <ul class="lib-meta"><li>${tr('By', 'Par')} <b>${escapeHtml(item.author)}</b></li></ul>
+        <div class="lib-actions"><a class="pill" href="${file}" download>${tr('Download', 'Télécharger')}</a></div>
       </div>
     </article>`;
   }).join('');
-};
+  $('#banners').hidden = view.kind === 'structures';
+  $('#libBannerCount').textContent = shown.length;
+  const empty = $('#libBannerEmpty');
+  empty.hidden = shown.length > 0 || !banners.length;
+  empty.textContent = tr('No banner matches.', 'Aucune bannière ne correspond.');
+  renderSummary();
+}
 $('#bannerShare').href = BANNER_SUBMIT_URL;
 $('#bannerShare').hidden = !BANNER_SUBMIT_URL || VesselAccount.enabled;
-onLang(renderBanners);
 fetch('library/banners/index.json', { cache: 'no-cache' })
   .then(response => (response.ok ? response.json() : Promise.reject(new Error('No catalog'))))
   .then(entries => { banners = entries; renderBanners(); })
