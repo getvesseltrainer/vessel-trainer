@@ -5,7 +5,7 @@
   Each text has an English (en) and a French (fr) version.
 */
 /* Project pages on the mod platforms. A button stays marked as coming soon until it has an address. */
-const STORE_LINKS = { curseforge: '', modrinth: '' };
+const STORE_LINKS = { curseforge: 'https://www.curseforge.com/minecraft/mc-mods/vessel-trainer', modrinth: '' };
 
 /* Donation pages. Paste your own address in url; a link stays hidden on the page until it has one. */
 const SUPPORT_LINKS = [
