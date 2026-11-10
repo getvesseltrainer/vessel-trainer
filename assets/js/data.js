@@ -45,6 +45,22 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.13.1',
+    date: { en: 'November 10, 2026', fr: '10 novembre 2026' },
+    title: { en: 'More in 3D, and the mushroom cloud', fr: 'Encore plus de 3D, et le champignon' },
+    changes: [
+      { type: 'added', en: 'The nuke falls as a real bomb: olive body, yellow bands, the radiation sign and a box tail, nose first and faster and faster during the countdown.', fr: 'La nuke tombe comme une vraie bombe : corps vert olive, bandes jaunes, logo radioactif et queue à caisson, nez en avant et de plus en plus vite pendant le compte à rebours.' },
+      { type: 'added', en: 'A 3D mushroom cloud for each yield: small and round for Tactical, a rolling ring under a dome for Strategic, huge and in two tiers for Tsar. It rises as a fireball, cools to smoke, with rings of condensation and a ring of dust on the ground.', fr: "Un champignon en 3D pour chaque puissance : petit et rond en Tactique, un anneau qui roule sous un dôme en Stratégique, immense et sur deux étages en Tsar. Il monte en boule de feu, refroidit en fumée, avec des anneaux de condensation et un anneau de poussière au sol." },
+      { type: 'added', en: 'Energy shield: a sphere of blue hexagons around you. Flamethrower: a cone of fire out of the hand.', fr: "Bouclier d'énergie : une sphère d'hexagones bleus autour de toi. Lance-flammes : un cône de feu qui sort de la main." },
+      { type: 'added', en: 'Frost ray: spikes of ice burst out of the ground. Sword rain: big glowing swords that stay stuck in the ground. Lava geyser: a column of flowing lava.', fr: 'Rayon de gel : des pics de glace jaillissent du sol. Pluie d’épées : de grandes épées lumineuses qui restent plantées dans le sol. Geyser de lave : une colonne de lave qui coule.' },
+      { type: 'added', en: 'Drill, grapple, magnet, magic rod: a spinning drill bit, a steel hook on a rope, a horseshoe magnet over the head, a purple rod with a star.', fr: "Foreuse, grappin, aimant, canne magique : une mèche qui tourne, un crochet d'acier au bout d'une corde, un aimant en fer à cheval au-dessus de la tête, une canne violette avec une étoile." },
+      { type: 'added', en: 'Glass prison, mind control, chain lightning, instant wall, light bridge, growth ray, super leap: crystal bars, a hypnotic spiral, zigzag arcs, glowing runes, railings of light, a ring of leaves and a burst of air.', fr: 'Prison de verre, contrôle mental, foudre en chaîne, mur instantané, pont de lumière, rayon de croissance, super bond : des barreaux de cristal, une spirale hypnotique, des arcs en zigzag, des runes lumineuses, des rambardes de lumière, un cercle de feuilles et un souffle d’air.' },
+      { type: 'added', en: 'Fun tab: top hats, crowns and party hats, a sheet ghost, a mirror ball, a casino wheel for the surprise wheel, and a foam plastic sword.', fr: 'Onglet Fun : hauts-de-forme, couronnes et chapeaux de fête, un fantôme en drap, une boule à facettes, une roue de casino pour la roue surprise, et une épée en mousse.' },
+      { type: 'fixed', en: 'The textures of the 3D models are no longer stretched or squashed: every face is painted at its own size.', fr: 'Les textures des modèles 3D ne sont plus étirées ni écrasées : chaque face est peinte à sa vraie taille.' },
+      { type: 'fixed', en: 'The fire dragon looked backwards; its head now leads the way.', fr: 'Le dragon de feu regardait en arrière ; sa tête ouvre maintenant la marche.' },
+    ],
+  },
+  {
     version: '2.13.0',
     date: { en: 'November 10, 2026', fr: '10 novembre 2026' },
     title: { en: 'Powers in 3D', fr: 'Des pouvoirs en 3D' },
