@@ -702,6 +702,22 @@ mountVess($('#vess'));
   if (window.Lenis) {
     const lenis = new Lenis({ lerp: .09 });
     window.vtLenis = lenis;
+    // Lenis takes over scrolling, so links to a place on the same page go through it too.
+    const jump = (target, immediate) => lenis.scrollTo(target, { offset: -110, immediate });
+    document.addEventListener('click', event => {
+      const link = event.target.closest && event.target.closest('a[href^="#"]');
+      if (!link || event.defaultPrevented || link.getAttribute('href').length < 2) return;
+      const target = document.getElementById(decodeURIComponent(link.getAttribute('href').slice(1)));
+      if (!target) return;
+      event.preventDefault();
+      history.pushState(null, '', link.getAttribute('href'));
+      jump(target, false);
+    });
+    // The changelog opens its own hidden versions first, then scrolls itself.
+    if (location.hash && !document.getElementById('changelog')) {
+      const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      if (target) requestAnimationFrame(() => jump(target, true));
+    }
     gsap.ticker.add(t => lenis.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
   }

@@ -375,11 +375,11 @@ kbd { font: 500 14px var(--mono); padding: 3px 9px; border-radius: 7px; color: v
 .lib-how { margin-bottom: clamp(26px, 4vw, 40px); }
 .lib-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; counter-reset: step; }
 .lib-steps li { position: relative; display: grid; gap: 6px; min-width: 0; padding: 20px 20px 20px 64px; border-radius: 20px; background: rgba(21, 26, 46, .72); counter-increment: step; }
-.lib-steps li::before { content: counter(step); position: absolute; left: 20px; top: 18px; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--coral); color: var(--white); font: 800 16px/1 var(--head); }
+.lib-steps li::before { content: counter(step); position: absolute; left: 20px; top: 18px; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--coral); color: var(--white); font: 800 16px/1 var(--body); }
 .lib-steps b { font-size: 18px; }
 .lib-steps span { color: var(--soft); font-size: 15px; }
 .lib-steps span b { font-size: inherit; color: var(--navy); }
-.lib-steps code, .lib-section-sub code { overflow-wrap: anywhere; color: var(--white); }
+.lib-steps code, .lib-section-sub code { overflow-wrap: break-word; color: var(--white); }
 .lib-toolbar .filter-group { flex: 0 1 auto; }
 .lib-toolbar .rm-search { flex: 1 1 200px; }
 .lib-sort select { padding: 9px 12px; border-radius: 999px; }
