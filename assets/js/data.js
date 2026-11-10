@@ -16,13 +16,15 @@ const SUPPORT_LINKS = [
 
 /*
   Discord partners, shown on the Partners page. Add one block per server.
-  icon is a file in site/new/partners; icon and address are optional.
+  icon is a file in site/new/partners; icon, address and color are optional.
+  address is a Minecraft server: its live status shows on the card. color tints the card, as #rrggbb.
 */
 const PARTNERS = [
   {
     name: 'Xyro Craft',
     invite: 'https://discord.gg/fhunbBMmm8',
     icon: 'xyro-craft.webp',
+    color: '#e0313a',
     address: 'gamenode3.cbr-cloud.com:25599',
     text: { en: 'A Minecraft Java server on version 26.3.', fr: 'Un serveur Minecraft Java en version 26.3.' },
   },
@@ -350,6 +352,9 @@ const ROADMAP_CATEGORIES = {
   servers: { en: "Servers", fr: "Serveurs" },
   versions: { en: "Versions", fr: "Versions" },
 };
+
+/* Where communities ask to become partners. Empty it to hide its button. */
+const PARTNER_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/new?template=partner.yml';
 
 /* Where players send their own ideas. Empty one to hide its button. */
 const IDEA_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/new?template=idea.yml';

@@ -1,0 +1,45 @@
+name: Become a partner
+description: Ask for your Discord community or Minecraft server to appear on the Partners page.
+title: "Partner: "
+labels: ["partner"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your interest! We look at every request.
+        This form is public: do not put anything private in it. English or French, both are fine.
+  - type: input
+    id: name
+    attributes:
+      label: Community name
+      placeholder: My Minecraft server
+    validations:
+      required: true
+  - type: input
+    id: invite
+    attributes:
+      label: Discord invite link
+      description: A link that does not expire.
+      placeholder: https://discord.gg/...
+    validations:
+      required: true
+  - type: input
+    id: address
+    attributes:
+      label: Minecraft server address
+      description: Optional. With it, your card shows the server's live status.
+      placeholder: play.example.com
+  - type: textarea
+    id: description
+    attributes:
+      label: About your community
+      description: One or two sentences, shown on your card. In French too if you can.
+    validations:
+      required: true
+  - type: textarea
+    id: logo
+    attributes:
+      label: Logo
+      description: Drop a square image here, at least 256 by 256 pixels.
+    validations:
+      required: true

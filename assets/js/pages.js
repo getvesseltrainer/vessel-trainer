@@ -469,51 +469,124 @@ if (buildsBox) {
 
 const partnerBox = $('#partners');
 if (partnerBox) {
-  /* A browser cannot reach a Minecraft server, so a public service asks for it. No answer means unknown, never offline. */
+  /*
+    A browser cannot reach a Minecraft server, so a public service (mcstatus.io) asks for it.
+    No answer means unknown, never offline. What the server sends is untrusted text: it is always escaped.
+  */
   const statuses = {};
-  const statusText = status => {
-    if (status === undefined) return tr('Checking…', 'Vérification…');
-    if (!status.online) return tr('Offline', 'Hors ligne');
-    const { players } = status;
-    return tr('Online', 'En ligne') + (players && players.online > 0 ? ` · ${players.online}/${players.max} ${tr('players', 'joueurs')}` : '');
+  const escape = text => String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const servers = PARTNERS.filter(partner => partner.address);
+  const PLAYER_NAMES = 8;
+  let checkedAt = null;
+
+  const live = partner => {
+    const status = statuses[partner.address];
+    if (status === undefined) return `<p class="pt-status checking"><i></i>${tr('Checking the server…', 'Vérification du serveur…')}</p>`;
+    if (status === null) return `<p class="pt-status unknown"><i></i>${tr('Status unknown right now', 'Statut inconnu pour le moment')}</p>`;
+    if (!status.online) return `<p class="pt-status offline"><i></i>${tr('Offline', 'Hors ligne')}</p>`;
+    const { players = {}, version, motd } = status;
+    const list = players.list || [];
+    const names = list.slice(0, PLAYER_NAMES).map(player => `<li>${escape(player.name_clean || player.name || '')}</li>`).join('');
+    const more = (players.online || 0) - Math.min(list.length, PLAYER_NAMES);
+    return `<p class="pt-status online"><i></i>${tr('Online', 'En ligne')}<b>${players.online ?? 0}/${players.max ?? '?'}</b>${tr('players', 'joueurs')}</p>
+      ${version && version.name_clean ? `<p class="pt-version">${tr('Version', 'Version')} <b>${escape(version.name_clean)}</b></p>` : ''}
+      ${motd && motd.clean ? `<p class="pt-motd">${escape(motd.clean).replace(/\n/g, '<br>')}</p>` : ''}
+      ${names ? `<ul class="pt-players" aria-label="${tr('Players online', 'Joueurs connectés')}">${names}${more > 0 ? `<li class="more">+${more}</li>` : ''}</ul>` : ''}`;
   };
-  const showStatuses = () => partnerBox.querySelectorAll('[data-status]').forEach(line => {
-    const status = statuses[line.dataset.status];
-    line.hidden = status === null;
-    if (status === null) return;
-    line.textContent = statusText(status);
-    line.classList.toggle('online', Boolean(status && status.online));
-    line.classList.toggle('offline', Boolean(status && !status.online));
-  });
-  onLang(() => {
-    partnerBox.innerHTML = PARTNERS.map(partner => `
-      <article class="partner">
-        ${partner.icon
-          ? `<img class="partner-icon" src="assets/img/partners/${partner.icon}" alt="" width="84" height="84">`
-          : `<span class="partner-icon" aria-hidden="true">${partner.name[0]}</span>`}
-        <div class="partner-text">
-          <h3>${partner.name}</h3>
-          <p>${partner.text[lang]}</p>
-          ${partner.address ? `<p class="partner-status" data-status="${partner.address}"></p>` : ''}
-          ${partner.address ? `<p class="partner-address"><code>${partner.address}</code><button class="partner-copy" type="button" data-copy="${partner.address}">${tr('Copy IP', 'Copier l\'IP')}</button></p>` : ''}
+
+  const icon = partner => {
+    if (partner.icon) return `<img class="pt-icon" src="assets/img/partners/${partner.icon}" alt="" width="96" height="96">`;
+    const status = statuses[partner.address];
+    // The server's own icon: a PNG it sends inside its status, checked before use.
+    if (status && status.icon && /^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(status.icon)) return `<img class="pt-icon pixel" src="${status.icon}" alt="" width="96" height="96">`;
+    return `<span class="pt-icon" aria-hidden="true">${escape(partner.name[0])}</span>`;
+  };
+
+  const accent = partner => /^#[0-9a-f]{6}$/i.test(partner.color || '') ? partner.color : '#ff6a4a';
+
+  const card = (partner, index) => `
+    <article class="pt-card" style="--accent: ${accent(partner)}">
+      <div class="pt-banner" aria-hidden="true"></div>
+      <div class="pt-body">
+        <div class="pt-head">
+          ${icon(partner)}
+          <div class="pt-title">
+            <h3>${escape(partner.name)}</h3>
+            <div class="pt-tags">
+              <span class="pt-tag">Discord</span>
+              ${partner.address ? `<span class="pt-tag">${tr('Minecraft server', 'Serveur Minecraft')}</span>` : ''}
+            </div>
+          </div>
         </div>
-        <a class="pill" href="${partner.invite}" target="_blank" rel="noopener">${tr('Join the Discord', 'Rejoindre le Discord')}</a>
-      </article>`).join('')
-      || `<p class="sub">${tr('The first partner servers will appear here soon.', 'Les premiers serveurs partenaires arriveront ici bientôt.')}</p>`;
-    showStatuses();
+        <p class="pt-text">${partner.text[lang]}</p>
+        ${partner.address ? `<div class="pt-live" data-live="${index}">${live(partner)}</div>` : ''}
+        <div class="pt-actions">
+          <a class="pill" href="${partner.invite}" target="_blank" rel="noopener">${tr('Join the Discord', 'Rejoindre le Discord')}</a>
+          ${partner.address ? `<span class="pt-ip"><code>${escape(partner.address)}</code><button class="partner-copy" type="button" data-copy="${escape(partner.address)}">${tr('Copy IP', "Copier l'IP")}</button></span>` : ''}
+        </div>
+        ${partner.address ? `<details class="pt-how">
+          <summary>${tr('How to join the server', 'Comment rejoindre le serveur')}</summary>
+          <ol>
+            <li>${tr('Copy the IP above.', "Copie l'IP ci-dessus.")}</li>
+            <li>${tr('In Minecraft Java, open Multiplayer, then Add Server.', 'Dans Minecraft Java, ouvre Multijoueur, puis Ajouter un serveur.')}</li>
+            <li>${tr('Paste the IP in Server Address, then Done and Join Server.', "Colle l'IP dans Adresse du serveur, puis Terminé et Rejoindre le serveur.")}</li>
+          </ol>
+        </details>` : ''}
+      </div>
+    </article>`;
+
+  const renderStats = () => {
+    const known = servers.map(partner => statuses[partner.address]).filter(status => status && status.online);
+    const pending = servers.some(partner => statuses[partner.address] === undefined);
+    const players = known.reduce((sum, status) => sum + ((status.players && status.players.online) || 0), 0);
+    const stat = (key, name, value) => `<div class="rm-stat ${key}"><dt>${name}</dt><dd>${value}</dd></div>`;
+    const wait = pending && !known.length;
+    $('#ptStats').innerHTML = stat('shipped', tr('Partners', 'Partenaires'), PARTNERS.length)
+      + stat('planned', tr('Minecraft servers', 'Serveurs Minecraft'), servers.length)
+      + stat('next', tr('Online now', 'En ligne'), wait ? '…' : known.length)
+      + stat('ideas', tr('Players on them', 'Joueurs connectés'), wait ? '…' : players);
+    const time = checkedAt ? checkedAt.toLocaleTimeString(lang, { hour: '2-digit', minute: '2-digit' }) : '';
+    $('#ptChecked').textContent = checkedAt ? tr(`Checked at ${time}, every minute`, `Vérifié à ${time}, chaque minute`) : '';
+  };
+
+  const refreshLive = () => {
+    partnerBox.querySelectorAll('[data-live]').forEach(box => { box.innerHTML = live(PARTNERS[box.dataset.live]); });
+    partnerBox.querySelectorAll('.pt-card').forEach((cardBox, index) => {
+      const head = cardBox.querySelector('.pt-icon');
+      if (head && !PARTNERS[index].icon) head.outerHTML = icon(PARTNERS[index]);
+    });
+    renderStats();
+  };
+
+  onLang(() => {
+    $('#ptDiscord').href = DISCORD_URL;
+    $('#ptApply').innerHTML = (PARTNER_URL ? `<a class="pill" href="${PARTNER_URL}" target="_blank" rel="noopener">${tr('Apply on GitHub', 'Postuler sur GitHub')}</a>` : '')
+      + `<a class="pill quiet" href="${DISCORD_URL}" target="_blank" rel="noopener">${tr('Write to us on Discord', 'Écris-nous sur Discord')}</a>`;
+    partnerBox.innerHTML = PARTNERS.map(card).join('')
+      || `<p class="rm-empty">${tr('The first partners will appear here soon. Yours could be first.', 'Les premiers partenaires arriveront ici bientôt. Le tien pourrait être le premier.')}</p>`;
+    renderStats();
     document.dispatchEvent(new Event('pagecontent'));
   });
-  PARTNERS.filter(partner => partner.address).forEach(async ({ address }) => {
+
+  const check = () => Promise.all(servers.map(async ({ address }) => {
     try {
-      const reply = await fetch(`https://api.mcstatus.io/v2/status/java/${address}`, { signal: AbortSignal.timeout(8000) });
+      const reply = await fetch(`https://api.mcstatus.io/v2/status/java/${encodeURIComponent(address)}`, { signal: AbortSignal.timeout(8000) });
       if (!reply.ok) throw new Error(`status ${reply.status}`);
-      const { online, players } = await reply.json();
-      statuses[address] = { online, players };
+      const { online, players, version, motd, icon: serverIcon } = await reply.json();
+      statuses[address] = { online, players, version, motd, icon: serverIcon };
     } catch {
-      statuses[address] = null;
+      // Keep the last answer on a failed refresh; only a first failure means unknown.
+      if (statuses[address] === undefined) statuses[address] = null;
     }
-    showStatuses();
+  })).then(() => {
+    checkedAt = new Date();
+    refreshLive();
   });
+  if (servers.length) {
+    check();
+    setInterval(() => { if (!document.hidden) check(); }, 60000);
+  }
+
   partnerBox.addEventListener('click', async event => {
     const button = event.target.closest('.partner-copy');
     if (!button) return;

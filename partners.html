@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Vessel Trainer Partners</title>
-<meta name="description" content="The Discord servers that partner with Vessel Trainer.">
+<meta name="description" content="The Discord communities and Minecraft servers that partner with Vessel Trainer, with their live status.">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/style.css?v=7af7360fe1">
+<link rel="stylesheet" href="assets/css/style.css?v=6bcdb43cc9">
 </head>
 <body class="page">
 <div class="sky" aria-hidden="true"></div>
@@ -34,14 +34,69 @@
       <div class="page-head">
         <p class="kicker" data-fr="Communauté">Community</p>
         <h1 class="page-title" data-fr="Partenaires">Partners</h1>
-        <p class="sub" data-fr="Les serveurs Discord partenaires de Vessel Trainer.">The Discord servers that partner with Vessel Trainer.</p>
+        <p class="sub" data-fr="Les communautés Discord et les serveurs Minecraft partenaires de Vessel Trainer. Leur statut est vérifié en direct.">The Discord communities and Minecraft servers that partner with Vessel Trainer. Their status is checked live.</p>
+        <dl class="rm-stats" id="ptStats"></dl>
+        <div class="rm-cta">
+          <a class="pill" href="#apply" data-fr="Devenir partenaire">Become a partner</a>
+          <a class="pill quiet" id="ptDiscord" href="#" target="_blank" rel="noopener" data-fr="Discord de Vessel">Vessel's Discord</a>
+        </div>
       </div>
       <canvas id="vess" aria-hidden="true"></canvas>
     </header>
 
-    <section class="doc">
-      <h2 data-fr="Serveurs Discord">Discord servers</h2>
-      <div class="partner-grid" id="partners"></div>
+    <section aria-labelledby="ptListTitle">
+      <div class="rm-section-head">
+        <h2 id="ptListTitle" data-fr="Nos partenaires">Our partners</h2>
+        <p class="pt-checked" id="ptChecked" aria-live="polite"></p>
+      </div>
+      <div class="pt-grid" id="partners"></div>
+    </section>
+
+    <section class="pt-apply" id="apply" aria-labelledby="ptApplyTitle">
+      <div class="pt-apply-head">
+        <p class="kicker" data-fr="Rejoins-les">Join them</p>
+        <h2 id="ptApplyTitle" data-fr="Devenir partenaire">Become a partner</h2>
+        <p class="sub" data-fr="Tu as une communauté Discord ou un serveur Minecraft ? Mets-le en avant ici, à côté du trainer.">Run a Discord community or a Minecraft server? Show it here, next to the trainer.</p>
+      </div>
+      <div class="pt-columns">
+        <div class="pt-col">
+          <h3 data-fr="Ce que tu obtiens">What you get</h3>
+          <ul class="pt-list">
+            <li data-fr="Ta carte sur cette page, avec ton logo et ta description en français et en anglais.">Your card on this page, with your logo and your description in English and French.</li>
+            <li data-fr="Le statut de ton serveur en direct : en ligne, joueurs connectés, version.">Your server's live status: online, players on it, version.</li>
+            <li data-fr="Ton IP copiable en un clic et un bouton pour rejoindre ton Discord.">Your IP, copied in one click, and a button to join your Discord.</li>
+          </ul>
+        </div>
+        <div class="pt-col">
+          <h3 data-fr="Ce qu'on demande">What we ask</h3>
+          <ul class="pt-list">
+            <li data-fr="Une communauté autour de Minecraft, accueillante et respectueuse.">A Minecraft community that is welcoming and respectful.</li>
+            <li data-fr="Un lien d'invitation Discord qui n'expire pas.">A Discord invite link that does not expire.</li>
+            <li data-fr="Un logo carré, et une phrase ou deux pour te présenter.">A square logo, and a sentence or two about you.</li>
+          </ul>
+        </div>
+        <div class="pt-col">
+          <h3 data-fr="Comment faire">How to apply</h3>
+          <ol class="pt-steps">
+            <li data-fr="Envoie ta demande sur GitHub ou écris-nous sur Discord.">Send your request on GitHub or write to us on Discord.</li>
+            <li data-fr="On jette un œil à ta communauté.">We take a look at your community.</li>
+            <li data-fr="Ta carte apparaît ici dès qu'elle est acceptée.">Your card shows up here once it is accepted.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="rm-ask-actions" id="ptApply"></div>
+    </section>
+
+    <section class="pt-server" aria-labelledby="ptServerTitle">
+      <div>
+        <p class="kicker" data-fr="Pour les propriétaires de serveurs">For server owners</p>
+        <h2 id="ptServerTitle" data-fr="Donne l'onglet Admin à ton équipe">Give your team the Admin tab</h2>
+        <p class="sub" data-fr="Sur un serveur Fabric ou Paper 26.3, tes admins gèrent les joueurs, le monde et les événements depuis le menu du trainer. Le serveur vérifie chaque action.">On a Fabric or Paper 26.3 server, your admins handle players, the world and events from the trainer's menu. The server checks every action.</p>
+      </div>
+      <div class="rm-ask-actions">
+        <a class="pill" href="guide.html#admin" data-fr="Lire le guide">Read the guide</a>
+        <a class="pill quiet" href="versions.html" data-fr="Télécharger">Download</a>
+      </div>
     </section>
   </div>
 </main>
@@ -56,7 +111,7 @@
 <script src="assets/js/vendor/lenis.min.js?v=b2958f142f"></script>
 <script src="assets/js/lang.js?v=223df2fd9b"></script>
 <script src="assets/js/vess.js?v=04c6b9b6e1"></script>
-<script src="assets/js/data.js?v=a57517ddd5"></script>
-<script src="assets/js/pages.js?v=29e2f9831f"></script>
+<script src="assets/js/data.js?v=105ba0b7a0"></script>
+<script src="assets/js/pages.js?v=6ea25debc0"></script>
 </body>
 </html>
