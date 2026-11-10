@@ -43,6 +43,15 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '1.1 Paper 26.3',
+    date: { en: 'November 10, 2026', fr: '10 novembre 2026' },
+    title: { en: 'Admin tools on Paper', fr: 'Outils admin sur Paper' },
+    changes: [
+      { type: 'added', en: 'Admin tab > Me works on Paper: speed, night vision, heal, feed, your own game mode, teleport to the aimed block and item kits.', fr: "Onglet Admin > Moi marche sur Paper : vitesse, vision nocturne, soin, nourriture, ton propre mode de jeu, téléportation au bloc visé et kits d'objets." },
+      { type: 'changed', en: 'The Paper plugin now has its own version number, separate from the trainer. This is 1.1.', fr: 'Le plugin Paper a maintenant son propre numéro de version, séparé du trainer. Celle-ci est la 1.1.' },
+    ],
+  },
+  {
     version: '2.12.3',
     date: { en: 'November 9, 2026', fr: '9 novembre 2026' },
     title: { en: 'Herobrine (beta)', fr: 'Herobrine (bêta)' },
@@ -53,6 +62,11 @@ const CHANGELOG = [
       { type: 'added', en: 'Two choices, both off by default: world changes (2 by 2 tunnels, bare trees, pyramids in the water, torches gone, each one can be undone) and attacks.', fr: 'Deux options, désactivées par défaut : les modifications du monde (tunnels 2 × 2, arbres sans feuilles, pyramides dans l\'eau, torches éteintes, chacune peut être annulée) et les attaques.' },
       { type: 'added', en: 'A new Modes tab in the main menu, starting with Become Herobrine: glowing white eyes, sight in the dark, animals that flee, teleporting behind a creature, lightning and torches put out.', fr: "Un nouvel onglet Modes dans le menu principal, avec d'abord Devenir Herobrine : yeux blancs lumineux, vision dans le noir, animaux qui fuient, téléportation derrière une créature, foudre et torches éteintes." },
       { type: 'added', en: 'Settings > Credits.', fr: 'Réglages > Crédits.' },
+      { type: 'added', en: 'The Vessel HUD: purple hearts and food, a new crosshair and XP bar. It is on by default and can be turned off in Options > Resource Packs.', fr: "Le Vessel HUD : cœurs et nourriture violets, nouveau viseur et nouvelle barre d'XP. Il est activé par défaut et se désactive dans Options > Packs de ressources." },
+      { type: 'added', en: 'Admin tab > Me: speed, night vision, heal, feed, your own game mode, teleport to the aimed block and item kits. The server checks that you are an admin.', fr: "Onglet Admin > Moi : vitesse, vision nocturne, soin, nourriture, ton propre mode de jeu, téléportation au bloc visé et kits d'objets. Le serveur vérifie que tu es admin." },
+      { type: 'changed', en: "On a server, the server's admins can now use X-ray, aimbot, the minimap and the free camera.", fr: "Sur un serveur, les admins du serveur peuvent maintenant utiliser le X-ray, l'aimbot, la minimap et la caméra libre." },
+      { type: 'changed', en: 'On a server, the rest of the menu stays visible but greyed out, and says it is not available on a server yet.', fr: "Sur un serveur, le reste du menu reste visible mais grisé, et indique qu'il n'est pas encore disponible sur un serveur." },
+      { type: 'fixed', en: 'The orbital beam now destroys what stands in it. Creatures could survive because every other strike was ignored.', fr: "Le rayon orbital détruit maintenant ce qui se trouve dedans. Les créatures pouvaient survivre car un coup sur deux était ignoré." },
     ],
   },
   {
@@ -100,7 +114,7 @@ const CHANGELOG = [
     ],
   },
   {
-    version: '2.11.1 Paper 26.3',
+    version: '1.0 Paper 26.3',
     date: { en: 'November 7, 2026', fr: '7 novembre 2026' },
     title: { en: 'Paper servers', fr: 'Serveurs Paper' },
     changes: [
