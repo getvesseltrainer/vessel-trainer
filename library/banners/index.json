@@ -29,5 +29,16 @@
   "author": "JordlOS21",
   "sha256": "71b0e2e94856baa200cc71b6e81d0c7023220c374ef9d06ea196a2675bb6e5c1",
   "community": true
+ },
+ {
+  "id": "vessel-trainer-sukuna-version-w2",
+  "format": "png",
+  "name": {
+   "en": "Vessel Trainer (Sukuna Version)",
+   "fr": "Vessel Trainer (Sukuna Version)"
+  },
+  "author": "JordlOS21",
+  "sha256": "de9d42dada906450c3a659d916eb43abfbfabf24da541acf193359807d6b2015",
+  "community": true
  }
 ]
