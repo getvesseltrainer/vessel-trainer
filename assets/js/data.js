@@ -45,6 +45,25 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.13.2',
+    date: { en: 'November 11, 2026', fr: '11 novembre 2026' },
+    title: { en: 'New powers, painted clouds and a powers page', fr: 'Nouveaux pouvoirs, champignons peints et page des pouvoirs' },
+    changes: [
+      { type: 'added', en: 'Giant meteor: a burning asteroid streaks across the sky with a tail of fire and leaves a smoking crater.', fr: 'Météore géant : un astéroïde en feu traverse le ciel avec une traînée de flammes et laisse un cratère fumant.' },
+      { type: 'added', en: 'Stone golem: a mossy stone giant fights by your side for 30 seconds, then crumbles.', fr: 'Golem de pierre : un géant de pierre moussu se bat à tes côtés pendant 30 secondes, puis s’effrite.' },
+      { type: 'added', en: 'Dragon wings: one beat to take off, then you glide. Look down to dive.', fr: 'Ailes de dragon : un battement pour décoller, puis tu planes. Regarde vers le bas pour piquer.' },
+      { type: 'added', en: 'Dimensional rift: a purple tear opens and swallows the monsters around it.', fr: 'Faille dimensionnelle : une déchirure violette s’ouvre et avale les monstres autour.' },
+      { type: 'added', en: 'Nuke: pick the mushroom cloud under the bomb. Texture, the default, is a finely painted cloud for each yield that churns slowly and costs almost nothing; 3D is the cloud of 2.13.1.', fr: 'Nuke : choisis le champignon sous la bombe. Texture, par défaut, est un champignon finement peint pour chaque puissance, qui bouge doucement et ne coûte presque rien ; 3D est celui de la 2.13.1.' },
+      { type: 'added', en: 'Nuke: a wall of dust rolls out with the shock front, leaves are torn off, grass is flattened and trees fall over, away from the bomb.', fr: 'Nuke : un mur de poussière roule avec l’onde de choc, les feuilles sont arrachées, l’herbe aplatie et les arbres tombent, couchés à l’opposé de la bombe.' },
+      { type: 'added', en: 'A moving preview of the chosen power beside the menu, with what it does. It shows in the power wheel too.', fr: 'Un aperçu animé du pouvoir choisi à côté du menu, avec ce qu’il fait. Il apparaît aussi dans la roue des pouvoirs.' },
+      { type: 'added', en: 'Favorites wheel: hold V, point at a favorite and let go.', fr: 'Roue des favoris : maintiens V, vise un favori et lâche.' },
+      { type: 'added', en: 'Combat arena (mini-games): an arena goes up around you, then 10 waves of tougher and tougher monsters, with a score.', fr: 'Arène de combat (mini-jeux) : une arène se monte autour de toi, puis 10 vagues de monstres de plus en plus forts, avec un score.' },
+      { type: 'added', en: 'Custom fireworks: a heart, a star, the Vess flask, a circle or a spiral, in the colour you pick.', fr: 'Feux d’artifice personnalisés : un cœur, une étoile, la fiole Vess, un cercle ou une spirale, dans la couleur choisie.' },
+      { type: 'added', en: 'Talking animals: they say silly things in a bubble over their head.', fr: 'Animaux qui parlent : ils disent des bêtises dans une bulle au-dessus de leur tête.' },
+      { type: 'added', en: 'Site: a new Powers page, with every power filmed in the game.', fr: 'Site : une nouvelle page Pouvoirs, avec chaque pouvoir filmé en jeu.' },
+    ],
+  },
+  {
     version: '2.13.1',
     date: { en: 'November 10, 2026', fr: '10 novembre 2026' },
     title: { en: 'More in 3D, and the mushroom cloud', fr: 'Encore plus de 3D, et le champignon' },

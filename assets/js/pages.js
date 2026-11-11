@@ -729,3 +729,56 @@ mountVess($('#vess'));
   enter();
   document.addEventListener('pagecontent', enter);
 })();
+
+/* Powers page: every power filmed in the game, by category, with a search. */
+const powersBox = $('#powers');
+if (powersBox && typeof POWERS !== 'undefined') {
+  const filters = { cat: 'all', query: '' };
+  const fold = text => text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const matches = power => (filters.cat === 'all' || power.cat === filters.cat)
+    && (!filters.query || fold(`${power.name[lang]} ${power.desc[lang]} ${POWER_CATEGORIES[power.cat][lang]}`).includes(filters.query));
+
+  const card = power => `<article class="pw-card cat-${power.cat}">
+      ${power.img ? `<img src="assets/img/powers/${power.id}.webp" alt="" loading="lazy" width="384" height="216">` : '<div class="pw-noimg"></div>'}
+      <div class="pw-body">
+        <span class="tag">${POWER_CATEGORIES[power.cat][lang]}</span>
+        <h3>${power.name[lang]}</h3>
+        <p>${power.desc[lang]}</p>
+        <p class="pw-where">${tr('Powers menu, then R', 'Menu Pouvoirs, puis R')}</p>
+      </div>
+    </article>`;
+
+  const render = () => {
+    const shown = POWERS.filter(matches);
+    powersBox.innerHTML = shown.map(card).join('')
+      || `<p class="rm-empty">${tr('No power matches.', 'Aucun pouvoir ne correspond.')}</p>`;
+    $('#pwCount').textContent = shown.length === POWERS.length
+      ? tr(`${POWERS.length} powers`, `${POWERS.length} pouvoirs`)
+      : tr(`${shown.length} of ${POWERS.length} powers`, `${shown.length} sur ${POWERS.length} pouvoirs`);
+  };
+
+  const renderFilters = () => {
+    const count = cat => POWERS.filter(power => cat === 'all' || power.cat === cat).length;
+    const chips = [['all', tr('All', 'Tout')], ...Object.keys(POWER_CATEGORIES).map(cat => [cat, POWER_CATEGORIES[cat][lang]])]
+      .filter(([cat]) => count(cat) > 0);
+    $('#pwFilters').innerHTML = chips.map(([cat, name]) =>
+      `<button class="chip" type="button" data-cat="${cat}" aria-pressed="${filters.cat === cat}">${name} <span class="chip-count">${count(cat)}</span></button>`).join('');
+  };
+
+  $('#pwFilters').addEventListener('click', event => {
+    const chip = event.target.closest('[data-cat]');
+    if (!chip) return;
+    filters.cat = chip.dataset.cat;
+    renderFilters();
+    render();
+  });
+  $('#pwSearch').addEventListener('input', event => {
+    filters.query = fold(event.target.value.trim());
+    render();
+  });
+  onLang(() => {
+    $('#pwSearch').placeholder = tr('Search a power', 'Chercher un pouvoir');
+    renderFilters();
+    render();
+  });
+}
