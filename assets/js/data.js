@@ -45,6 +45,17 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.13.3 Fabric 1.21.1',
+    date: { en: 'November 12, 2026', fr: '12 novembre 2026' },
+    title: { en: 'Fabric 1.21.1 is here', fr: 'Fabric 1.21.1 est là' },
+    changes: [
+      { type: 'added', en: 'The trainer now runs on Fabric for Minecraft 1.21.1, with everything from 2.13.3: menus, all 52 powers, charged powers, disasters, nukes with both mushroom clouds, the Fun tab, Herobrine, structures, the X-ray, the minimap and the Admin tab.', fr: 'Le trainer tourne maintenant sur Fabric pour Minecraft 1.21.1, avec tout ce qu\'il y a dans la 2.13.3 : menus, les 52 pouvoirs, pouvoirs chargés, catastrophes, bombes avec les deux champignons, onglet Fun, Herobrine, structures, X-ray, mini-carte et onglet Admin.' },
+      { type: 'added', en: 'The X-ray works with Sodium on 1.21.1 too.', fr: 'Le X-ray marche aussi avec Sodium en 1.21.1.' },
+      { type: 'changed', en: 'Minecraft 1.21.1 has no mannequins, so Herobrine and the clones are drawn as players in another way. They look the same.', fr: 'Minecraft 1.21.1 n\'a pas de mannequins, donc Herobrine et les clones sont dessinés comme des joueurs d\'une autre façon. Ils ont le même look.' },
+      { type: 'changed', en: 'Minecraft 1.21.1 cannot stop only monsters from spawning, so the monster spawning rule stops every creature.', fr: 'Minecraft 1.21.1 ne sait pas bloquer seulement les monstres, donc la règle d\'apparition des monstres bloque toutes les créatures.' },
+    ],
+  },
+  {
     version: '2.13.3',
     date: { en: 'November 11, 2026', fr: '11 novembre 2026' },
     title: { en: 'Charged powers, blood moon and a Tools menu', fr: 'Pouvoirs chargés, lune de sang et menu Outils' },
@@ -489,6 +500,10 @@ const BUILD_NOTES = {
     en: 'A server plugin, not the trainer: it turns on the Admin tab on a Paper 26.3 server. Put it in the server\'s plugins folder; admins use the Fabric 26.3 trainer. Events are not in it yet.',
     fr: "Un plugin pour le serveur, pas le trainer : il active l'onglet Admin sur un serveur Paper 26.3. Mets-le dans le dossier plugins du serveur ; les admins utilisent le trainer Fabric 26.3. Les événements n'y sont pas encore.",
   },
+  'fabric-1.21.1': {
+    en: 'Everything from 2.13.3 on Minecraft 1.21.1. Herobrine and the clones are drawn another way, and the monster spawning rule stops every creature.',
+    fr: "Tout le contenu de la 2.13.3 sur Minecraft 1.21.1. Herobrine et les clones sont dessinés autrement, et la règle d'apparition des monstres bloque toutes les créatures.",
+  },
   'forge-1.20.1': {
     en: 'Needs Forge 47 for Minecraft 1.20.1. No Fabric API needed. Not in this build: player size, creature size, time speed, time stop and the Admin tab.',
     fr: 'Demande Forge 47 pour Minecraft 1.20.1, sans Fabric API. Absents de cette version : taille du joueur, taille des créatures, vitesse du temps, arrêt du temps et onglet Admin.',
@@ -499,6 +514,7 @@ const BUILD_NOTES = {
 const BUILD_NEEDS = {
   'fabric-26.3': ['Fabric Loader 0.20.1+', 'Fabric API', 'Java 25'],
   'paper-26.3': ['Paper 26.3', 'Java 25'],
+  'fabric-1.21.1': ['Fabric Loader 0.16+', 'Fabric API', 'Java 21'],
   'forge-1.20.1': ['Forge 47', 'Java 17'],
 };
 const FABRIC_INSTALLER_URL = 'https://fabricmc.net/use/installer/';
