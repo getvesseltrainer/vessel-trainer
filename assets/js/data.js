@@ -50,7 +50,8 @@ const CHANGELOG = [
     title: { en: 'Fabric 1.21.1 is here', fr: 'Fabric 1.21.1 est là' },
     changes: [
       { type: 'added', en: 'The trainer now runs on Fabric for Minecraft 1.21.1, with everything from 2.13.3: menus, all 52 powers, charged powers, disasters, nukes with both mushroom clouds, the Fun tab, Herobrine, structures, the X-ray, the minimap and the Admin tab.', fr: 'Le trainer tourne maintenant sur Fabric pour Minecraft 1.21.1, avec tout ce qu\'il y a dans la 2.13.3 : menus, les 52 pouvoirs, pouvoirs chargés, catastrophes, bombes avec les deux champignons, onglet Fun, Herobrine, structures, X-ray, mini-carte et onglet Admin.' },
-      { type: 'added', en: 'The X-ray works with Sodium on 1.21.1 too.', fr: 'Le X-ray marche aussi avec Sodium en 1.21.1.' },
+      { type: 'added', en: 'The X-ray works with Sodium and Iris on 1.21.1 too.', fr: 'Le X-ray marche aussi avec Sodium et Iris en 1.21.1.' },
+      { type: 'fixed', en: 'The first file of this build crashed the game at launch. It has been replaced on November 13: download it again if the game crashed for you.', fr: 'Le premier fichier de cette version faisait planter le jeu au lancement. Il a été remplacé le 13 novembre : retélécharge-le si le jeu plantait chez toi.' },
       { type: 'changed', en: 'Minecraft 1.21.1 has no mannequins, so Herobrine and the clones are drawn as players in another way. They look the same.', fr: 'Minecraft 1.21.1 n\'a pas de mannequins, donc Herobrine et les clones sont dessinés comme des joueurs d\'une autre façon. Ils ont le même look.' },
       { type: 'changed', en: 'Minecraft 1.21.1 cannot stop only monsters from spawning, so the monster spawning rule stops every creature.', fr: 'Minecraft 1.21.1 ne sait pas bloquer seulement les monstres, donc la règle d\'apparition des monstres bloque toutes les créatures.' },
     ],
