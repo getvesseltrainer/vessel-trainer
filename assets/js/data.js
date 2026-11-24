@@ -49,7 +49,7 @@ const CHANGELOG = [
     date: { en: 'November 24, 2026', fr: '24 novembre 2026' },
     title: { en: 'A complete admin panel', fr: 'Un panneau admin complet' },
     changes: [
-      { type: 'added', en: 'A new mod for admins, Vessel Trainer Admin: F4 opens the complete panel on the server, in a menu like the trainer. It works alone or beside the trainer, and has X-ray, aimbot, free camera and minimap for admins.', fr: "Un nouveau mod pour les admins, Vessel Trainer Admin : F4 ouvre le panneau complet sur le serveur, dans un menu comme celui du trainer. Il marche seul ou à côté du trainer, avec X-ray, aimbot, caméra libre et mini-carte pour les admins." },
+      { type: 'added', en: 'F4 opens the complete panel, in a menu like the trainer, with X-ray, aimbot, free camera and minimap for admins. One file for everything: in the plugins folder of the server, and in the mods folder of each admin.', fr: "F4 ouvre le panneau complet, dans un menu comme celui du trainer, avec X-ray, aimbot, caméra libre et mini-carte pour les admins. Un seul fichier pour tout : dans le dossier plugins du serveur, et dans le dossier mods de chaque admin." },
       { type: 'changed', en: 'An admin who only has the trainer keeps its Admin tab on F4, now with the events.', fr: "Un admin qui n'a que le trainer garde son onglet Admin sur F4, maintenant avec les événements." },
       { type: 'added', en: 'Moderation: warnings, mutes and bans with a duration and a reason, also on players who are offline, a record and private notes for each player, and a sanction by itself after several warnings.', fr: 'Modération : avertissements, muet et bannissement avec durée et raison, même sur un joueur déconnecté, casier et notes privées pour chaque joueur, et sanction automatique après plusieurs avertissements.' },
       { type: 'added', en: 'Reports with /report, vanish, and inventories and Ender chests you can change live.', fr: "Signalements avec /report, vanish, et inventaires et coffres de l'Ender modifiables en direct." },
@@ -512,12 +512,8 @@ const ROADMAP = {
 /* Shown under a build on the Versions page, by loader and game version. */
 const BUILD_NOTES = {
   'paper-26.3': {
-    en: 'A server plugin, not the trainer: put it in the plugins folder of a Paper 26.3 server; it brings a complete admin panel, events included. Admins open it with F4, with the Vessel Trainer Admin mod in their game.',
-    fr: "Un plugin pour le serveur, pas le trainer : mets-le dans le dossier plugins d'un serveur Paper 26.3 ; il apporte un panneau admin complet, événements compris. Les admins l'ouvrent avec F4, avec le mod Vessel Trainer Admin dans leur jeu.",
-  },
-  'admin-26.3': {
-    en: 'For the admins of a server that has the 1.2 plugin: F4 opens the panel. It is not the trainer, and does nothing in singleplayer. Both can be installed.',
-    fr: "Pour les admins d'un serveur qui a le plugin 1.2 : F4 ouvre le panneau. Ce n'est pas le trainer, et il ne fait rien en solo. Les deux peuvent être installés.",
+    en: 'A server plugin, not the trainer: put it in the plugins folder of a Paper 26.3 server; it brings a complete admin panel, events included. Admins open it with F4: they put this same file, with Fabric API, in the mods folder of their game.',
+    fr: "Un plugin pour le serveur, pas le trainer : mets-le dans le dossier plugins d'un serveur Paper 26.3 ; il apporte un panneau admin complet, événements compris. Les admins l'ouvrent avec F4 : ils mettent ce même fichier, avec Fabric API, dans le dossier mods de leur jeu.",
   },
   'fabric-1.21.1': {
     en: 'Everything from 2.13.3 on Minecraft 1.21.1. Herobrine and the clones are drawn another way, and the monster spawning rule stops every creature.',
@@ -533,7 +529,6 @@ const BUILD_NOTES = {
 const BUILD_NEEDS = {
   'fabric-26.3': ['Fabric Loader 0.20.1+', 'Fabric API', 'Java 25'],
   'paper-26.3': ['Paper 26.3', 'Java 25'],
-  'admin-26.3': ['Fabric Loader 0.20.1+', 'Fabric API', 'Java 25'],
   'fabric-1.21.1': ['Fabric Loader 0.16+', 'Fabric API', 'Java 21'],
   'forge-1.20.1': ['Forge 47', 'Java 17'],
 };
