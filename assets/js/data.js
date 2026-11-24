@@ -45,22 +45,11 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
-    version: '2.14.0',
-    date: { en: 'November 24, 2026', fr: '24 novembre 2026' },
-    title: { en: 'The admin panel, in the menu', fr: 'Le panneau admin, dans le menu' },
-    changes: [
-      { type: 'added', en: 'On a Paper 26.3 server with the 1.2 plugin, F4 opens the complete admin panel, in the same menu as in singleplayer: arrows, ON and OFF, choices, and text typed on screen.', fr: "Sur un serveur Paper 26.3 avec le plugin 1.2, F4 ouvre le panneau admin complet, dans le même menu qu'en solo : flèches, ON et OFF, choix, et texte tapé à l'écran." },
-      { type: 'added', en: 'On those servers the menu shows the panel, its version and the trainer settings. X-ray, aimbot and free camera are in Me.', fr: 'Sur ces serveurs, le menu montre le panneau, sa version et les réglages du trainer. Le X-ray, l’aimbot et la caméra libre sont dans Moi.' },
-      { type: 'fixed', en: 'The game could crash when a list in the menu got shorter, such as when losing admin rights with the menu open.', fr: 'Le jeu pouvait planter quand une liste du menu raccourcissait, par exemple en perdant ses droits admin avec le menu ouvert.' },
-      { type: 'fixed', en: 'A long name in the menu no longer runs over its value.', fr: 'Un nom long dans le menu ne passe plus par-dessus sa valeur.' },
-    ],
-  },
-  {
     version: '1.2 Paper 26.3',
     date: { en: 'November 24, 2026', fr: '24 novembre 2026' },
     title: { en: 'A complete admin panel', fr: 'Un panneau admin complet' },
     changes: [
-      { type: 'added', en: 'The whole panel shows in the trainer menu with F4 or /vessel (trainer 2.14.0 or newer). Without the trainer, /vessel opens it as chests.', fr: "Tout le panneau s'affiche dans le menu du trainer avec F4 ou /vessel (trainer 2.14.0 ou plus récent). Sans le trainer, /vessel l'ouvre en coffres." },
+      { type: 'added', en: 'The complete panel opens with /vessel, without any mod. With the trainer, F4 keeps its Admin tab, now with the events.', fr: "Le panneau complet s'ouvre avec /vessel, sans aucun mod. Avec le trainer, F4 garde son onglet Admin, maintenant avec les événements." },
       { type: 'added', en: 'Moderation: warnings, mutes and bans with a duration and a reason, also on players who are offline, a record and private notes for each player, and a sanction by itself after several warnings.', fr: 'Modération : avertissements, muet et bannissement avec durée et raison, même sur un joueur déconnecté, casier et notes privées pour chaque joueur, et sanction automatique après plusieurs avertissements.' },
       { type: 'added', en: 'Reports with /report, vanish, and inventories and Ender chests you can change live.', fr: "Signalements avec /report, vanish, et inventaires et coffres de l'Ender modifiables en direct." },
       { type: 'added', en: 'Events on Paper: tornado, earthquake, volcano, meteor, tsunami, blizzard, sandstorm and the nuke. Everyone sees them without any mod.', fr: 'Événements sur Paper : tornade, séisme, volcan, météorite, tsunami, blizzard, tempête de sable et bombe. Tout le monde les voit sans mod.' },
@@ -522,8 +511,8 @@ const ROADMAP = {
 /* Shown under a build on the Versions page, by loader and game version. */
 const BUILD_NOTES = {
   'paper-26.3': {
-    en: 'A server plugin, not the trainer: put it in the plugins folder of a Paper 26.3 server; it brings a complete admin panel, events included. Admins press F4 with the Fabric 26.3 trainer (2.14.0 or newer), or type /vessel without it.',
-    fr: "Un plugin pour le serveur, pas le trainer : mets-le dans le dossier plugins d'un serveur Paper 26.3 ; il apporte un panneau admin complet, événements compris. Les admins appuient sur F4 avec le trainer Fabric 26.3 (2.14.0 ou plus récent), ou tapent /vessel sans lui.",
+    en: 'A server plugin, not the trainer: put it in the plugins folder of a Paper 26.3 server; it brings a complete admin panel, events included. Admins type /vessel, or press F4 with the Fabric 26.3 trainer for the Admin tab.',
+    fr: "Un plugin pour le serveur, pas le trainer : mets-le dans le dossier plugins d'un serveur Paper 26.3 ; il apporte un panneau admin complet, événements compris. Les admins tapent /vessel, ou appuient sur F4 avec le trainer Fabric 26.3 pour l'onglet Admin.",
   },
   'fabric-1.21.1': {
     en: 'Everything from 2.13.3 on Minecraft 1.21.1. Herobrine and the clones are drawn another way, and the monster spawning rule stops every creature.',
