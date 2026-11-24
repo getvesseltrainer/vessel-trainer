@@ -379,7 +379,7 @@ if (buildsBox) {
   const size = kb => (kb >= 1024 ? `${(kb / 1024).toFixed(1).replace('.', lang === 'fr' ? ',' : '.')} ${tr('MB', 'Mo')}` : `${kb} ${tr('KB', 'Ko')}`);
   const needs = build => (BUILD_NEEDS[pairKey(build)] || []).map(need => `<span class="v-need">${need}</span>`).join('');
 
-  /* The downloads most people want: the trainer to play, and for a Paper server the plugin and its admins' mod. */
+  /* The downloads most people want: the trainer to play, and the admin mod, whose server needs the plugin. */
   const renderPicks = () => {
     const play = RELEASES.find(release => release.loader === 'fabric');
     const server = RELEASES.find(release => release.loader === 'paper');
@@ -393,17 +393,14 @@ if (buildsBox) {
           tr(`Put this file and <a href="${FABRIC_API_URL}" target="_blank" rel="noopener">Fabric API</a> in <code>.minecraft/mods</code>.`, `Mets ce fichier et <a href="${FABRIC_API_URL}" target="_blank" rel="noopener">Fabric API</a> dans <code>.minecraft/mods</code>.`),
           tr('Start the game with the Fabric profile, open a world and press F4.', 'Lance le jeu avec le profil Fabric, ouvre un monde et appuie sur F4.'),
         ]
-        : kind === 'admin' ? [
+        : [
           tr(`Install <a href="${FABRIC_INSTALLER_URL}" target="_blank" rel="noopener">Fabric Loader</a> for Minecraft ${build.mc}.`, `Installe <a href="${FABRIC_INSTALLER_URL}" target="_blank" rel="noopener">Fabric Loader</a> pour Minecraft ${build.mc}.`),
           tr(`Put this file and <a href="${FABRIC_API_URL}" target="_blank" rel="noopener">Fabric API</a> in <code>.minecraft/mods</code>. The trainer can be there too.`, `Mets ce fichier et <a href="${FABRIC_API_URL}" target="_blank" rel="noopener">Fabric API</a> dans <code>.minecraft/mods</code>. Le trainer peut y être aussi.`),
+          ...(server ? [tr(`Put the <a href="downloads/${server.file}" download>plugin</a> in the <code>plugins</code> folder of your Paper server, and type <code>op YourName</code> in its console.`, `Mets le <a href="downloads/${server.file}" download>plugin</a> dans le dossier <code>plugins</code> de ton serveur Paper, et tape <code>op TonPseudo</code> dans sa console.`)] : []),
           tr('Join your server and press F4.', 'Rejoins ton serveur et appuie sur F4.'),
-        ] : [
-          tr('Put this file in the <code>plugins</code> folder of your Paper server and restart it.', 'Mets ce fichier dans le dossier <code>plugins</code> de ton serveur Paper et redémarre-le.'),
-          tr('In the server console, type <code>op YourName</code> for each admin.', 'Dans la console du serveur, tape <code>op TonPseudo</code> pour chaque admin.'),
-          tr('Each admin puts the admin mod in their game, joins and presses F4.', 'Chaque admin met le mod admin dans son jeu, rejoint et appuie sur F4.'),
         ];
       return `<article class="v-pick ${kind}">
-        <p class="kicker">${kind === 'play' ? tr('To play', 'Pour jouer') : kind === 'admin' ? tr('For its admins', 'Pour ses admins') : tr('For your server', 'Pour ton serveur')}</p>
+        <p class="kicker">${kind === 'play' ? tr('To play', 'Pour jouer') : tr('For your server', 'Pour ton serveur')}</p>
         <h2>${build.name} <span class="badge">v${build.version}</span></h2>
         <p class="v-pick-meta">${LOADERS[build.loader]} · Minecraft ${build.mc}${release ? ` · ${release.date[lang]}` : ''} · ${size(build.kb)}</p>
         <div class="v-needs" aria-label="${tr('Needs', 'Il faut')}">${needs(build)}</div>
@@ -414,7 +411,7 @@ if (buildsBox) {
         <ol class="v-steps">${steps.map(step => `<li>${step}</li>`).join('')}</ol>
       </article>`;
     };
-    $('#vPicks').innerHTML = pick(play, 'play') + pick(server, 'server') + pick(admin, 'admin');
+    $('#vPicks').innerHTML = pick(play, 'play') + pick(admin, 'admin');
   };
 
   /* One row per game version, one column per loader: what exists, what is coming. */
