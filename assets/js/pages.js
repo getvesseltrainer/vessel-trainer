@@ -394,7 +394,7 @@ if (buildsBox) {
         : [
           tr('Put this file in the <code>plugins</code> folder of your Paper server and restart it.', 'Mets ce fichier dans le dossier <code>plugins</code> de ton serveur Paper et redémarre-le.'),
           tr('In the server console, type <code>op YourName</code> for each admin.', 'Dans la console du serveur, tape <code>op TonPseudo</code> pour chaque admin.'),
-          tr('Admins join with the Fabric trainer and press F4 for the Admin tab.', "Les admins rejoignent avec le trainer Fabric et appuient sur F4 pour l'onglet Admin."),
+          tr('Admins also put the Fabric trainer in their own game, join and press F4. Without it: <code>/vessel</code>.', 'Les admins mettent aussi le trainer Fabric dans leur jeu, rejoignent et appuient sur F4. Sans lui : <code>/vessel</code>.'),
         ];
       return `<article class="v-pick ${kind}">
         <p class="kicker">${kind === 'play' ? tr('To play', 'Pour jouer') : tr('For your server', 'Pour ton serveur')}</p>

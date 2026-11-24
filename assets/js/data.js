@@ -45,6 +45,33 @@ const SUBMIT_URL = 'https://github.com/getvesseltrainer/vessel-trainer/issues/ne
 
 const CHANGELOG = [
   {
+    version: '2.14.0',
+    date: { en: 'November 24, 2026', fr: '24 novembre 2026' },
+    title: { en: 'The admin panel, in the menu', fr: 'Le panneau admin, dans le menu' },
+    changes: [
+      { type: 'added', en: 'On a Paper 26.3 server with the 1.2 plugin, F4 opens the complete admin panel, in the same menu as in singleplayer: arrows, ON and OFF, choices, and text typed on screen.', fr: "Sur un serveur Paper 26.3 avec le plugin 1.2, F4 ouvre le panneau admin complet, dans le même menu qu'en solo : flèches, ON et OFF, choix, et texte tapé à l'écran." },
+      { type: 'added', en: 'On those servers the menu shows the panel, its version and the trainer settings. X-ray, aimbot and free camera are in Me.', fr: 'Sur ces serveurs, le menu montre le panneau, sa version et les réglages du trainer. Le X-ray, l’aimbot et la caméra libre sont dans Moi.' },
+      { type: 'fixed', en: 'The game could crash when a list in the menu got shorter, such as when losing admin rights with the menu open.', fr: 'Le jeu pouvait planter quand une liste du menu raccourcissait, par exemple en perdant ses droits admin avec le menu ouvert.' },
+      { type: 'fixed', en: 'A long name in the menu no longer runs over its value.', fr: 'Un nom long dans le menu ne passe plus par-dessus sa valeur.' },
+    ],
+  },
+  {
+    version: '1.2 Paper 26.3',
+    date: { en: 'November 24, 2026', fr: '24 novembre 2026' },
+    title: { en: 'A complete admin panel', fr: 'Un panneau admin complet' },
+    changes: [
+      { type: 'added', en: 'The whole panel shows in the trainer menu with F4 or /vessel (trainer 2.14.0 or newer). Without the trainer, /vessel opens it as chests.', fr: "Tout le panneau s'affiche dans le menu du trainer avec F4 ou /vessel (trainer 2.14.0 ou plus récent). Sans le trainer, /vessel l'ouvre en coffres." },
+      { type: 'added', en: 'Moderation: warnings, mutes and bans with a duration and a reason, also on players who are offline, a record and private notes for each player, and a sanction by itself after several warnings.', fr: 'Modération : avertissements, muet et bannissement avec durée et raison, même sur un joueur déconnecté, casier et notes privées pour chaque joueur, et sanction automatique après plusieurs avertissements.' },
+      { type: 'added', en: 'Reports with /report, vanish, and inventories and Ender chests you can change live.', fr: "Signalements avec /report, vanish, et inventaires et coffres de l'Ender modifiables en direct." },
+      { type: 'added', en: 'Events on Paper: tornado, earthquake, volcano, meteor, tsunami, blizzard, sandstorm and the nuke. Everyone sees them without any mod.', fr: 'Événements sur Paper : tornade, séisme, volcan, météorite, tsunami, blizzard, tempête de sable et bombe. Tout le monde les voit sans mod.' },
+      { type: 'added', en: 'Scheduled events: every day at a time, or every so many minutes, with a countdown.', fr: 'Événements programmés : chaque jour à une heure, ou toutes les tant de minutes, avec un compte à rebours.' },
+      { type: 'added', en: 'Protected zones, warps, /spawn, /back, world border and every game rule.', fr: 'Zones protégées, warps, /spawn, /back, bordure du monde et toutes les règles du jeu.' },
+      { type: 'added', en: 'Server: restart with a countdown, maintenance, automatic messages, whitelist, cleanup and the chunks that cause lag.', fr: 'Serveur : redémarrage avec compte à rebours, maintenance, annonces automatiques, liste blanche, nettoyage et chunks qui font ramer.' },
+      { type: 'added', en: 'Team: moderator, admin and owner roles with rights you choose, working with LuckPerms, a team chat, a journal you can search and Discord alerts.', fr: "Équipe : rôles modérateur, admin et propriétaire avec des droits au choix, compatibles avec LuckPerms, chat d'équipe, journal avec recherche et alertes Discord." },
+      { type: 'added', en: 'French and English, with texts you can change in the lang folder, and a full config.yml.', fr: 'Français et anglais, avec des textes modifiables dans le dossier lang, et un config.yml complet.' },
+    ],
+  },
+  {
     version: '2.13.3 Fabric 1.21.1',
     date: { en: 'November 12, 2026', fr: '12 novembre 2026' },
     title: { en: 'Fabric 1.21.1 is here', fr: 'Fabric 1.21.1 est là' },
@@ -465,8 +492,6 @@ const ROADMAP = {
     { cat: 'tools', en: "Macros", fr: "Macros", note: { en: "Chain several actions on one key: fly, night vision and teleport, in one press.", fr: "Enchaîne plusieurs actions sur une seule touche : vol, vision nocturne et téléportation, en un appui." } },
     { cat: 'tools', en: "More languages", fr: "Plus de langues", note: { en: "The trainer and the site in Spanish, German and Portuguese.", fr: "Le trainer et le site en espagnol, en allemand et en portugais." } },
     { cat: 'servers', en: "Trainer with friends on LAN", fr: "Trainer entre amis en LAN", note: { en: "The host of a LAN world can let chosen friends use the trainer too.", fr: "L'hôte d'un monde en LAN peut laisser des amis choisis utiliser le trainer aussi." } },
-    { cat: 'servers', en: "Admin roles", fr: "Rôles admin", note: { en: "Moderator, admin and owner, each with the rights you choose in the Admin tab.", fr: "Modérateur, admin et propriétaire, chacun avec les droits que tu choisis dans l'onglet Admin." } },
-    { cat: 'servers', en: "Events on Paper", fr: "Événements sur Paper", note: { en: "The disasters and the bomb from the Admin tab, on Paper servers too.", fr: "Les catastrophes et la bombe de l'onglet Admin, aussi sur les serveurs Paper." } },
     { cat: 'powers', en: "Wingsuit", fr: "Wingsuit", note: { en: "Jump from high up and glide far without elytra. Dive to speed up, pull up to slow down.", fr: "Saute de haut et plane loin sans élytres. Pique pour accélérer, redresse pour ralentir." } },
     { cat: 'powers', en: "Power tree", fr: "Arbre de pouvoirs", note: { en: "Use a power often and it levels up: a wider shockwave, a longer laser, a bigger black hole.", fr: "Plus tu utilises un pouvoir, plus il monte en niveau : onde de choc plus large, laser plus long, trou noir plus grand." } },
     { cat: 'world', en: "Pocket dimension", fr: "Dimension de poche", note: { en: "Your own empty world, one press away, to build or test in peace. Press again to come back where you were.", fr: "Ton propre monde vide, à un appui, pour construire ou tester tranquille. Rappuie pour revenir où tu étais." } },
@@ -486,7 +511,6 @@ const ROADMAP = {
     { cat: 'tools', en: "Speedrun mode", fr: "Mode speedrun", note: { en: "A timer on screen with splits for the Nether, the fortress, the End and the dragon. The trainer stays off until the end.", fr: "Un chrono à l'écran avec des temps intermédiaires pour le Nether, la forteresse, l'End et le dragon. Le trainer reste coupé jusqu'à la fin." } },
     { cat: 'tools', en: "World checkpoints", fr: "Points de sauvegarde", note: { en: "Save the whole area around you before a risky test, and put it all back in one press.", fr: "Sauvegarde toute la zone autour de toi avant un test risqué, et remets tout comme avant en un appui." } },
     { cat: 'tools', en: "Guided tour", fr: "Visite guidée", note: { en: "For new players: the trainer shows its main tabs one by one, right in the game.", fr: "Pour les nouveaux : le trainer montre ses onglets principaux un par un, directement en jeu." } },
-    { cat: 'servers', en: "Event scheduler", fr: "Événements programmés", note: { en: "Admins plan a tornado at 9 pm or a meteor every hour, and the server runs it on time.", fr: "Les admins programment une tornade à 21 h ou une météorite toutes les heures, et le serveur la lance à l’heure." } },
     { cat: 'servers', en: "Admin panel on the web", fr: "Panneau admin sur le web", note: { en: "Manage your server from vesseltrainer.org: players, bans and events, without opening the game.", fr: "Gère ton serveur depuis vesseltrainer.org : joueurs, bannissements et événements, sans ouvrir le jeu." } },
   ],
 };
@@ -498,8 +522,8 @@ const ROADMAP = {
 /* Shown under a build on the Versions page, by loader and game version. */
 const BUILD_NOTES = {
   'paper-26.3': {
-    en: 'A server plugin, not the trainer: it turns on the Admin tab on a Paper 26.3 server. Put it in the server\'s plugins folder; admins use the Fabric 26.3 trainer. Events are not in it yet.',
-    fr: "Un plugin pour le serveur, pas le trainer : il active l'onglet Admin sur un serveur Paper 26.3. Mets-le dans le dossier plugins du serveur ; les admins utilisent le trainer Fabric 26.3. Les événements n'y sont pas encore.",
+    en: 'A server plugin, not the trainer: put it in the plugins folder of a Paper 26.3 server; it brings a complete admin panel, events included. Admins press F4 with the Fabric 26.3 trainer (2.14.0 or newer), or type /vessel without it.',
+    fr: "Un plugin pour le serveur, pas le trainer : mets-le dans le dossier plugins d'un serveur Paper 26.3 ; il apporte un panneau admin complet, événements compris. Les admins appuient sur F4 avec le trainer Fabric 26.3 (2.14.0 ou plus récent), ou tapent /vessel sans lui.",
   },
   'fabric-1.21.1': {
     en: 'Everything from 2.13.3 on Minecraft 1.21.1. Herobrine and the clones are drawn another way, and the monster spawning rule stops every creature.',
