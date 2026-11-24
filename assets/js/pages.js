@@ -358,7 +358,7 @@ if (reference) {
 /* Versions: real files come from the build, the rest from PLANNED_BUILDS. */
 const buildsBox = $('#builds');
 if (buildsBox) {
-  const LOADERS = { fabric: 'Fabric', neoforge: 'NeoForge', forge: 'Forge', paper: 'Paper' };
+  const LOADERS = { fabric: 'Fabric', neoforge: 'NeoForge', forge: 'Forge', paper: 'Paper', admin: 'Admin mod' };
   const builds = [
     ...RELEASES.map((release, index) => ({ ...release, available: true, latest: RELEASES.findIndex(other => other.loader === release.loader && other.mc === release.mc) === index })),
     ...PLANNED_BUILDS.map(build => ({ ...build, available: false })),
@@ -371,17 +371,19 @@ if (buildsBox) {
 
   /* A build for another game has its own changelog entry, such as "2.7.2 Forge 1.20.1". */
   const changesOf = build => {
-    const own = `${build.version} ${LOADERS[build.loader]} ${build.mc}`;
+    // The admin mod and the plugin are released together.
+    const own = `${build.version} ${LOADERS[build.loader === 'admin' ? 'paper' : build.loader]} ${build.mc}`;
     return CHANGELOG.some(entry => entry.version === own) ? own : build.version;
   };
   const releaseOf = build => CHANGELOG.find(entry => entry.version === changesOf(build));
   const size = kb => (kb >= 1024 ? `${(kb / 1024).toFixed(1).replace('.', lang === 'fr' ? ',' : '.')} ${tr('MB', 'Mo')}` : `${kb} ${tr('KB', 'Ko')}`);
   const needs = build => (BUILD_NEEDS[pairKey(build)] || []).map(need => `<span class="v-need">${need}</span>`).join('');
 
-  /* The two downloads most people want: the trainer to play, and the plugin for a Paper server. */
+  /* The downloads most people want: the trainer to play, and for a Paper server the plugin and its admins' mod. */
   const renderPicks = () => {
     const play = RELEASES.find(release => release.loader === 'fabric');
     const server = RELEASES.find(release => release.loader === 'paper');
+    const admin = RELEASES.find(release => release.loader === 'admin');
     const pick = (build, kind) => {
       if (!build) return '';
       const release = releaseOf(build);
@@ -391,13 +393,17 @@ if (buildsBox) {
           tr(`Put this file and <a href="${FABRIC_API_URL}" target="_blank" rel="noopener">Fabric API</a> in <code>.minecraft/mods</code>.`, `Mets ce fichier et <a href="${FABRIC_API_URL}" target="_blank" rel="noopener">Fabric API</a> dans <code>.minecraft/mods</code>.`),
           tr('Start the game with the Fabric profile, open a world and press F4.', 'Lance le jeu avec le profil Fabric, ouvre un monde et appuie sur F4.'),
         ]
-        : [
+        : kind === 'admin' ? [
+          tr(`Install <a href="${FABRIC_INSTALLER_URL}" target="_blank" rel="noopener">Fabric Loader</a> for Minecraft ${build.mc}.`, `Installe <a href="${FABRIC_INSTALLER_URL}" target="_blank" rel="noopener">Fabric Loader</a> pour Minecraft ${build.mc}.`),
+          tr(`Put this file and <a href="${FABRIC_API_URL}" target="_blank" rel="noopener">Fabric API</a> in <code>.minecraft/mods</code>. The trainer can be there too.`, `Mets ce fichier et <a href="${FABRIC_API_URL}" target="_blank" rel="noopener">Fabric API</a> dans <code>.minecraft/mods</code>. Le trainer peut y être aussi.`),
+          tr('Join your server and press F4.', 'Rejoins ton serveur et appuie sur F4.'),
+        ] : [
           tr('Put this file in the <code>plugins</code> folder of your Paper server and restart it.', 'Mets ce fichier dans le dossier <code>plugins</code> de ton serveur Paper et redémarre-le.'),
           tr('In the server console, type <code>op YourName</code> for each admin.', 'Dans la console du serveur, tape <code>op TonPseudo</code> pour chaque admin.'),
-          tr('Admins join and type <code>/vessel</code>. With the Fabric trainer in their game, F4 also opens the Admin tab.', "Les admins rejoignent et tapent <code>/vessel</code>. Avec le trainer Fabric dans leur jeu, F4 ouvre aussi l'onglet Admin."),
+          tr('Each admin puts the admin mod in their game, joins and presses F4.', 'Chaque admin met le mod admin dans son jeu, rejoint et appuie sur F4.'),
         ];
       return `<article class="v-pick ${kind}">
-        <p class="kicker">${kind === 'play' ? tr('To play', 'Pour jouer') : tr('For your server', 'Pour ton serveur')}</p>
+        <p class="kicker">${kind === 'play' ? tr('To play', 'Pour jouer') : kind === 'admin' ? tr('For its admins', 'Pour ses admins') : tr('For your server', 'Pour ton serveur')}</p>
         <h2>${build.name} <span class="badge">v${build.version}</span></h2>
         <p class="v-pick-meta">${LOADERS[build.loader]} · Minecraft ${build.mc}${release ? ` · ${release.date[lang]}` : ''} · ${size(build.kb)}</p>
         <div class="v-needs" aria-label="${tr('Needs', 'Il faut')}">${needs(build)}</div>
@@ -408,7 +414,7 @@ if (buildsBox) {
         <ol class="v-steps">${steps.map(step => `<li>${step}</li>`).join('')}</ol>
       </article>`;
     };
-    $('#vPicks').innerHTML = pick(play, 'play') + pick(server, 'server');
+    $('#vPicks').innerHTML = pick(play, 'play') + pick(server, 'server') + pick(admin, 'admin');
   };
 
   /* One row per game version, one column per loader: what exists, what is coming. */
